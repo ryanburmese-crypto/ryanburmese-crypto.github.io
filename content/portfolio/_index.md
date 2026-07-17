@@ -1,6 +1,6 @@
 ---
 title: "About Me & Portfolio"
-layout: "profile"
+layout: "page"
 ---
 
 # Hello, I'm Ryan (Aung Ko Latt) 👋
