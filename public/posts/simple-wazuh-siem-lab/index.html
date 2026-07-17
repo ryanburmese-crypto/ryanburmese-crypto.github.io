@@ -1,106 +1,733 @@
-<!doctype html><html lang=en dir=ltr class=scroll-smooth data-default-appearance=light data-auto-appearance=true><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=theme-color content="#FFFFFF"><title>Lab 4: Centralized Log Management with Wazuh SIEM &#183; Ryan Burman | Tech Lab</title><meta name=title content="Lab 4: Centralized Log Management with Wazuh SIEM &#183; Ryan Burman | Tech Lab"><script type=text/javascript src=https://ryanburmese-crypto.github.io/js/appearance.min.8a082f81b27f3cb2ee528df0b0bdc39787034cf2cc34d4669fbc9977c929023c.js integrity="sha256-iggvgbJ/PLLuUo3wsL3Dl4cDTPLMNNRmn7yZd8kpAjw="></script><link type=text/css rel=stylesheet href=https://ryanburmese-crypto.github.io/css/main.bundle.min.8a4c8f35e41ce0a9eaaf9d6a8077492d4c94f3598bdca18bdf28bf5cf2394803.css integrity="sha256-ikyPNeQc4Knqr51qgHdJLUyU81mL3KGL3yi/XPI5SAM="><meta name=description content="
+
+
+
+
+
+
+<!doctype html>
+<html
+  lang="en"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="light"
+  data-auto-appearance="true"
+><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FFFFFF" />
+  
+  <title>Lab 4: Centralized Log Management with Wazuh SIEM &middot; Ryan Burman | Tech Lab</title>
+    <meta name="title" content="Lab 4: Centralized Log Management with Wazuh SIEM &middot; Ryan Burman | Tech Lab" />
+  
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="http://localhost:1313/js/appearance.min.8a082f81b27f3cb2ee528df0b0bdc39787034cf2cc34d4669fbc9977c929023c.js"
+    integrity="sha256-iggvgbJ/PLLuUo3wsL3Dl4cDTPLMNNRmn7yZd8kpAjw="
+  ></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="http://localhost:1313/css/main.bundle.min.8a4c8f35e41ce0a9eaaf9d6a8077492d4c94f3598bdca18bdf28bf5cf2394803.css"
+    integrity="sha256-ikyPNeQc4Knqr51qgHdJLUyU81mL3KGL3yi/XPI5SAM="
+  />
+  
+  
+  
+  
+  
+  
+  
+  <meta
+    name="description"
+    content="
       Setting up an enterprise-grade Wazuh SIEM/XDR architecture in EVE-NG with Cisco switching, multi-platform agents, and simulated SSH brute force detection.
-    "><link rel=canonical href=https://ryanburmese-crypto.github.io/posts/simple-wazuh-siem-lab/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><meta property="og:url" content="https://ryanburmese-crypto.github.io/posts/simple-wazuh-siem-lab/"><meta property="og:site_name" content="Ryan Burman | Tech Lab"><meta property="og:title" content="Lab 4: Centralized Log Management with Wazuh SIEM"><meta property="og:description" content="Setting up an enterprise-grade Wazuh SIEM/XDR architecture in EVE-NG with Cisco switching, multi-platform agents, and simulated SSH brute force detection."><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-07-14T00:00:00+00:00"><meta property="article:modified_time" content="2026-07-14T00:00:00+00:00"><meta property="article:tag" content="SIEM"><meta property="article:tag" content="Wazuh"><meta property="article:tag" content="Cybersecurity"><meta property="article:tag" content="SOC"><meta property="article:tag" content="Linux"><meta property="article:tag" content="Windows Server"><meta name=twitter:card content="summary"><meta name=twitter:title content="Lab 4: Centralized Log Management with Wazuh SIEM"><meta name=twitter:description content="Setting up an enterprise-grade Wazuh SIEM/XDR architecture in EVE-NG with Cisco switching, multi-platform agents, and simulated SSH brute force detection."><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","articleSection":"Featured Projects \u0026 Labs","name":"Lab 4: Centralized Log Management with Wazuh SIEM","headline":"Lab 4: Centralized Log Management with Wazuh SIEM","description":"Setting up an enterprise-grade Wazuh SIEM\/XDR architecture in EVE-NG with Cisco switching, multi-platform agents, and simulated SSH brute force detection.","abstract":"\u003ch2 id=\u0022executive-summary\u0022 class=\u0022relative group\u0022\u003eExecutive Summary \u003cspan class=\u0022absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100\u0022\u003e\u003ca class=\u0022group-hover:text-primary-300 dark:group-hover:text-neutral-700\u0022 style=\u0022text-decoration-line: none !important;\u0022 href=\u0022#executive-summary\u0022 aria-label=\u0022Anchor\u0022\u003e#\u003c\/a\u003e\u003c\/span\u003e\u003c\/h2\u003e\u003cp\u003eIn modern Security Operations Centers (SOCs), Centralized Log Management is the foundational pillar of visibility. This project demonstrates the deployment of \u003cstrong\u003eWazuh SIEM\/XDR\u003c\/strong\u003e, an enterprise-ready open-source monitoring platform, within a virtualized lab environment (\u003cstrong\u003eEVE-NG\u003c\/strong\u003e).\u003c\/p\u003e\n\u003cp\u003eThe infrastructure features a managed Layer 2 network, a central SIEM Manager node, and dual-platform workloads (Windows Server and Ubuntu Desktop) configured to ship telemetry. The lab culminates in a successful detection and analysis of a simulated credential-stuffing (SSH Brute Force) attack.\u003c\/p\u003e","inLanguage":"en","url":"https:\/\/ryanburmese-crypto.github.io\/posts\/simple-wazuh-siem-lab\/","author":{"@type":"Person","name":""},"copyrightYear":"2026","dateCreated":"2026-07-14T00:00:00\u002b00:00","datePublished":"2026-07-14T00:00:00\u002b00:00","dateModified":"2026-07-14T00:00:00\u002b00:00","keywords":["SIEM","Wazuh","Cybersecurity","SOC","Linux","Windows Server","EVE-NG"],"mainEntityOfPage":"true","wordCount":"941"}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://ryanburmese-crypto.github.io/","name":"Welcome to My Tech Space","position":1},{"@type":"ListItem","item":"https://ryanburmese-crypto.github.io/posts/","name":"Featured Projects \u0026 Labs","position":2},{"@type":"ListItem","item":"https://ryanburmese-crypto.github.io/categories/homelab-projects/","name":"Homelab Projects","position":3},{"@type":"ListItem","name":"Lab 4 Centralized Log Management With Wazuh Siem","position":4}]}</script></head><body class="m-auto flex h-screen max-w-7xl flex-col bg-neutral px-6 text-lg leading-7 text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32"><div id=the-top class="absolute flex self-center"><a class="-translate-y-8 rounded-b-lg bg-primary-200 px-3 py-1 text-sm focus:translate-y-0 dark:bg-neutral-600" href=#main-content><span class="pe-2 font-bold text-primary-600 dark:text-primary-400">&darr;</span>Skip to main content</a></div><header class="py-6 font-semibold text-neutral-900 dark:text-neutral sm:py-10 print:hidden"><nav class="flex items-start justify-between sm:items-center"><div class="flex flex-row items-center"><a class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2" rel=me href=/>Ryan Burman | Tech Lab</a></div><ul class="flex list-none flex-col text-end sm:flex-row"><li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5"><a href=/ title><span class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2">Home</span></a></li><li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5"><a href=/portfolio/ title><span class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2">Portfolio</span></a></li><li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5"><a href=/posts/ title><span class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2">Projects</span></a></li><li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5"><a href=/contact/ title><span class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2">Contact</span></a></li></ul></nav></header><div class="relative flex grow flex-col"><main id=main-content class=grow><article><header class=max-w-prose><h1 class="mb-8 mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">Lab 4: Centralized Log Management with Wazuh SIEM</h1><div class="mb-10 text-base text-neutral-500 dark:text-neutral-400 print:hidden"><div class="flex flex-row flex-wrap items-center"><time datetime="2026-07-14 00:00:00 +0000 UTC">July 14, 2026</time><span class="px-2 text-primary-500">&#183;</span><span title="Reading time">5 mins</span></div></div></header><section class="prose mt-0 flex max-w-full flex-col dark:prose-invert lg:flex-row"><div class="min-h-0 min-w-0 max-w-prose grow"><h2 id=executive-summary class="relative group">Executive Summary <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#executive-summary aria-label=Anchor>#</a></span></h2><p>In modern Security Operations Centers (SOCs), Centralized Log Management is the foundational pillar of visibility. This project demonstrates the deployment of <strong>Wazuh SIEM/XDR</strong>, an enterprise-ready open-source monitoring platform, within a virtualized lab environment (<strong>EVE-NG</strong>).</p><p>The infrastructure features a managed Layer 2 network, a central SIEM Manager node, and dual-platform workloads (Windows Server and Ubuntu Desktop) configured to ship telemetry. The lab culminates in a successful detection and analysis of a simulated credential-stuffing (SSH Brute Force) attack.</p><hr><h2 id=-1-network-topology--ip-schema class="relative group">🗺️ 1. Network Topology & IP Schema <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#-1-network-topology--ip-schema aria-label=Anchor>#</a></span></h2><p>The lab environment was orchestrated inside EVE-NG using a managed <strong>Cisco vIOS-L2</strong> switch for traffic isolation and upstream connectivity to the internet.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-text data-lang=text><span style=display:flex><span>               [ Internet / Management Cloud ] (NAT: 192.168.64.0/24)
-</span></span><span style=display:flex><span>                              │
-</span></span><span style=display:flex><span>                    [ Cisco vIOS-L2 Switch ]
-</span></span><span style=display:flex><span>               (e0/0 - Uplink to Cloud/Gateway)
-</span></span><span style=display:flex><span>                              │
-</span></span><span style=display:flex><span>         ┌────────────────────┼────────────────────┐
-</span></span><span style=display:flex><span>         │ e0/1               │ e0/2               │ e0/3
-</span></span><span style=display:flex><span> ┌───────┴───────┐    ┌───────┴───────┐    ┌───────┴───────┐
-</span></span><span style=display:flex><span> │ Wazuh Manager │    │ Windows Server│    │ Ubuntu Desktop│
-</span></span><span style=display:flex><span> │   (Ubuntu)    │    │ (Active Agent)│    │ (Linux Agent) │
-</span></span><span style=display:flex><span> ├───────────────┤    ├───────────────┤    ├───────────────┤
-</span></span><span style=display:flex><span> │192.168.64.10  │    │192.168.64.20  │    │192.168.64.30  │
-</span></span><span style=display:flex><span> └───────────────┘    └───────────────┘    └───────────────┘
-</span></span></code></pre></div><hr><h3 id=network-topology-screenshot class="relative group">Network Topology Screenshot <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#network-topology-screenshot aria-label=Anchor>#</a></span></h3><p><figure><img src=/images/NetworkTopology.png alt="Network Topology" class="mx-auto my-0 rounded-md"></figure></p><h3 id=-ip-allocation-table class="relative group">🌐 IP Allocation Table <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#-ip-allocation-table aria-label=Anchor>#</a></span></h3><table><thead><tr><th style=text-align:left>Hostname</th><th style=text-align:left>Role</th><th style=text-align:left>OS</th><th style=text-align:left>IP Address</th><th style=text-align:left>Subnet Mask / Gateway</th></tr></thead><tbody><tr><td style=text-align:left><strong>Wazuh-Manager</strong></td><td style=text-align:left>SIEM Core & Indexer</td><td style=text-align:left><code>Ubuntu Server 22.04 LTS</code></td><td style=text-align:left><code>192.168.64.10/24</code></td><td style=text-align:left><code>192.168.64.2</code></td></tr><tr><td style=text-align:left><strong>Windows-Target</strong></td><td style=text-align:left>Monitored Client</td><td style=text-align:left><code>Windows Server 2022</code></td><td style=text-align:left><code>192.168.64.20/24</code></td><td style=text-align:left><code>192.168.64.2</code></td></tr><tr><td style=text-align:left><strong>Ubuntu-Desktop</strong></td><td style=text-align:left>Monitored Client</td><td style=text-align:left><code>Ubuntu Desktop 22.04</code></td><td style=text-align:left><code>192.168.64.30/24</code></td><td style=text-align:left><code>(192.168.64.2)</code></td></tr></tbody></table><h2 id=static-ip-assignment-on-wazuh-manager-netplan class="relative group">Static IP Assignment on Wazuh Manager (Netplan) <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#static-ip-assignment-on-wazuh-manager-netplan aria-label=Anchor>#</a></span></h2><p>The Ubuntu-based SIEM server was assigned a static IP using Netplan configuration at
-/etc/netplan/00-installer-config.yaml</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>network:
-</span></span><span style=display:flex><span>  version: <span style=color:#ae81ff>2</span>
-</span></span><span style=display:flex><span>  renderer: networkd
-</span></span><span style=display:flex><span>  ethernets:
-</span></span><span style=display:flex><span>    eth0:
-</span></span><span style=display:flex><span>      dhcp4: no
-</span></span><span style=display:flex><span>      addresses: <span style=color:#f92672>[</span>192.168.64.10/24<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>      routes:
-</span></span><span style=display:flex><span>        - to: default
-</span></span><span style=display:flex><span>          via: 192.168.64.2
-</span></span><span style=display:flex><span>      nameservers:
-</span></span><span style=display:flex><span>        addresses: <span style=color:#f92672>[</span>8.8.8.8, 1.1.1.1<span style=color:#f92672>]</span>
-</span></span></code></pre></div><h3 id=apply-config-and-enforce-file-permissions class="relative group">Apply config and enforce file permissions: <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#apply-config-and-enforce-file-permissions aria-label=Anchor>#</a></span></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>sudo chmod <span style=color:#ae81ff>600</span> /etc/netplan/00-installer-config.yaml
-</span></span><span style=display:flex><span>sudo netplan apply
-</span></span></code></pre></div><h3 id=static-ip-assigned-and-ping-test class="relative group">Static IP Assigned and Ping Test <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#static-ip-assigned-and-ping-test aria-label=Anchor>#</a></span></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>root@ubuntu:~# ip a | grep ens3
-</span></span><span style=display:flex><span>2: ens3: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span style=color:#ae81ff>1500</span> qdisc fq_codel state UP group default qlen <span style=color:#ae81ff>1000</span>
-</span></span><span style=display:flex><span>    inet 192.168.64.10/24 brd 192.168.64.255 scope global ens3
-</span></span><span style=display:flex><span>    inet 192.168.64.141/24 metric <span style=color:#ae81ff>100</span> brd 192.168.64.255 scope global secondary dynamic ens3
-</span></span><span style=display:flex><span>root@ubuntu:~# ping 8.8.8.8 -c <span style=color:#ae81ff>4</span>
-</span></span><span style=display:flex><span>PING 8.8.8.8 <span style=color:#f92672>(</span>8.8.8.8<span style=color:#f92672>)</span> 56<span style=color:#f92672>(</span>84<span style=color:#f92672>)</span> bytes of data.
-</span></span><span style=display:flex><span><span style=color:#ae81ff>64</span> bytes from 8.8.8.8: icmp_seq<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span> ttl<span style=color:#f92672>=</span><span style=color:#ae81ff>128</span> time<span style=color:#f92672>=</span>9.78 ms
-</span></span><span style=display:flex><span><span style=color:#ae81ff>64</span> bytes from 8.8.8.8: icmp_seq<span style=color:#f92672>=</span><span style=color:#ae81ff>2</span> ttl<span style=color:#f92672>=</span><span style=color:#ae81ff>128</span> time<span style=color:#f92672>=</span>12.4 ms
-</span></span><span style=display:flex><span><span style=color:#ae81ff>64</span> bytes from 8.8.8.8: icmp_seq<span style=color:#f92672>=</span><span style=color:#ae81ff>3</span> ttl<span style=color:#f92672>=</span><span style=color:#ae81ff>128</span> time<span style=color:#f92672>=</span>10.3 ms
-</span></span><span style=display:flex><span><span style=color:#ae81ff>64</span> bytes from 8.8.8.8: icmp_seq<span style=color:#f92672>=</span><span style=color:#ae81ff>4</span> ttl<span style=color:#f92672>=</span><span style=color:#ae81ff>128</span> time<span style=color:#f92672>=</span>6.85 ms
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>--- 8.8.8.8 ping statistics ---
-</span></span><span style=display:flex><span><span style=color:#ae81ff>4</span> packets transmitted, <span style=color:#ae81ff>4</span> received, 0% packet loss, time 3006ms
-</span></span><span style=display:flex><span>rtt min/avg/max/mdev <span style=color:#f92672>=</span> 6.851/9.834/12.417/1.985 ms
-</span></span></code></pre></div><hr><h3 id=wazuh-siem-manager-deployment class="relative group">Wazuh SIEM Manager Deployment <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#wazuh-siem-manager-deployment aria-label=Anchor>#</a></span></h3><p>The Wazuh core stack was deployed using the official All-In-One(AIO) installation script, which compiles the indexer, Manager, and Dashboard services.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Update local packages</span>
-</span></span><span style=display:flex><span>sudo apt update <span style=color:#f92672>&amp;&amp;</span> sudo apt upgrade -y
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Download and execute the automated Wazuh setup script</span>
-</span></span><span style=display:flex><span>curl -sO <span style=color:#f92672>[</span>https://packages.wazuh.com/4.x/wazuh-install.sh<span style=color:#f92672>](</span>https://packages.wazuh.com/4.x/wazuh-install.sh<span style=color:#f92672>)</span>
-</span></span><span style=display:flex><span>sudo bash wazuh-install.sh -a
-</span></span></code></pre></div><h3 id=firewall-configuration-ufw class="relative group">Firewall Configuration (UFW) <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#firewall-configuration-ufw aria-label=Anchor>#</a></span></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># TCP Port 1514 (Agent log forwarding)</span>
-</span></span><span style=display:flex><span><span style=color:#75715e># TCP Port 1515 (Agent registration)</span>
-</span></span><span style=display:flex><span>sudo ufw allow 1514/tcp
-</span></span><span style=display:flex><span>sudo ufw allow 1515/tcp
-</span></span><span style=display:flex><span>sudo ufw reload
-</span></span></code></pre></div><h3 id=wazuh-installation-hasf-finished class="relative group">Wazuh Installation hasf finished <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#wazuh-installation-hasf-finished aria-label=Anchor>#</a></span></h3><p><figure><img src=/images/finishedinstallation.png alt="Finished Installation" class="mx-auto my-0 rounded-md"></figure>You need to save the login credentials;</p><h3 id=wazuh-login class="relative group">Wazuh Login <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#wazuh-login aria-label=Anchor>#</a></span></h3><p><figure><img src=/images/wazuhlogin.png alt="Wazuh Login" class="mx-auto my-0 rounded-md"></figure></p><h3 id=wazuh-dashboard class="relative group">Wazuh Dashboard <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#wazuh-dashboard aria-label=Anchor>#</a></span></h3><h2 id=wazuh-dashboard-1 class="relative group"><figure><img src=/images/wazuhdashboard.png alt="Wazuh Dashboard" class="mx-auto my-0 rounded-md"></figure><span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#wazuh-dashboard-1 aria-label=Anchor>#</a></span></h2><h2 id=agent-installation--enrollment class="relative group">Agent Installation & Enrollment <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#agent-installation--enrollment aria-label=Anchor>#</a></span></h2><h3 id=windows-server-2022-agent class="relative group">Windows Server 2022 Agent <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#windows-server-2022-agent aria-label=Anchor>#</a></span></h3><p>Deployed using an elevated administrative PowerShell session pointing back to the Wazuh Manager:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>invoke-webrequest -Uri <span style=color:#f92672>[</span>https://packages.wazuh.com/4.x/windows/wazuh-agent-4.14.6-1.msi<span style=color:#f92672>](</span>https://packages.wazuh.com/4.x/windows/wazuh-agent-4.14.6-1.msi<span style=color:#f92672>)</span> -OutFile <span style=color:#e6db74>${</span>env:tmp<span style=color:#e6db74>}</span><span style=color:#ae81ff>\w</span>azuh-agent.msi
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>Start-Process -FilePath msiexec.exe -ArgumentList <span style=color:#e6db74>&#34;/i </span><span style=color:#e6db74>${</span>env:tmp<span style=color:#e6db74>}</span><span style=color:#e6db74>\wazuh-agent.msi /q WAZUH_MANAGER=&#39;192.168.64.10&#39; WAZUH_REGISTRATION_SERVER=&#39;192.168.64.10&#39; WAZUH_ACTIVE_RESPONSE=&#39;yes&#39;&#34;</span> -NoNewWindow -Wait
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Start the Agent Service</span>
-</span></span><span style=display:flex><span>NET START WazuhSvc
-</span></span></code></pre></div><h3 id=agent-deployed-screenshot class="relative group">Agent Deployed Screenshot <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#agent-deployed-screenshot aria-label=Anchor>#</a></span></h3><p><figure><img src=/images/WinServer01.png alt="WindowsServer Agent Deployed" class="mx-auto my-0 rounded-md"></figure><figure><img src=/images/winserver02.png alt="WindowsServer Agent Deployed" class="mx-auto my-0 rounded-md"></figure></p><hr><h3 id=ubuntu-desktop-agent class="relative group">Ubuntu Desktop Agent <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#ubuntu-desktop-agent aria-label=Anchor>#</a></span></h3><p>Manually pulled the debian package, configured the registration variable, and enabled the agent service:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Pull the specific Debian package</span>
-</span></span><span style=display:flex><span>curl -so wazuh-agent.deb <span style=color:#f92672>[</span>https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.14.6-1_amd64.deb<span style=color:#f92672>](</span>https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.14.6-1_amd64.deb<span style=color:#f92672>)</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Install and link to Manager IP</span>
-</span></span><span style=display:flex><span>sudo WAZUH_MANAGER<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;192.168.64.10&#39;</span> dpkg -i wazuh-agent.deb
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Reload systemd and launch the daemon</span>
-</span></span><span style=display:flex><span>sudo systemctl daemon-reload
-</span></span><span style=display:flex><span>sudo systemctl enable wazuh-agent
-</span></span><span style=display:flex><span>sudo systemctl start wazuh-agent
-</span></span></code></pre></div><h3 id=ubuntu-desktop-agent-deployed class="relative group">Ubuntu Desktop Agent Deployed <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#ubuntu-desktop-agent-deployed aria-label=Anchor>#</a></span></h3><h2 id=agent-deployed class="relative group"><figure><img src=/images/ubuntu01.png alt="Agent Deployed" class="mx-auto my-0 rounded-md"></figure><figure><img src=/images/ubuntu02.png alt="Agent Deployed" class="mx-auto my-0 rounded-md"></figure><span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#agent-deployed aria-label=Anchor>#</a></span></h2><h2 id=security-testing--threat-detection class="relative group">Security Testing & Threat Detection <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#security-testing--threat-detection aria-label=Anchor>#</a></span></h2><p>To validate that logs are parsed and flagged correctly, a simulated SSH Brute Force Attack was executed on the the Ubuntu Desktop node from the Wazuh Manager.</p><h3 id=step-1-attack-simulation class="relative group">Step 1: Attack Simulation <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#step-1-attack-simulation aria-label=Anchor>#</a></span></h3><p>Initiating repeated connection attempts with a non-existent username (hacker) to trigger logging in /var/log/auth.log</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>ssh hacker@192.168.64.30
-</span></span><span style=display:flex><span><span style=color:#75715e># Repeatedly inputted wrong credentials 3+ times</span>
-</span></span><span style=display:flex><span>root@ubuntu:~# ssh hacker@192.168.64.30
-</span></span><span style=display:flex><span>hacker@192.168.64.30<span style=color:#e6db74>&#39;s password: 
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>Permission denied, please try again.
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>hacker@192.168.64.30&#39;</span>s password: 
-</span></span><span style=display:flex><span>Permission denied, please try again.
-</span></span><span style=display:flex><span>hacker@192.168.64.30<span style=color:#e6db74>&#39;s password: 
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>hacker@192.168.64.30: Permission denied (publickey,password).
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>root@ubuntu:~# ssh hacker@192.168.64.30
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>hacker@192.168.64.30&#39;</span>s password: 
-</span></span><span style=display:flex><span>Permission denied, please try again.
-</span></span><span style=display:flex><span>hacker@192.168.64.30<span style=color:#e6db74>&#39;s password: 
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>Permission denied, please try again.
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>hacker@192.168.64.30&#39;</span>s password: 
-</span></span></code></pre></div><p>Checking local auth logs on Ubuntu Desktop</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>user@ubuntu22-desktop:~$ sudo tail -n <span style=color:#ae81ff>10</span> /var/log/auth.log 
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>sudo<span style=color:#f92672>]</span> password <span style=color:#66d9ef>for</span> user: 
-</span></span><span style=display:flex><span>Jul <span style=color:#ae81ff>14</span> 19:42:29 ubuntu22-desktop sshd<span style=color:#f92672>[</span>59083<span style=color:#f92672>]</span>: Failed password <span style=color:#66d9ef>for</span> invalid user hacker from 192.168.64.10 port <span style=color:#ae81ff>53882</span> ssh2
-</span></span><span style=display:flex><span>Jul <span style=color:#ae81ff>14</span> 19:42:30 ubuntu22-desktop sshd<span style=color:#f92672>[</span>59083<span style=color:#f92672>]</span>: Connection closed by invalid user hacker 192.168.64.10 port <span style=color:#ae81ff>53882</span> <span style=color:#f92672>[</span>preauth<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>Jul <span style=color:#ae81ff>14</span> 19:42:30 ubuntu22-desktop sshd<span style=color:#f92672>[</span>59083<span style=color:#f92672>]</span>: PAM <span style=color:#ae81ff>2</span> more authentication failures; logname<span style=color:#f92672>=</span> uid<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span> euid<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span> tty<span style=color:#f92672>=</span>ssh ruser<span style=color:#f92672>=</span> rhost<span style=color:#f92672>=</span>192.168.64.10 
-</span></span><span style=display:flex><span>Jul <span style=color:#ae81ff>14</span> 19:42:44 ubuntu22-desktop sshd<span style=color:#f92672>[</span>59085<span style=color:#f92672>]</span>: Invalid user hacker from 192.168.64.10 port <span style=color:#ae81ff>48048</span>
-</span></span><span style=display:flex><span>Jul <span style=color:#ae81ff>14</span> 19:42:47 ubuntu22-desktop sshd<span style=color:#f92672>[</span>59085<span style=color:#f92672>]</span>: pam_unix<span style=color:#f92672>(</span>sshd:auth<span style=color:#f92672>)</span>: check pass; user unknown
-</span></span><span style=display:flex><span>Jul <span style=color:#ae81ff>14</span> 19:42:47 ubuntu22-desktop sshd<span style=color:#f92672>[</span>59085<span style=color:#f92672>]</span>: pam_unix<span style=color:#f92672>(</span>sshd:auth<span style=color:#f92672>)</span>: authentication failure; logname<span style=color:#f92672>=</span> uid<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span> euid<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span> tty<span style=color:#f92672>=</span>ssh ruser<span style=color:#f92672>=</span> rhost<span style=color:#f92672>=</span>192.168.64.10 
-</span></span><span style=display:flex><span>Jul <span style=color:#ae81ff>14</span> 19:42:49 ubuntu22-desktop sshd<span style=color:#f92672>[</span>59085<span style=color:#f92672>]</span>: Failed password <span style=color:#66d9ef>for</span> invalid user hacker from 192.168.64.10 port <span style=color:#ae81ff>48048</span> ssh2
-</span></span><span style=display:flex><span>Jul <span style=color:#ae81ff>14</span> 19:42:51 ubuntu22-desktop sshd<span style=color:#f92672>[</span>59085<span style=color:#f92672>]</span>: pam_unix<span style=color:#f92672>(</span>sshd:auth<span style=color:#f92672>)</span>: check pass; user unknown
-</span></span><span style=display:flex><span>Jul <span style=color:#ae81ff>14</span> 19:42:53 ubuntu22-desktop sshd<span style=color:#f92672>[</span>59085<span style=color:#f92672>]</span>: Failed password <span style=color:#66d9ef>for</span> invalid user hacker from 192.168.64.10 port <span style=color:#ae81ff>48048</span> ssh2
-</span></span><span style=display:flex><span>Jul <span style=color:#ae81ff>14</span> 19:44:03 ubuntu22-desktop sudo:     user : TTY<span style=color:#f92672>=</span>pts/1 ; PWD<span style=color:#f92672>=</span>/home/user ; USER<span style=color:#f92672>=</span>root ; COMMAND<span style=color:#f92672>=</span>/usr/bin/tail -n <span style=color:#ae81ff>10</span> /var/log/auth.log
-</span></span></code></pre></div><hr><h3 id=step-2-siem-analysis class="relative group">Step 2: SIEM Analysis <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#step-2-siem-analysis aria-label=Anchor>#</a></span></h3><p>Navigating to the Wazuh Web UI (Discover module), we successfully queried and analyzed the alert genrated under the security signature:</p><ul><li>Rule ID: 5710</li><li>Rule Description: sshd: Attempt to login using a non-existent user</li><li>Triggered Severity Level: 5 (Medium Alert)<figure><img src=/images/5710.png alt="SIEM Analysis" class="mx-auto my-0 rounded-md"></figure></li></ul><hr><h2 id=conclusion class="relative group">Conclusion <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#conclusion aria-label=Anchor>#</a></span></h2><p>This project successfully demonstrates the workflow of setting up central log aggregation across distinct Operating System environments.
-Through the implementation of a managed virtual network switch and the configurations of end-device agents, we achieved:</p><ul><li>Real-time endpoint monitoring</li><li>Threat intelligence ingestion via standardized event logging.</li><li>Precise security event identification through custom/default Rule matching.</li></ul></div></section><footer class="max-w-prose pt-8 print:hidden"><div class=pt-8><hr class="border-dotted border-neutral-300 dark:border-neutral-600"><div class="flex justify-between pt-3"><span><a class="group flex" href=https://ryanburmese-crypto.github.io/posts/welcome/><span class="me-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"><span class="ltr:inline rtl:hidden">&larr;</span><span class="ltr:hidden rtl:inline">&rarr;</span></span>
-<span class="flex flex-col"><span class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500">Building My Lab Environment with VMware Workstation</span>
-<span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400"><time datetime="2026-07-12 12:23:12 +1000 AEST">July 12, 2026</time>
-</span></span></a></span><span><a class="group flex text-right" href=https://ryanburmese-crypto.github.io/posts/file-integrity-monitoring/><span class="flex flex-col"><span class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500">Lab 6: Real-Time File Integrity Monitoring (FIM) via Wazuh Syscheck</span>
-<span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400"><time datetime="2026-07-15 00:00:00 +0000 UTC">July 15, 2026</time>
-</span></span><span class="ms-2 text-neutral-700 transition-transform group-hover:-translate-x-[-2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"><span class="ltr:inline rtl:hidden">&rarr;</span><span class="ltr:hidden rtl:inline">&larr;</span></span></a></span></div></div></footer></article></main><div class="pointer-events-none absolute bottom-0 end-0 top-[100vh] w-12" id=to-top hidden=true><a href=#the-top class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 backdrop-blur hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400" aria-label="Scroll to top" title="Scroll to top">&uarr;</a></div><footer class="py-10 print:hidden"><div class="flex items-center justify-between"><div><p class="text-sm text-neutral-500 dark:text-neutral-400">&copy;
-2026</p><p class="text-xs text-neutral-500 dark:text-neutral-400">Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href=https://gohugo.io/ target=_blank rel="noopener noreferrer">Hugo</a> & <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href=https://github.com/jpanther/congo target=_blank rel="noopener noreferrer">Congo</a></p></div><div class="flex flex-row items-center"></div></div></footer></div></body></html>
+    "
+  />
+  
+  
+  
+  
+    <link rel="canonical" href="http://localhost:1313/posts/simple-wazuh-siem-lab/" />
+  
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="http://localhost:1313/posts/simple-wazuh-siem-lab/">
+	<meta property="og:site_name" content="Ryan Burman | Tech Lab">
+	<meta property="og:title" content="Lab 4: Centralized Log Management with Wazuh SIEM">
+	<meta property="og:description" content="Setting up an enterprise-grade Wazuh SIEM/XDR architecture in EVE-NG with Cisco switching, multi-platform agents, and simulated SSH brute force detection.">
+	<meta property="og:locale" content="en">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-07-14T00:00:00+00:00">
+		<meta property="article:modified_time" content="2026-07-14T00:00:00+00:00">
+		<meta property="article:tag" content="SIEM">
+		<meta property="article:tag" content="Wazuh">
+		<meta property="article:tag" content="Cybersecurity">
+		<meta property="article:tag" content="SOC">
+		<meta property="article:tag" content="Linux">
+		<meta property="article:tag" content="Windows Server">
+
+  
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Lab 4: Centralized Log Management with Wazuh SIEM">
+	<meta name="twitter:description" content="Setting up an enterprise-grade Wazuh SIEM/XDR architecture in EVE-NG with Cisco switching, multi-platform agents, and simulated SSH brute force detection.">
+
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Featured Projects \u0026 Labs",
+    "name": "Lab 4: Centralized Log Management with Wazuh SIEM",
+    "headline": "Lab 4: Centralized Log Management with Wazuh SIEM",
+    "description": "Setting up an enterprise-grade Wazuh SIEM\/XDR architecture in EVE-NG with Cisco switching, multi-platform agents, and simulated SSH brute force detection.",
+    "abstract": "\u003ch2 id=\u0022executive-summary\u0022 class=\u0022relative group\u0022\u003eExecutive Summary \u003cspan class=\u0022absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100\u0022\u003e\u003ca class=\u0022group-hover:text-primary-300 dark:group-hover:text-neutral-700\u0022 style=\u0022text-decoration-line: none !important;\u0022 href=\u0022#executive-summary\u0022 aria-label=\u0022Anchor\u0022\u003e#\u003c\/a\u003e\u003c\/span\u003e\u003c\/h2\u003e\u003cp\u003eIn modern Security Operations Centers (SOCs), Centralized Log Management is the foundational pillar of visibility. This project demonstrates the deployment of \u003cstrong\u003eWazuh SIEM\/XDR\u003c\/strong\u003e, an enterprise-ready open-source monitoring platform, within a virtualized lab environment (\u003cstrong\u003eEVE-NG\u003c\/strong\u003e).\u003c\/p\u003e\n\u003cp\u003eThe infrastructure features a managed Layer 2 network, a central SIEM Manager node, and dual-platform workloads (Windows Server and Ubuntu Desktop) configured to ship telemetry. The lab culminates in a successful detection and analysis of a simulated credential-stuffing (SSH Brute Force) attack.\u003c\/p\u003e",
+    "inLanguage": "en",
+    "url" : "http:\/\/localhost:1313\/posts\/simple-wazuh-siem-lab\/",
+    "author" : {
+      "@type": "Person",
+      "name": ""
+    },
+    "copyrightYear": "2026",
+    "dateCreated": "2026-07-14T00:00:00\u002b00:00",
+    "datePublished": "2026-07-14T00:00:00\u002b00:00",
+    
+    "dateModified": "2026-07-14T00:00:00\u002b00:00",
+    
+    "keywords": ["SIEM","Wazuh","Cybersecurity","SOC","Linux","Windows Server","EVE-NG"],
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "941"
+  }
+  </script>
+    
+    <script type="application/ld+json">
+    {
+   "@context": "https://schema.org",
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+     {
+       "@type": "ListItem",
+       "item": "http://localhost:1313/",
+       "name": "Welcome to My Tech Space",
+       "position": 1
+     },
+     {
+       "@type": "ListItem",
+       "item": "http://localhost:1313/posts/",
+       "name": "Featured Projects \u0026 Labs",
+       "position": 2
+     },
+     {
+       "@type": "ListItem",
+       "item": "http://localhost:1313/categories/homelab-projects/",
+       "name": "Homelab Projects",
+       "position": 3
+     },
+     {
+       "@type": "ListItem",
+       "name": "Lab 4 Centralized Log Management With Wazuh Siem",
+       "position": 4
+     }
+   ]
+ }
+  </script>
+
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+  
+  
+
+  
+  
+</head>
+<body
+    class="m-auto flex h-screen max-w-7xl flex-col bg-neutral px-6 text-lg leading-7 text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32"
+  >
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="-translate-y-8 rounded-b-lg bg-primary-200 px-3 py-1 text-sm focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content"
+        ><span class="pe-2 font-bold text-primary-600 dark:text-primary-400">&darr;</span
+        >Skip to main content</a
+      >
+    </div>
+    
+    
+      <header class="py-6 font-semibold text-neutral-900 dark:text-neutral sm:py-10 print:hidden">
+  <nav class="flex items-start justify-between sm:items-center">
+    
+    <div class="flex flex-row items-center">
+      
+  <a
+    class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2"
+    rel="me"
+    href="/"
+    >Ryan Burman | Tech Lab</a
+  >
+
+    </div>
+    
+    
+      <ul class="flex list-none flex-col text-end sm:flex-row">
+        
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/"
+                  title=""
+                  
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Home</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/portfolio/"
+                  title=""
+                  
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Portfolio</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/posts/"
+                  title=""
+                  
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Projects</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/contact/"
+                  title=""
+                  
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Contact</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+          
+        
+      </ul>
+    
+  </nav>
+</header>
+
+    
+    <div class="relative flex grow flex-col">
+      <main id="main-content" class="grow">
+        
+  <article>
+    <header class="max-w-prose">
+      
+      <h1 class="mb-8 mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        Lab 4: Centralized Log Management with Wazuh SIEM
+      </h1>
+      
+        <div class="mb-10 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+          
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+    
+  
+
+  
+
+  
+
+  
+    
+  
+
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <time datetime="2026-07-14 00:00:00 &#43;0000 UTC">July 14, 2026</time><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">5 mins</span>
+    
+
+    
+    
+  </div>
+
+  
+  
+
+
+        </div>
+      
+      
+    </header>
+    <section class="prose mt-0 flex max-w-full flex-col dark:prose-invert lg:flex-row">
+      
+      <div class="min-h-0 min-w-0 max-w-prose grow">
+        <h2 id="executive-summary" class="relative group">Executive Summary <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#executive-summary" aria-label="Anchor">#</a></span></h2><p>In modern Security Operations Centers (SOCs), Centralized Log Management is the foundational pillar of visibility. This project demonstrates the deployment of <strong>Wazuh SIEM/XDR</strong>, an enterprise-ready open-source monitoring platform, within a virtualized lab environment (<strong>EVE-NG</strong>).</p>
+<p>The infrastructure features a managed Layer 2 network, a central SIEM Manager node, and dual-platform workloads (Windows Server and Ubuntu Desktop) configured to ship telemetry. The lab culminates in a successful detection and analysis of a simulated credential-stuffing (SSH Brute Force) attack.</p>
+<hr>
+<h2 id="-1-network-topology--ip-schema" class="relative group">🗺️ 1. Network Topology &amp; IP Schema <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#-1-network-topology--ip-schema" aria-label="Anchor">#</a></span></h2><p>The lab environment was orchestrated inside EVE-NG using a managed <strong>Cisco vIOS-L2</strong> switch for traffic isolation and upstream connectivity to the internet.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>               [ Internet / Management Cloud ] (NAT: 192.168.64.0/24)
+</span></span><span style="display:flex;"><span>                              │
+</span></span><span style="display:flex;"><span>                    [ Cisco vIOS-L2 Switch ]
+</span></span><span style="display:flex;"><span>               (e0/0 - Uplink to Cloud/Gateway)
+</span></span><span style="display:flex;"><span>                              │
+</span></span><span style="display:flex;"><span>         ┌────────────────────┼────────────────────┐
+</span></span><span style="display:flex;"><span>         │ e0/1               │ e0/2               │ e0/3
+</span></span><span style="display:flex;"><span> ┌───────┴───────┐    ┌───────┴───────┐    ┌───────┴───────┐
+</span></span><span style="display:flex;"><span> │ Wazuh Manager │    │ Windows Server│    │ Ubuntu Desktop│
+</span></span><span style="display:flex;"><span> │   (Ubuntu)    │    │ (Active Agent)│    │ (Linux Agent) │
+</span></span><span style="display:flex;"><span> ├───────────────┤    ├───────────────┤    ├───────────────┤
+</span></span><span style="display:flex;"><span> │192.168.64.10  │    │192.168.64.20  │    │192.168.64.30  │
+</span></span><span style="display:flex;"><span> └───────────────┘    └───────────────┘    └───────────────┘
+</span></span></code></pre></div><hr>
+<h3 id="network-topology-screenshot" class="relative group">Network Topology Screenshot <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#network-topology-screenshot" aria-label="Anchor">#</a></span></h3><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/NetworkTopology.png" alt="Network Topology" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<h3 id="-ip-allocation-table" class="relative group">🌐 IP Allocation Table <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#-ip-allocation-table" aria-label="Anchor">#</a></span></h3><table>
+	<thead>
+			<tr>
+					<th style="text-align: left">Hostname</th>
+					<th style="text-align: left">Role</th>
+					<th style="text-align: left">OS</th>
+					<th style="text-align: left">IP Address</th>
+					<th style="text-align: left">Subnet Mask / Gateway</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: left"><strong>Wazuh-Manager</strong></td>
+					<td style="text-align: left">SIEM Core &amp; Indexer</td>
+					<td style="text-align: left"><code>Ubuntu Server 22.04 LTS</code></td>
+					<td style="text-align: left"><code>192.168.64.10/24</code></td>
+					<td style="text-align: left"><code>192.168.64.2</code></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Windows-Target</strong></td>
+					<td style="text-align: left">Monitored Client</td>
+					<td style="text-align: left"><code>Windows Server 2022</code></td>
+					<td style="text-align: left"><code>192.168.64.20/24</code></td>
+					<td style="text-align: left"><code>192.168.64.2</code></td>
+			</tr>
+			<tr>
+					<td style="text-align: left"><strong>Ubuntu-Desktop</strong></td>
+					<td style="text-align: left">Monitored Client</td>
+					<td style="text-align: left"><code>Ubuntu Desktop 22.04</code></td>
+					<td style="text-align: left"><code>192.168.64.30/24</code></td>
+					<td style="text-align: left"><code>(192.168.64.2)</code></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="static-ip-assignment-on-wazuh-manager-netplan" class="relative group">Static IP Assignment on Wazuh Manager (Netplan) <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#static-ip-assignment-on-wazuh-manager-netplan" aria-label="Anchor">#</a></span></h2><p>The Ubuntu-based SIEM server was assigned a static IP using Netplan configuration at
+/etc/netplan/00-installer-config.yaml</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>network:
+</span></span><span style="display:flex;"><span>  version: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>  renderer: networkd
+</span></span><span style="display:flex;"><span>  ethernets:
+</span></span><span style="display:flex;"><span>    eth0:
+</span></span><span style="display:flex;"><span>      dhcp4: no
+</span></span><span style="display:flex;"><span>      addresses: <span style="color:#f92672">[</span>192.168.64.10/24<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>      routes:
+</span></span><span style="display:flex;"><span>        - to: default
+</span></span><span style="display:flex;"><span>          via: 192.168.64.2
+</span></span><span style="display:flex;"><span>      nameservers:
+</span></span><span style="display:flex;"><span>        addresses: <span style="color:#f92672">[</span>8.8.8.8, 1.1.1.1<span style="color:#f92672">]</span>
+</span></span></code></pre></div><h3 id="apply-config-and-enforce-file-permissions" class="relative group">Apply config and enforce file permissions: <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#apply-config-and-enforce-file-permissions" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo chmod <span style="color:#ae81ff">600</span> /etc/netplan/00-installer-config.yaml
+</span></span><span style="display:flex;"><span>sudo netplan apply
+</span></span></code></pre></div><h3 id="static-ip-assigned-and-ping-test" class="relative group">Static IP Assigned and Ping Test <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#static-ip-assigned-and-ping-test" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>root@ubuntu:~# ip a | grep ens3
+</span></span><span style="display:flex;"><span>2: ens3: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span style="color:#ae81ff">1500</span> qdisc fq_codel state UP group default qlen <span style="color:#ae81ff">1000</span>
+</span></span><span style="display:flex;"><span>    inet 192.168.64.10/24 brd 192.168.64.255 scope global ens3
+</span></span><span style="display:flex;"><span>    inet 192.168.64.141/24 metric <span style="color:#ae81ff">100</span> brd 192.168.64.255 scope global secondary dynamic ens3
+</span></span><span style="display:flex;"><span>root@ubuntu:~# ping 8.8.8.8 -c <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>PING 8.8.8.8 <span style="color:#f92672">(</span>8.8.8.8<span style="color:#f92672">)</span> 56<span style="color:#f92672">(</span>84<span style="color:#f92672">)</span> bytes of data.
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">64</span> bytes from 8.8.8.8: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">128</span> time<span style="color:#f92672">=</span>9.78 ms
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">64</span> bytes from 8.8.8.8: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">128</span> time<span style="color:#f92672">=</span>12.4 ms
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">64</span> bytes from 8.8.8.8: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">128</span> time<span style="color:#f92672">=</span>10.3 ms
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">64</span> bytes from 8.8.8.8: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">128</span> time<span style="color:#f92672">=</span>6.85 ms
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>--- 8.8.8.8 ping statistics ---
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">4</span> packets transmitted, <span style="color:#ae81ff">4</span> received, 0% packet loss, time 3006ms
+</span></span><span style="display:flex;"><span>rtt min/avg/max/mdev <span style="color:#f92672">=</span> 6.851/9.834/12.417/1.985 ms
+</span></span></code></pre></div><hr>
+<h3 id="wazuh-siem-manager-deployment" class="relative group">Wazuh SIEM Manager Deployment <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#wazuh-siem-manager-deployment" aria-label="Anchor">#</a></span></h3><p>The Wazuh core stack was deployed using the official All-In-One(AIO) installation script, which compiles the indexer, Manager, and Dashboard services.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Update local packages</span>
+</span></span><span style="display:flex;"><span>sudo apt update <span style="color:#f92672">&amp;&amp;</span> sudo apt upgrade -y
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Download and execute the automated Wazuh setup script</span>
+</span></span><span style="display:flex;"><span>curl -sO <span style="color:#f92672">[</span>https://packages.wazuh.com/4.x/wazuh-install.sh<span style="color:#f92672">](</span>https://packages.wazuh.com/4.x/wazuh-install.sh<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>sudo bash wazuh-install.sh -a
+</span></span></code></pre></div><h3 id="firewall-configuration-ufw" class="relative group">Firewall Configuration (UFW) <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#firewall-configuration-ufw" aria-label="Anchor">#</a></span></h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># TCP Port 1514 (Agent log forwarding)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># TCP Port 1515 (Agent registration)</span>
+</span></span><span style="display:flex;"><span>sudo ufw allow 1514/tcp
+</span></span><span style="display:flex;"><span>sudo ufw allow 1515/tcp
+</span></span><span style="display:flex;"><span>sudo ufw reload
+</span></span></code></pre></div><h3 id="wazuh-installation-hasf-finished" class="relative group">Wazuh Installation hasf finished <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#wazuh-installation-hasf-finished" aria-label="Anchor">#</a></span></h3><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/finishedinstallation.png" alt="Finished Installation" class="mx-auto my-0 rounded-md" />
+</figure>
+
+You need to save the login credentials;</p>
+<h3 id="wazuh-login" class="relative group">Wazuh Login <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#wazuh-login" aria-label="Anchor">#</a></span></h3><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/wazuhlogin.png" alt="Wazuh Login" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<h3 id="wazuh-dashboard" class="relative group">Wazuh Dashboard <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#wazuh-dashboard" aria-label="Anchor">#</a></span></h3><h2 id="wazuh-dashboard-1" class="relative group">
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/wazuhdashboard.png" alt="Wazuh Dashboard" class="mx-auto my-0 rounded-md" />
+</figure>
+ <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#wazuh-dashboard-1" aria-label="Anchor">#</a></span></h2><h2 id="agent-installation--enrollment" class="relative group">Agent Installation &amp; Enrollment <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#agent-installation--enrollment" aria-label="Anchor">#</a></span></h2><h3 id="windows-server-2022-agent" class="relative group">Windows Server 2022 Agent <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#windows-server-2022-agent" aria-label="Anchor">#</a></span></h3><p>Deployed using an elevated administrative PowerShell session pointing back to the Wazuh Manager:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>invoke-webrequest -Uri <span style="color:#f92672">[</span>https://packages.wazuh.com/4.x/windows/wazuh-agent-4.14.6-1.msi<span style="color:#f92672">](</span>https://packages.wazuh.com/4.x/windows/wazuh-agent-4.14.6-1.msi<span style="color:#f92672">)</span> -OutFile <span style="color:#e6db74">${</span>env:tmp<span style="color:#e6db74">}</span><span style="color:#ae81ff">\w</span>azuh-agent.msi
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Start-Process -FilePath msiexec.exe -ArgumentList <span style="color:#e6db74">&#34;/i </span><span style="color:#e6db74">${</span>env:tmp<span style="color:#e6db74">}</span><span style="color:#e6db74">\wazuh-agent.msi /q WAZUH_MANAGER=&#39;192.168.64.10&#39; WAZUH_REGISTRATION_SERVER=&#39;192.168.64.10&#39; WAZUH_ACTIVE_RESPONSE=&#39;yes&#39;&#34;</span> -NoNewWindow -Wait
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Start the Agent Service</span>
+</span></span><span style="display:flex;"><span>NET START WazuhSvc
+</span></span></code></pre></div><h3 id="agent-deployed-screenshot" class="relative group">Agent Deployed Screenshot <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#agent-deployed-screenshot" aria-label="Anchor">#</a></span></h3><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/WinServer01.png" alt="WindowsServer Agent Deployed" class="mx-auto my-0 rounded-md" />
+</figure>
+
+
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/winserver02.png" alt="WindowsServer Agent Deployed" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<hr>
+<h3 id="ubuntu-desktop-agent" class="relative group">Ubuntu Desktop Agent <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#ubuntu-desktop-agent" aria-label="Anchor">#</a></span></h3><p>Manually pulled the debian package, configured the registration variable, and enabled the agent service:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Pull the specific Debian package</span>
+</span></span><span style="display:flex;"><span>curl -so wazuh-agent.deb <span style="color:#f92672">[</span>https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.14.6-1_amd64.deb<span style="color:#f92672">](</span>https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.14.6-1_amd64.deb<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Install and link to Manager IP</span>
+</span></span><span style="display:flex;"><span>sudo WAZUH_MANAGER<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;192.168.64.10&#39;</span> dpkg -i wazuh-agent.deb
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Reload systemd and launch the daemon</span>
+</span></span><span style="display:flex;"><span>sudo systemctl daemon-reload
+</span></span><span style="display:flex;"><span>sudo systemctl enable wazuh-agent
+</span></span><span style="display:flex;"><span>sudo systemctl start wazuh-agent
+</span></span></code></pre></div><h3 id="ubuntu-desktop-agent-deployed" class="relative group">Ubuntu Desktop Agent Deployed <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#ubuntu-desktop-agent-deployed" aria-label="Anchor">#</a></span></h3><h2 id="agent-deployed" class="relative group">
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/ubuntu01.png" alt="Agent Deployed" class="mx-auto my-0 rounded-md" />
+</figure>
+
+
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/ubuntu02.png" alt="Agent Deployed" class="mx-auto my-0 rounded-md" />
+</figure>
+ <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#agent-deployed" aria-label="Anchor">#</a></span></h2><h2 id="security-testing--threat-detection" class="relative group">Security Testing &amp; Threat Detection <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#security-testing--threat-detection" aria-label="Anchor">#</a></span></h2><p>To validate that logs are parsed and flagged correctly, a simulated SSH Brute Force Attack was executed on the the Ubuntu Desktop node from the Wazuh Manager.</p>
+<h3 id="step-1-attack-simulation" class="relative group">Step 1: Attack Simulation <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#step-1-attack-simulation" aria-label="Anchor">#</a></span></h3><p>Initiating repeated connection attempts with a non-existent username (hacker) to trigger logging in /var/log/auth.log</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh hacker@192.168.64.30
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Repeatedly inputted wrong credentials 3+ times</span>
+</span></span><span style="display:flex;"><span>root@ubuntu:~# ssh hacker@192.168.64.30
+</span></span><span style="display:flex;"><span>hacker@192.168.64.30<span style="color:#e6db74">&#39;s password: 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Permission denied, please try again.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">hacker@192.168.64.30&#39;</span>s password: 
+</span></span><span style="display:flex;"><span>Permission denied, please try again.
+</span></span><span style="display:flex;"><span>hacker@192.168.64.30<span style="color:#e6db74">&#39;s password: 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">hacker@192.168.64.30: Permission denied (publickey,password).
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">root@ubuntu:~# ssh hacker@192.168.64.30
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">hacker@192.168.64.30&#39;</span>s password: 
+</span></span><span style="display:flex;"><span>Permission denied, please try again.
+</span></span><span style="display:flex;"><span>hacker@192.168.64.30<span style="color:#e6db74">&#39;s password: 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Permission denied, please try again.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">hacker@192.168.64.30&#39;</span>s password: 
+</span></span></code></pre></div><p>Checking local auth logs on Ubuntu Desktop</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>user@ubuntu22-desktop:~$ sudo tail -n <span style="color:#ae81ff">10</span> /var/log/auth.log 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>sudo<span style="color:#f92672">]</span> password <span style="color:#66d9ef">for</span> user: 
+</span></span><span style="display:flex;"><span>Jul <span style="color:#ae81ff">14</span> 19:42:29 ubuntu22-desktop sshd<span style="color:#f92672">[</span>59083<span style="color:#f92672">]</span>: Failed password <span style="color:#66d9ef">for</span> invalid user hacker from 192.168.64.10 port <span style="color:#ae81ff">53882</span> ssh2
+</span></span><span style="display:flex;"><span>Jul <span style="color:#ae81ff">14</span> 19:42:30 ubuntu22-desktop sshd<span style="color:#f92672">[</span>59083<span style="color:#f92672">]</span>: Connection closed by invalid user hacker 192.168.64.10 port <span style="color:#ae81ff">53882</span> <span style="color:#f92672">[</span>preauth<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Jul <span style="color:#ae81ff">14</span> 19:42:30 ubuntu22-desktop sshd<span style="color:#f92672">[</span>59083<span style="color:#f92672">]</span>: PAM <span style="color:#ae81ff">2</span> more authentication failures; logname<span style="color:#f92672">=</span> uid<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> euid<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> tty<span style="color:#f92672">=</span>ssh ruser<span style="color:#f92672">=</span> rhost<span style="color:#f92672">=</span>192.168.64.10 
+</span></span><span style="display:flex;"><span>Jul <span style="color:#ae81ff">14</span> 19:42:44 ubuntu22-desktop sshd<span style="color:#f92672">[</span>59085<span style="color:#f92672">]</span>: Invalid user hacker from 192.168.64.10 port <span style="color:#ae81ff">48048</span>
+</span></span><span style="display:flex;"><span>Jul <span style="color:#ae81ff">14</span> 19:42:47 ubuntu22-desktop sshd<span style="color:#f92672">[</span>59085<span style="color:#f92672">]</span>: pam_unix<span style="color:#f92672">(</span>sshd:auth<span style="color:#f92672">)</span>: check pass; user unknown
+</span></span><span style="display:flex;"><span>Jul <span style="color:#ae81ff">14</span> 19:42:47 ubuntu22-desktop sshd<span style="color:#f92672">[</span>59085<span style="color:#f92672">]</span>: pam_unix<span style="color:#f92672">(</span>sshd:auth<span style="color:#f92672">)</span>: authentication failure; logname<span style="color:#f92672">=</span> uid<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> euid<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> tty<span style="color:#f92672">=</span>ssh ruser<span style="color:#f92672">=</span> rhost<span style="color:#f92672">=</span>192.168.64.10 
+</span></span><span style="display:flex;"><span>Jul <span style="color:#ae81ff">14</span> 19:42:49 ubuntu22-desktop sshd<span style="color:#f92672">[</span>59085<span style="color:#f92672">]</span>: Failed password <span style="color:#66d9ef">for</span> invalid user hacker from 192.168.64.10 port <span style="color:#ae81ff">48048</span> ssh2
+</span></span><span style="display:flex;"><span>Jul <span style="color:#ae81ff">14</span> 19:42:51 ubuntu22-desktop sshd<span style="color:#f92672">[</span>59085<span style="color:#f92672">]</span>: pam_unix<span style="color:#f92672">(</span>sshd:auth<span style="color:#f92672">)</span>: check pass; user unknown
+</span></span><span style="display:flex;"><span>Jul <span style="color:#ae81ff">14</span> 19:42:53 ubuntu22-desktop sshd<span style="color:#f92672">[</span>59085<span style="color:#f92672">]</span>: Failed password <span style="color:#66d9ef">for</span> invalid user hacker from 192.168.64.10 port <span style="color:#ae81ff">48048</span> ssh2
+</span></span><span style="display:flex;"><span>Jul <span style="color:#ae81ff">14</span> 19:44:03 ubuntu22-desktop sudo:     user : TTY<span style="color:#f92672">=</span>pts/1 ; PWD<span style="color:#f92672">=</span>/home/user ; USER<span style="color:#f92672">=</span>root ; COMMAND<span style="color:#f92672">=</span>/usr/bin/tail -n <span style="color:#ae81ff">10</span> /var/log/auth.log
+</span></span></code></pre></div><hr>
+<h3 id="step-2-siem-analysis" class="relative group">Step 2: SIEM Analysis <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#step-2-siem-analysis" aria-label="Anchor">#</a></span></h3><p>Navigating to the Wazuh Web UI (Discover module), we successfully queried and analyzed the alert genrated under the security signature:</p>
+<ul>
+<li>Rule ID: 5710</li>
+<li>Rule Description: sshd: Attempt to login using a non-existent user</li>
+<li>Triggered Severity Level: 5 (Medium Alert)
+
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/5710.png" alt="SIEM Analysis" class="mx-auto my-0 rounded-md" />
+</figure>
+</li>
+</ul>
+<hr>
+<h2 id="conclusion" class="relative group">Conclusion <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#conclusion" aria-label="Anchor">#</a></span></h2><p>This project successfully demonstrates the workflow of setting up central log aggregation across distinct Operating System environments.
+Through the implementation of a managed virtual network switch and the configurations of end-device agents, we achieved:</p>
+<ul>
+<li>Real-time endpoint monitoring</li>
+<li>Threat intelligence ingestion via standardized event logging.</li>
+<li>Precise security event identification  through custom/default Rule matching.</li>
+</ul>
+
+      </div>
+    </section>
+    <footer class="max-w-prose pt-8 print:hidden">
+      
+
+      
+
+      
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="group flex" href="http://localhost:1313/posts/welcome/">
+              <span
+                class="me-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&larr;</span
+                ><span class="ltr:hidden rtl:inline">&rarr;</span></span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >Building My Lab Environment with VMware Workstation</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2026-07-12 12:23:12 &#43;1000 AEST">July 12, 2026</time>
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+            <a class="group flex text-right" href="http://localhost:1313/posts/file-integrity-monitoring/">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >Lab 6: Real-Time File Integrity Monitoring (FIM) via Wazuh Syscheck</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2026-07-15 00:00:00 &#43;0000 UTC">July 15, 2026</time>
+                  
+                </span>
+              </span>
+              <span
+                class="ms-2 text-neutral-700 transition-transform group-hover:-translate-x-[-2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&rarr;</span
+                ><span class="ltr:hidden rtl:inline">&larr;</span></span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+      
+    </footer>
+  </article>
+
+      </main>
+      
+        <div
+          class="pointer-events-none absolute bottom-0 end-0 top-[100vh] w-12"
+          id="to-top"
+          hidden="true"
+        >
+          <a
+            href="#the-top"
+            class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 backdrop-blur hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+            aria-label="Scroll to top"
+            title="Scroll to top"
+          >
+            &uarr;
+          </a>
+        </div>
+      <footer class="py-10 print:hidden">
+  
+  
+  <div class="flex items-center justify-between">
+    <div>
+      
+      
+        <p class="text-sm text-neutral-500 dark:text-neutral-400">
+            &copy;
+            2026
+            
+        </p>
+      
+      
+      
+        <p class="text-xs text-neutral-500 dark:text-neutral-400">
+          
+          
+          Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+            href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href="https://github.com/jpanther/congo" target="_blank" rel="noopener noreferrer">Congo</a>
+        </p>
+      
+    </div>
+    <div class="flex flex-row items-center">
+      
+      
+      
+      
+    </div>
+  </div>
+  
+  
+</footer>
+
+    </div>
+  </body>
+</html>

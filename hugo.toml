@@ -1,4 +1,5 @@
 baseURL = "https://ryanburmese-crypto.github.io/"
+publishDir = "docs"
 locale = "en"
 languageCode = "en-us"
 title = "Ryan Burman | Tech Lab"
@@ -52,4 +53,3 @@ paginate = 5
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
-publishDir = "docs"
