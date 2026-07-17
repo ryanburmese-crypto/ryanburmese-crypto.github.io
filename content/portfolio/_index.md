@@ -45,6 +45,7 @@ To leverage my academic qualifications and extensive hands-on lab experience to 
   * Practical SOC Analyst Associate (PSAA)
 
 ---
+## 💼 Core Professional Experience
 
 * **Night Auditor (Part-Time)** | Mantra Airport Hotel, Melbourne, Australia *(February 2026 - Present)*
   * Perform reception duties during late-night and early morning hours, accurately executing guest check-in and check-out procedures.
