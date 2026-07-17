@@ -2,6 +2,9 @@
 title: "About Me & Portfolio"
 layout: "page"
 ---
+<style>
+  .main, .content, article { max-width: 1000px !important; width: 100% !important; }
+</style>
 
 # Hello, I'm Ryan (Aung Ko Latt) 👋
 
