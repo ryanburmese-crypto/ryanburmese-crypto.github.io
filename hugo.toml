@@ -52,4 +52,4 @@ paginate = 5
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
-baseURL = "https://ryanburmese-crypto.github.io/"
+publishDir = "docs"
