@@ -46,14 +46,43 @@ To leverage my academic qualifications and extensive hands-on lab experience to 
 
 ---
 
-## 💼 Core Professional Experience
+* **Night Auditor (Part-Time)** | Mantra Airport Hotel, Melbourne, Australia *(February 2026 - Present)*
+  * Perform reception duties during late-night and early morning hours, accurately executing guest check-in and check-out procedures.
+  * Conduct comprehensive overnight financial and operational audits, ensuring 100% precision and compliance with property standards.
+  * Monitor security systems, log critical operational data, and manage facility operations independently under minimal supervision.
+  * Generate and analyze detailed shift reports, documenting operational discrepancies for executive review.
 
-* **IT Officer** | New Myanmar Foundation (Mae Sot)
-  * Managed core network availability, IT infrastructure maintenance, and data protection workflows for the organization.
-* **IT Manager** | Hospitality Sector (Myanmar & Thailand)
-  * Led strategic business communications, client negotiations, and managed project proposals for regional corporate accounts.
-* **Operations Crew** | Mantra Hotel (Airport, Australia)
-  * Currently balancing part-time operations while actively training and developing enterprise-level cybersecurity labs.
+* **Computer Repair Technician (Part-Time)** | PC LAPTOP REPAIRS, Melbourne, Australia *(February 2024 - Present)*
+  * Provided hardware and software troubleshooting for desktops, laptops, and peripherals.
+  * Performed system upgrades, installations, and virus/malware removal.
+  * Assisted customers with configuration of home networks, Wi-Fi, and printers.
+  * Delivered friendly, easy-to-understand support to non-technical users.
+
+* **Teaching Assistant (Volunteer)** | Jesuit Social Services, Melbourne, Australia *(October 2023 – July 2025)*
+  * Volunteered as a teaching assistant for the "Be Connected" program to help people improve their job-related digital skills.
+  * Supported the lead instructor in teaching fundamental digital literacy and computer operations.
+
+* **IT Officer** | New Myanmar Foundation, Mae Sot, Thailand *(October 2022 - April 2023)*
+  * Provided day-to-day IT support to NGO staff, troubleshooting hardware, software, and network issues.
+  * Implemented data backup systems and maintained comprehensive system documentation.
+  * Conducted digital literacy and cybersecurity training sessions for 25+ community leaders, activists, and NGO staff per intake.
+
+* **IT Manager** | The Floral Breeze Hotels Group, Myanmar *(September 2012 - June 2017)*
+  * Led IT operations across multiple hotel properties, supporting 200+ active users.
+  * Administered Windows Servers, Active Directory, and Microsoft 365, ensuring high system uptime and smooth guest services.
+  * Managed vendor contracts, IT budgets, and regional infrastructure upgrades.
+  * Delivered internal IT training to staff, including organizational cybersecurity awareness and system auditing.
+  * Oversaw the installation, configuration, and troubleshooting of POS, hotel management, and booking systems.
+
+* **IT Support Technician** | Smart Net Internet Café, Yangon, Myanmar *(March 2008 - April 2011)*
+  * Delivered frontline technical support for customers regarding computer usage, software applications, and internet connectivity.
+  * Performed regular preventive maintenance and troubleshooting of PCs, peripherals, and localized networks.
+  * Monitored hardware/software inventory and recommended strategic upgrades.
+
+* **IT Support Technician** | Grand Wynn Enterprises, Myanmar *(June 2004 - January 2008)*
+  * Maintained factory IT systems, including corporate PCs, LAN connectivity, and physical machinery digital interfaces.
+  * Installed, updated, and configured critical software applications to optimize workflow.
+  * Managed IT equipment inventory records and coordinated hardware repairs and upgrades.
 
 ---
 
