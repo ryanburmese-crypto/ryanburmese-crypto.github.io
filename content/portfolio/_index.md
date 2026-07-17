@@ -1,6 +1,6 @@
 ---
 title: "About Me & Portfolio"
-layout: "page"
+layout: "profile"
 ---
 <style>
   .main, .content, article { max-width: 1000px !important; width: 100% !important; }
