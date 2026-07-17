@@ -1,0 +1,55 @@
+baseURL = "https://ryanburmese-crypto.github.io/"
+locale = "en"
+languageCode = "en-us"
+title = "Ryan Burman | Tech Lab"
+theme = "congo"
+
+# Post တွေရဲ့ Pagination
+paginate = 5
+
+[params]
+    colorScheme = "ocean"
+    description = "Aspiring Linux System Engineer & Cybersecurity Enthusiast"
+    
+    # Homepage ကို ရိုးရိုး Post list မပြဘဲ Profile card ပြသရန်
+    mainSections = ["posts", "blog"]
+    
+    # Features
+    showAppearanceToggle = true
+    animate = true
+
+    # Header & Footer Layout Config
+    [params.header]
+        layout = "links" # Navigation links တွေကို ဘေးချင်းယှဉ်ပြမယ်
+
+    [params.homepage]
+        layout = "traditional" # Home page ကို Profile Layout သုံးမယ်
+        showRecent = true  # အောက်နားမှာ လတ်တလောတင်ထားတဲ့ Blog posts တွေကိုပါ ပြမယ်
+
+# Navigation Menu
+[[menu.main]]
+    name = "Home"
+    url = "/"
+    weight = 1
+
+
+[[menu.main]]
+    name = "Portfolio"
+    url = "/portfolio/"
+    weight = 2
+
+[[menu.main]]
+    name = "Projects"       
+    url = "/posts/"      
+    weight = 3
+
+[[menu.main]]
+    name = "Contact"
+    url = "/contact/"
+    weight = 4
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+baseURL = "https://ryanburmese-crypto.github.io/"
