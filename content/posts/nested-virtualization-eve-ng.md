@@ -5,7 +5,12 @@ tags: ["Virtualization", "Ubuntu", "EVE-NG", "VMware"]
 categories: ["Infrastructure"]
 summary: "How to resolve performance issues and enable hardware acceleration in a nested hypervisor environment."
 ---
-
+<style>
+  .max-w-prose, article, .prose { 
+    max-width: 100% !important; 
+    width: 100% !important; 
+  }
+</style>
 ## Introduction
 In this lab, I successfully built a nested virtualization environment using **VMware Workstation on Ubuntu 22.04**, hosting an **EVE-NG** instance.
 

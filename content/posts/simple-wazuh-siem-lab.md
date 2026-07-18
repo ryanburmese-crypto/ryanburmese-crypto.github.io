@@ -8,7 +8,12 @@ showToc: true
 TocOpen: false
 keepImageRatio: true
 ---
-
+<style>
+  .max-w-prose, article, .prose { 
+    max-width: 100% !important; 
+    width: 100% !important; 
+  }
+</style>
 ## Executive Summary
 In modern Security Operations Centers (SOCs), Centralized Log Management is the foundational pillar of visibility. This project demonstrates the deployment of **Wazuh SIEM/XDR**, an enterprise-ready open-source monitoring platform, within a virtualized lab environment (**EVE-NG**). 
 

@@ -1,9 +1,11 @@
 ---
 title: "About Me & Portfolio"
-layout: "profile"
+description: "Ryan Burman's Portfolio"
+layout: "page"
 ---
 <style>
-  .main, .content, article { max-width: 1000px !important; width: 100% !important; }
+  .max-w-7xl, .max-w-prose, article, .prose { max-width: 100% !important; width: 100% !important; }
+  
 </style>
 
 # Hello, I'm Ryan (Aung Ko Latt) 👋

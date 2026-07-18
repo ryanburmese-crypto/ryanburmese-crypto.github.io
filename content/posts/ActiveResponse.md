@@ -7,6 +7,12 @@ categories: ["Homelab Projects"]
 showToc: true
 TocOpen: false
 ---
+<style>
+  .max-w-prose, article, .prose { 
+    max-width: 100% !important; 
+    width: 100% !important; 
+  }
+</style>
 
 ## Executive Summary
 Detecting a threat is only half the battle; responding to it efficiently is what minimizes the blast radius. This project demonstrates the deployment of **Automated Incident Response (SOAR capabilities)** using the Wazuh Active Response engine. 

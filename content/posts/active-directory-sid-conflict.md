@@ -5,6 +5,12 @@ tags: ["Active Directory", "Windows Server", "Sysprep", "Troubleshooting"]
 categories: ["Active Directory"]
 summary: "Resolving duplicate Security Identifier (SID) conflicts when joining cloned Windows Server nodes to an AD domain."
 ---
+<style>
+  .max-w-prose, article, .prose { 
+    max-width: 100% !important; 
+    width: 100% !important; 
+  }
+</style>
 
 ## Introduction
 I deployed an Active Directory Domain Controller managing the `cybersec.local` domain. To expand the infrastructure, I set up a dedicated File Server (`FS01`).

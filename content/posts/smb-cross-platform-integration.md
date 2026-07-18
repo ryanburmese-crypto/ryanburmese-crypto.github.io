@@ -5,7 +5,12 @@ tags: ["Linux", "Windows Server", "SMB", "NTFS Permissions", "Hardening"]
 categories: ["Security & Integration"]
 summary: "Securing an enterprise share with advanced NTFS permissions and mounting it from an authenticated Ubuntu Linux Desktop."
 ---
-
+<style>
+  .max-w-prose, article, .prose { 
+    max-width: 100% !important; 
+    width: 100% !important; 
+  }
+</style>
 ## Introduction
 This lab covers cross-platform directory permissions, securing a Windows SMB share, and connecting to it securely from an **Ubuntu 22.04 Desktop** client.
 

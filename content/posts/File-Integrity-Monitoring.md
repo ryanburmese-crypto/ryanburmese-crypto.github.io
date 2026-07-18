@@ -7,6 +7,13 @@ categories: ["Homelab Projects"]
 showToc: true
 TocOpen: false
 ---
+<style>
+  .max-w-prose, article, .prose { 
+    max-width: 100% !important; 
+    width: 100% !important; 
+  }
+</style>
+
 ## Executive Summary
 Maintaining data integrity across core infrastructure assets is vital for preventing advanced persistent threats (APTs) and unauthorized adjustments to configuration scripts. This project demonstrates the design and execution of **File Integrity Monitoring (FIM)** using the built-in Wazuh Syscheck engine. 
 
