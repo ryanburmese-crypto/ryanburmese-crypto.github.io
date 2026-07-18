@@ -23,26 +23,49 @@ links:
   <img src="/images/akl.jpeg" alt="Ryan (Aung Ko Latt)" class="w-28 h-28 rounded-full object-cover border-4 border-slate-150 dark:border-zinc-700 shadow-md">
 </div>
 
-### Aspiring Linux System Engineer & Cybersecurity Professional
+### Aspiring SOC Analyst | Infrastructure & Security Lab Builder
 
-I am an infrastructure and security-focused IT professional with over 15 years of experience spanning IT support, system administration, networking, technical operations, and infrastructure management. Throughout my career, I have managed diverse environments ranging from hands-on Helpdesk Support and Enterprise Systems Administration to regional IT Management across multi-site environments.
+I am an IT professional with experience in IT support, systems administration, infrastructure operations, technical suport, and technology management across hospitality and non-profit environments.
 
-After relocating to Australia, I successfully completed a Certificate IV in Cybersecurity from Victoria University and a Diploma of Information Technology (Cybersecurity) from RMIT University. This academic pivot allowed me to align my extensive industry experience with modern security frameworks and compliance standards.
+After relocating to Australia, I completed a **Certificate IV in Cyber Security** from Victoria University and a **Diploma of Information Technology (Cyber Security)** from RMIT University.
 
-Currently, I focus on engineering enterprise-style infrastructure and defensive cybersecurity laboratories. My deep-dive practical research combines Active Directory architecture, Linux system engineering, Palo Alto Firewalls deployment, and real-time security operations using Wazuh SIEM, LimaCharlie EDR, and Splunk. I am dedicated to continuous learning, threat analysis, and building resilient, secure network environments.
+My current focus is building hands-on cybersecuity and infrastructure laboratories that simulate real-world enterprise environments. Through practical projects, I design, deploy, troubleshoot, and document solutions involving Active Directory, Windows Server, Linux systems, Palo Alto Firewalls, Wazuh SIEM, and network security monitoring.
 
-> 🎯 **Current Focus:** Actively seeking professional opportunities as a **SOC Analyst**, **Cybersecurity Analyst**, or **Security-focused IT Engineer** within Australia.
+I strongly believe that technical skills are best demonstrated through practical implementation, troubleshooting, and documentation rather that theory alone.
+
+> 🎯 **Current Goal:** Seeking opportunities in SOC Operations, Cybersecurity Anlaysis, IT Support, Systems Administration, and Security-focused Infrastructure roles within Australia.
 ---
 
 ## 🛠️ Technical Skill Matrix
 
 | Domain | Tools & Technologies |
 | :--- | :--- |
-| **Operating Systems** | `AlmaLinux` · `Fedora` · `CentOS` · `Ubuntu Server` · `Windows Server` |
+| **Operating Systems** | `Windows Server` · `Windows 10 / 11` · `Ubuntu Server` · `Ubuntu Desktop` · `Fedora Linux` |
 | **Cybersecurity & SOC** | SIEM (Splunk, IBM QRadar, MS Sentinel), Sigma/YARA Rules, Threat Detection |
 | **Virtualization & Emulation** | `EVE-NG` · `GNS3` · `VMware Workstation` · `ESXi` Hypervisors |
 | **Network & Security** | Palo Alto Firewalls, Cisco Routing & Switching, Network Hardening, SMB/CIFS |
-| **Security Auditing** | Bitwarden Enterprise Deployment, AssetTiger Asset Verification |
+
+---
+## 🔬 Featured Labs
+I regularly publish deep-dive documentation on my structural topology configurations and malware/incident forensics:
+
+### 📂 [Lab 6: Real-Time File Integrity Monitoring (FIM) via Wazuh Syscheck](/posts/file-integrity-monitoring)
+Implementing real-time File Integrity Monitoring (FIM) on a Windows Server 2022 endpoint using the Wazuh Syscheck engine to detect unauthorized file additions, deletions, and modifications.
+
+### 🔑 [Lab 5: Automated Incident Response via Wazuh Active Response](/posts/activeresponse)
+Implementing automated threat mitigation (SOAR) in a virtualized SOC environment. Simulating a malicious SSH brute force attack using Kali Linux and automatically blocking the threat actor via OSSEC and IPtables.
+
+### 🛠️ [Lab 4: Centralized Log Management with Wazuh SIEM](/posts/simple-wazuh-siem-lab/)
+Setting up an enterprise-grade Wazuh SIEM/XDR architecture in EVE-NG with Cisco switching, multi-platform agents, and simulated SSH brute force detection.
+
+### 📂 [Lab 3: Cross-Platform SMB Integration & NTFS Hardening](/posts/smb-cross-platform-integration)
+Implementing secure network file shares and mapping access control structures from Windows Server to Linux nodes.
+
+### 🔑 [Lab 2: Enterprise AD DS Infrastructure & SID Generalization](/posts/active-directory-sid-conflict)
+Deploying active directory architectures and debugging conflicting Security Identifier (SID) states using Sysprep.
+
+### 🛠️ [Lab 1: Advanced EVE-NG Nested Virtualization Layering](/posts/nested-virtualization-eve-ng)
+Overcoming hardware acceleration layers and CPU extensions within multi-tier virtual labs.
 
 ---
 ## 🎓 Education & Credentials
@@ -55,7 +78,7 @@ Currently, I focus on engineering enterprise-style infrastructure and defensive 
 
 ### 🚀 In-Progress Academic Targets
 * Microsoft Certified: Azure Fundamentals (`AZ-900`)
-* Practical SOC Analyst Associate (`PSAA`)
+* CompTIA (`Security+`)
 
 ---
 
@@ -89,29 +112,6 @@ Currently, I focus on engineering enterprise-style infrastructure and defensive 
   * Delivered internal IT training to staff, including organizational cybersecurity awareness and system auditing.
   * Oversaw the installation, configuration, and troubleshooting of POS, hotel management, and booking systems.
 
-
----
-
-## 🔬 Featured Labs
-I regularly publish deep-dive documentation on my structural topology configurations and malware/incident forensics:
-
-### 🛠️ [Lab 1: Advanced EVE-NG Nested Virtualization Layering](/posts/nested-virtualization-eve-ng)
-Overcoming hardware acceleration layers and CPU extensions within multi-tier virtual labs.
-
-### 🔑 [Lab 2: Enterprise AD DS Infrastructure & SID Generalization](/posts/active-directory-sid-conflict)
-Deploying active directory architectures and debugging conflicting Security Identifier (SID) states using Sysprep.
-
-### 📂 [Lab 3: Cross-Platform SMB Integration & NTFS Hardening](/posts/smb-cross-platform-integration)
-Implementing secure network file shares and mapping access control structures from Windows Server to Linux nodes.
-
-### 🛠️ [Lab 4: Centralized Log Management with Wazuh SIEM](/posts/simple-wazuh-siem-lab/)
-Setting up an enterprise-grade Wazuh SIEM/XDR architecture in EVE-NG with Cisco switching, multi-platform agents, and simulated SSH brute force detection.
-
-### 🔑 [Lab 5: Automated Incident Response via Wazuh Active Response](/posts/activeresponse)
-Implementing automated threat mitigation (SOAR) in a virtualized SOC environment. Simulating a malicious SSH brute force attack using Kali Linux and automatically blocking the threat actor via OSSEC and IPtables.
-
-### 📂 [Lab 6: Real-Time File Integrity Monitoring (FIM) via Wazuh Syscheck](/posts/file-integrity-monitoring)
-Implementing real-time File Integrity Monitoring (FIM) on a Windows Server 2022 endpoint using the Wazuh Syscheck engine to detect unauthorized file additions, deletions, and modifications.
 
 ---
 

@@ -11,19 +11,20 @@ layout: "page"
 # Hello, I'm Ryan (Aung Ko Latt) 👋
 
 
-I am an infrastructure nd Security-focused IT Professional with more than 15 years of experience across system administration, networking, infrastructure support, technical operations, and IT management.
+I am an IT professional with experience in IT support, systems administration, infrastructure operations, technical suport, and technology management across hospitality and non-profit environments.
 
-My career has included roles rangingfrom Helpdesk Support and System Administration to IT Management across multi-site environments. I have worked extensively with Winodws Server, Active Directory, Microsoft 365, Linux, networking, and business-critical IT systems.
+After relocating to Australia, I completed a **Certificate IV in Cyber Security** from Victoria University and a **Diploma of Information Technology (Cyber Security)** from RMIT University.
 
-After relocating to Australia, I completed a Certificated IV in Cyber Security and a Diploma of Information Technology (Cyber Security) while continuing to develop hands-on technical skills through practical infrastructure and security projects.
+My current focus is building hands-on cybersecuity and infrastructure laboratories that simulate real-world enterprise environments. Through practical projects, I design, deploy, troubleshoot, and document solutions involving Active Directory, Windows Server, Linux systems, Palo Alto Firewalls, Wazuh SIEM, and network security monitoring.
 
-Today, I focus on building enterprise-style infrasturcture and cybersecurity laboratories that cobine Active Directory, Linux administration, Palo Alto F=firewalls, Wazuh SIEM, LimaCharlie EDR, Splunk, and attack simulation environments.
+I strongly believe that technical skills are best demonstrated through practical implementation, troubleshooting, and documentation rather that theory alone.
 
 
 ---
 
 ## 🚀 Professional Objective
-To leverage my academic qualifications and extensive hands-on lab experience to secure a challenging role as a **Linux System Engineer** or **Cybersecurity Analyst (SOC)**, where I can implement advanced systems hardening, network monitoring, and enterprise infrastructure management.
+
+Practical, hands-on IT Professional with a diverse background in infrastructure administration and recent advanced training in Cyber Security from RMIT and Victoria University. Expert at building, configuring, and documenting complex virtualized environments using enterprise-grade toolsets like Wazuh SIEM, Linux, and Windows Server infrastructure. Seeking to apply proven troubleshooting capabilities and security optimization methodologies within a progressive cybersecurity or system engineering team.
 
 ---
 
@@ -31,11 +32,10 @@ To leverage my academic qualifications and extensive hands-on lab experience to 
 
 | Domain | Tools & Technologies |
 | :--- | :--- |
-| **Operating Systems** | Linux (AlmaLinux, Fedora, CentOS, Ubuntu Server/Desktop), Windows Server |
-| **Cybersecurity / SOC** | SIEM Platforms (IBM QRadar, Splunk, MS Sentinel), Sigma Rules, YARA, Incident Response |
-| **Virtualization & Emulation** | EVE-NG, GNS3, VMware Workstation / ESXi |
-| **Network & Security** | Palo Alto Firewalls, Cisco Routing & Switching, SMB/CIFS, Network Hardening |
-| **Security Auditing** | Bitwarden Enterprise Implementation, AssetTiger Asset Verification |
+| **Operating Systems** | `Windows Server` · `Windows 10 / 11` · `Ubuntu Server` · `Ubuntu Desktop` · `Fedora Linux` |
+| **Cybersecurity & SOC** | SIEM (Splunk, IBM QRadar, MS Sentinel), Sigma/YARA Rules, Threat Detection |
+| **Virtualization & Emulation** | `EVE-NG` · `GNS3` · `VMware Workstation` · `ESXi` Hypervisors |
+| **Network & Security** | Palo Alto Firewalls, Cisco Routing & Switching, Network Hardening, SMB/CIFS |
 
 ---
 
@@ -91,16 +91,17 @@ To leverage my academic qualifications and extensive hands-on lab experience to 
   * Managed IT equipment inventory records and coordinated hardware repairs and upgrades.
 
 ---
+## 🔬 Featured Labs
+I regularly publish deep-dive documentation on my structural topology configurations and malware/incident forensics:
 
-## 🔬 Featured Engineering Labs (My Blog)
-I regularly document my infrastructure builds and security investigations. Check out my latest breakdowns:
+### 📂 [Lab 6: Real-Time File Integrity Monitoring (FIM) via Wazuh Syscheck](/posts/file-integrity-monitoring)
+Implementing real-time File Integrity Monitoring (FIM) on a Windows Server 2022 endpoint using the Wazuh Syscheck engine to detect unauthorized file additions, deletions, and modifications.
 
-1. **[Lab 1: Advanced EVE-NG Nested Virtualization Layering](/posts/nested-virtualization-eve-ng)**
-   * Solving hardware acceleration and kernel bottlenecks in multi-tier hypervisor topologies.
-2. **[Lab 2: Enterprise AD DS Infrastructure & SID Generalization](/posts/active-directory-sid-conflict)**
-   * Deploying scalable domain architectures and resolving clone identification conflicts via Sysprep.
-3. **[Lab 3: Cross-Platform SMB Integration & NTFS Hardening](/posts/smb-cross-platform-integration)**
-   * Bridging secure Windows Server data shares into authenticated Linux environments.
+### 🔑 [Lab 5: Automated Incident Response via Wazuh Active Response](/posts/activeresponse)
+Implementing automated threat mitigation (SOAR) in a virtualized SOC environment. Simulating a malicious SSH brute force attack using Kali Linux and automatically blocking the threat actor via OSSEC and IPtables.
+
+### 🛠️ [Lab 4: Centralized Log Management with Wazuh SIEM](/posts/simple-wazuh-siem-lab/)
+Setting up an enterprise-grade Wazuh SIEM/XDR architecture in EVE-NG with Cisco switching, multi-platform agents, and simulated SSH brute force detection.
 
 ---
 
