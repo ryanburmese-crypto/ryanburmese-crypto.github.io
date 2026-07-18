@@ -209,6 +209,7 @@ hydra -l root -P /usr/share/wordlists/rockyou.txt ssh://10.1.1.10 -t 4 -V
 ```
 ![Lab Topology](/images/lab7/image36.png)
 
+![Lab Topology](/images/lab7/image42.png)
 ### Now we can see the incoming alerts on Wazuh Dashboard.
 ![Lab Topology](/images/lab7/image37.png)
 
