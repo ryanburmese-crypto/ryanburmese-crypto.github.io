@@ -4,10 +4,13 @@ description: "Ryan Burman's Portfolio"
 layout: "page"
 ---
 <style>
-  .max-w-7xl, .max-w-prose, article, .prose { max-width: 100% !important; width: 100% !important; }
-  
+  .max-w-prose, article, .prose { 
+    max-width: 960px !important; 
+    margin: 0 auto !important; 
+    padding: 0 20px !important;
+  }
 </style>
-
+---
 # Hello, I'm Ryan (Aung Ko Latt) 👋
 
 
