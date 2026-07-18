@@ -1,4 +1,28 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SIEM on Ryan Burman | Tech Lab</title><link>https://ryanburmese-crypto.github.io/tags/siem/</link><description>Recent content in SIEM on Ryan Burman | Tech Lab</description><generator>Hugo</generator><language>en</language><lastBuildDate>Wed, 15 Jul 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://ryanburmese-crypto.github.io/tags/siem/index.xml" rel="self" type="application/rss+xml"/><item><title>Lab 6: Real-Time File Integrity Monitoring (FIM) via Wazuh Syscheck</title><link>https://ryanburmese-crypto.github.io/posts/file-integrity-monitoring/</link><pubDate>Wed, 15 Jul 2026 00:00:00 +0000</pubDate><guid>https://ryanburmese-crypto.github.io/posts/file-integrity-monitoring/</guid><description>&lt;style&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SIEM on Ryan Burman | Tech Lab</title><link>https://ryanburmese-crypto.github.io/tags/siem/</link><description>Recent content in SIEM on Ryan Burman | Tech Lab</description><generator>Hugo</generator><language>en</language><lastBuildDate>Sat, 18 Jul 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://ryanburmese-crypto.github.io/tags/siem/index.xml" rel="self" type="application/rss+xml"/><item><title>Lab 7: Building an Enterprise SOC Architecture with Palo Alto Firewall &amp; Wazuh SIEM</title><link>https://ryanburmese-crypto.github.io/posts/lab7soc/</link><pubDate>Sat, 18 Jul 2026 00:00:00 +0000</pubDate><guid>https://ryanburmese-crypto.github.io/posts/lab7soc/</guid><description>&lt;style&gt;
+ .max-w-prose, article, .prose { 
+ max-width: 100% !important; 
+ width: 100% !important; 
+ }
+&lt;/style&gt;
+&lt;h2 id="-executive-summary" class="relative group"&gt;🎯 Executive Summary &lt;span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"&gt;&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#-executive-summary" aria-label="Anchor"&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h2&gt;&lt;p&gt;The purpose of this lab is to design, deploy, and test a mini-enterprise security infrastructure. This project simulates real-world security engineering tasks by connecting a network security control platform with a centralized detection mechanism.&lt;/p&gt;
+&lt;h3 id="key-milestones-achieved" class="relative group"&gt;Key Milestones Achieved: &lt;span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"&gt;&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#key-milestones-achieved" aria-label="Anchor"&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Network Segmentation:&lt;/strong&gt; Built three distinct security zones (Inside, DMZ, Outside) using a Palo Alto Next-Generation Firewall to control traffic flow.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Centralized Monitoring:&lt;/strong&gt; Deployed a Wazuh SIEM Server inside the DMZ zone and successfully configured log forwarding from internal endpoints.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Threat Simulation:&lt;/strong&gt; Executed an active SSH Brute-Force attack using Kali Linux and verified that security alerts were properly detected and visible on the Wazuh Dashboard in real-time.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;
+
+
+
+
+
+
+ 
+ 
+&lt;figure&gt;&lt;img src="https://ryanburmese-crypto.github.io/images/lab7/image1.png" alt="Lab Topology" class="mx-auto my-0 rounded-md" /&gt;
+&lt;/figure&gt;
+&lt;/p&gt;</description></item><item><title>Lab 6: Real-Time File Integrity Monitoring (FIM) via Wazuh Syscheck</title><link>https://ryanburmese-crypto.github.io/posts/file-integrity-monitoring/</link><pubDate>Wed, 15 Jul 2026 00:00:00 +0000</pubDate><guid>https://ryanburmese-crypto.github.io/posts/file-integrity-monitoring/</guid><description>&lt;style&gt;
  .max-w-prose, article, .prose { 
  max-width: 100% !important; 
  width: 100% !important; 
