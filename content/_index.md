@@ -49,6 +49,10 @@ I strongly believe that technical skills are best demonstrated through practical
 ## 🔬 Featured Labs
 I regularly publish deep-dive documentation on my structural topology configurations and malware/incident forensics:
 
+### 🛠️ [Lab 7: Building an Enterprise SOC Architecture with Palo Alto Firewall & Wazuh SIEM](/posts/Lab7SOC)
+
+Deploying a multi-zone Palo Alto network topology, configuring Wazuh SIEM monitoring, and executing SSH Brute-Force simulation with Kali Linux.
+
 ### 📂 [Lab 6: Real-Time File Integrity Monitoring (FIM) via Wazuh Syscheck](/posts/file-integrity-monitoring)
 Implementing real-time File Integrity Monitoring (FIM) on a Windows Server 2022 endpoint using the Wazuh Syscheck engine to detect unauthorized file additions, deletions, and modifications.
 
@@ -58,15 +62,6 @@ Implementing automated threat mitigation (SOAR) in a virtualized SOC environment
 ### 🛠️ [Lab 4: Centralized Log Management with Wazuh SIEM](/posts/simple-wazuh-siem-lab/)
 Setting up an enterprise-grade Wazuh SIEM/XDR architecture in EVE-NG with Cisco switching, multi-platform agents, and simulated SSH brute force detection.
 
-### 📂 [Lab 3: Cross-Platform SMB Integration & NTFS Hardening](/posts/smb-cross-platform-integration)
-Implementing secure network file shares and mapping access control structures from Windows Server to Linux nodes.
-
-### 🔑 [Lab 2: Enterprise AD DS Infrastructure & SID Generalization](/posts/active-directory-sid-conflict)
-Deploying active directory architectures and debugging conflicting Security Identifier (SID) states using Sysprep.
-
-### 🛠️ [Lab 1: Advanced EVE-NG Nested Virtualization Layering](/posts/nested-virtualization-eve-ng)
-Overcoming hardware acceleration layers and CPU extensions within multi-tier virtual labs.
-
 ---
 ## 🎓 Education & Credentials
 
@@ -75,6 +70,9 @@ Overcoming hardware acceleration layers and CPU extensions within multi-tier vir
 
 ### 🎓 Certificate IV in Cybersecurity
 **Victoria University** | *Completed 2025*
+
+* **Cisco Certified Network Associate (2011)**
+* **Microsoft Certified System Administrator (2207)**
 
 ### 🚀 In-Progress Academic Targets
 * Microsoft Certified: Azure Fundamentals (`AZ-900`)

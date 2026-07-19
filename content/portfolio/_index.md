@@ -48,9 +48,13 @@ Practical, hands-on IT Professional with a diverse background in infrastructure 
   * *RMIT University (Completed 2024)*
 * **Certificate IV in Cybersecurity**
   * *Victoria University (Completed 2024)*
-* **In-Progress Certifications:**
-  * Microsoft Certified: Azure Fundamentals (AZ-900)
-  * Practical SOC Analyst Associate (PSAA)
+
+* **Cisco Certified Network Associate (2011)**
+* **Microsoft Certified System Administrator (2007)**
+
+* **In-Progress Academic Targets**
+  * Microsoft Certified: Azure Fundamentals (`AZ-900`)
+  * CompTIA (`Security+`)
 
 ---
 ## 💼 Core Professional Experience
@@ -96,6 +100,9 @@ Practical, hands-on IT Professional with a diverse background in infrastructure 
 ---
 ## 🔬 Featured Labs
 I regularly publish deep-dive documentation on my structural topology configurations and malware/incident forensics:
+
+### 🛠️ [Lab 7: Building an Enterprise SOC Architecture with Palo Alto Firewall & Wazuh SIEM](/posts/Lab7SOC)
+Deploying a multi-zone Palo Alto network topology, configuring Wazuh SIEM monitoring, and executing SSH Brute-Force simulation with Kali Linux.
 
 ### 📂 [Lab 6: Real-Time File Integrity Monitoring (FIM) via Wazuh Syscheck](/posts/file-integrity-monitoring)
 Implementing real-time File Integrity Monitoring (FIM) on a Windows Server 2022 endpoint using the Wazuh Syscheck engine to detect unauthorized file additions, deletions, and modifications.
