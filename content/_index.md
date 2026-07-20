@@ -40,7 +40,7 @@ links:
 {{< button href="/posts/" >}}
 🧪 View Labs
 {{< /button >}}
-
+</div>
 I am an IT professional with experience in IT support, systems administration, infrastructure operations, technical suport, and technology management across hospitality and non-profit environments.
 
 After relocating to Australia, I completed a **Certificate IV in Cyber Security** from Victoria University and a **Diploma of Information Technology (Cyber Security)** from RMIT University.

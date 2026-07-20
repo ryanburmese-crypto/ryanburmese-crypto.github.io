@@ -29,6 +29,7 @@ layout: "page"
 {{< button href="/posts/" >}}
 🧪 View Labs
 {{< /button >}}
+၊</div>
 
 
 I am an IT professional with experience in IT support, systems administration, infrastructure operations, technical suport, and technology management across hospitality and non-profit environments.
@@ -38,7 +39,6 @@ After relocating to Australia, I completed a **Certificate IV in Cyber Security*
 My current focus is building hands-on cybersecuity and infrastructure laboratories that simulate real-world enterprise environments. Through practical projects, I design, deploy, troubleshoot, and document solutions involving Active Directory, Windows Server, Linux systems, Palo Alto Firewalls, Wazuh SIEM, and network security monitoring.
 
 I strongly believe that technical skills are best demonstrated through practical implementation, troubleshooting, and documentation rather that theory alone.
-
 
 ---
 
