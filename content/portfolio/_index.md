@@ -13,23 +13,33 @@ layout: "page"
 ---
 # Hello, I'm Ryan (Aung Ko Latt) 👋
 
-<div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 20px 0;">
+<div style="display: flex; gap: 10px; flex-wrap: wrap; margin: 20px 0; align-items: center;">
+
+<span style="display: inline-block; transform: scale(0.85); transform-origin: left center;">
 {{< button href="/myResume/Aung-Ko-Latt(Ryan)-Resume.pdf" target="_blank" >}}
 📄 Download Resume
 {{< /button >}}
+</span>
 
+<span style="display: inline-block; transform: scale(0.85); transform-origin: left center;">
 {{< button href="https://github.com/ryanburmese-crypto" target="_blank" >}}
 💻 GitHub
 {{< /button >}}
+</span>
 
+<span style="display: inline-block; transform: scale(0.85); transform-origin: left center;">
 {{< button href="https://linkedin.com/in/aung-ko-latt-1a2a5691" target="_blank" >}}
 🔗 LinkedIn
 {{< /button >}}
+</span>
 
+<span style="display: inline-block; transform: scale(0.85); transform-origin: left center;">
 {{< button href="/posts/" >}}
 🧪 View Labs
 {{< /button >}}
-၊</div>
+</span>
+
+</div>
 
 
 I am an IT professional with experience in IT support, systems administration, infrastructure operations, technical suport, and technology management across hospitality and non-profit environments.
