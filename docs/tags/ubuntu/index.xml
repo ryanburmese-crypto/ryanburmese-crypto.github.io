@@ -1,1 +1,24 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ubuntu on Ryan Burman | Tech Lab</title><link>https://ryanburmese-crypto.github.io/tags/ubuntu/</link><description>Recent content in Ubuntu on Ryan Burman | Tech Lab</description><generator>Hugo</generator><language>en</language><lastBuildDate>Sun, 12 Jul 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://ryanburmese-crypto.github.io/tags/ubuntu/index.xml" rel="self" type="application/rss+xml"/><item><title>Lab 1: Building a Nested Virtualization Lab with EVE-NG on Ubuntu</title><link>https://ryanburmese-crypto.github.io/posts/nested-virtualization-eve-ng/</link><pubDate>Sun, 12 Jul 2026 00:00:00 +0000</pubDate><guid>https://ryanburmese-crypto.github.io/posts/nested-virtualization-eve-ng/</guid><description>How to resolve performance issues and enable hardware acceleration in a nested hypervisor environment.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Ubuntu on Ryan Burman | Tech Lab</title>
+		<link>http://localhost:1313/tags/ubuntu/</link>
+		<description>Recent content in Ubuntu on Ryan Burman | Tech Lab</description>
+		<generator>Hugo</generator>
+		<language>en</language>
+		
+		
+		
+		
+			<lastBuildDate>Sun, 12 Jul 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="http://localhost:1313/tags/ubuntu/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Lab 1: Building a Nested Virtualization Lab with EVE-NG on Ubuntu</title>
+				<link>http://localhost:1313/posts/nested-virtualization-eve-ng/</link>
+				<pubDate>Sun, 12 Jul 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/posts/nested-virtualization-eve-ng/</guid>
+				<description>How to resolve performance issues and enable hardware acceleration in a nested hypervisor environment.</description>
+			</item>
+	</channel>
+</rss>

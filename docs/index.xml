@@ -1,58 +1,80 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Welcome to My Tech Space on Ryan Burman | Tech Lab</title><link>https://ryanburmese-crypto.github.io/</link><description>Recent content in Welcome to My Tech Space on Ryan Burman | Tech Lab</description><generator>Hugo</generator><language>en</language><lastBuildDate>Sat, 18 Jul 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://ryanburmese-crypto.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Lab 7: Building an Enterprise SOC Architecture with Palo Alto Firewall &amp; Wazuh SIEM</title><link>https://ryanburmese-crypto.github.io/posts/lab7soc/</link><pubDate>Sat, 18 Jul 2026 00:00:00 +0000</pubDate><guid>https://ryanburmese-crypto.github.io/posts/lab7soc/</guid><description>&lt;style&gt;
- .max-w-prose, article, .prose { 
- max-width: 100% !important; 
- width: 100% !important; 
- }
-&lt;/style&gt;
-&lt;h2 id="-executive-summary" class="relative group"&gt;🎯 Executive Summary &lt;span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"&gt;&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#-executive-summary" aria-label="Anchor"&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h2&gt;&lt;p&gt;The purpose of this lab is to design, deploy, and test a mini-enterprise security infrastructure. This project simulates real-world security engineering tasks by connecting a network security control platform with a centralized detection mechanism.&lt;/p&gt;
-&lt;h3 id="key-milestones-achieved" class="relative group"&gt;Key Milestones Achieved: &lt;span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"&gt;&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#key-milestones-achieved" aria-label="Anchor"&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Network Segmentation:&lt;/strong&gt; Built three distinct security zones (Inside, DMZ, Outside) using a Palo Alto Next-Generation Firewall to control traffic flow.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Centralized Monitoring:&lt;/strong&gt; Deployed a Wazuh SIEM Server inside the DMZ zone and successfully configured log forwarding from internal endpoints.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Threat Simulation:&lt;/strong&gt; Executed an active SSH Brute-Force attack using Kali Linux and verified that security alerts were properly detected and visible on the Wazuh Dashboard in real-time.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;p&gt;
-
-
-
-
-
-
- 
- 
-&lt;figure&gt;&lt;img src="https://ryanburmese-crypto.github.io/images/lab7/image1.png" alt="Lab Topology" class="mx-auto my-0 rounded-md" /&gt;
-&lt;/figure&gt;
-&lt;/p&gt;</description></item><item><title>Lab 5: Automated Incident Response via Wazuh Active Response</title><link>https://ryanburmese-crypto.github.io/posts/activeresponse/</link><pubDate>Wed, 15 Jul 2026 00:00:00 +0000</pubDate><guid>https://ryanburmese-crypto.github.io/posts/activeresponse/</guid><description>&lt;style&gt;
- .max-w-prose, article, .prose { 
- max-width: 100% !important; 
- width: 100% !important; 
- }
-&lt;/style&gt;
-&lt;h2 id="executive-summary" class="relative group"&gt;Executive Summary &lt;span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"&gt;&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#executive-summary" aria-label="Anchor"&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h2&gt;&lt;p&gt;Detecting a threat is only half the battle; responding to it efficiently is what minimizes the blast radius. This project demonstrates the deployment of &lt;strong&gt;Automated Incident Response (SOAR capabilities)&lt;/strong&gt; using the Wazuh Active Response engine.&lt;/p&gt;
-&lt;p&gt;By separating the attacker infrastructure onto a dedicated &lt;strong&gt;Kali Linux&lt;/strong&gt; instance, we simulate an unauthenticated brute-force scenario. Upon detection, the Wazuh Manager dynamically instructs the target endpoint to drop all subsequent traffic from the threat actor&amp;rsquo;s IP address using native system firewalls (&lt;code&gt;IPtables&lt;/code&gt;).&lt;/p&gt;</description></item><item><title>Lab 6: Real-Time File Integrity Monitoring (FIM) via Wazuh Syscheck</title><link>https://ryanburmese-crypto.github.io/posts/file-integrity-monitoring/</link><pubDate>Wed, 15 Jul 2026 00:00:00 +0000</pubDate><guid>https://ryanburmese-crypto.github.io/posts/file-integrity-monitoring/</guid><description>&lt;style&gt;
- .max-w-prose, article, .prose { 
- max-width: 100% !important; 
- width: 100% !important; 
- }
-&lt;/style&gt;
-&lt;h2 id="executive-summary" class="relative group"&gt;Executive Summary &lt;span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"&gt;&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#executive-summary" aria-label="Anchor"&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h2&gt;&lt;p&gt;Maintaining data integrity across core infrastructure assets is vital for preventing advanced persistent threats (APTs) and unauthorized adjustments to configuration scripts. This project demonstrates the design and execution of &lt;strong&gt;File Integrity Monitoring (FIM)&lt;/strong&gt; using the built-in Wazuh Syscheck engine.&lt;/p&gt;
-&lt;p&gt;By target-monitoring a highly sensitive corporate directory inside a &lt;strong&gt;Windows Server 2022 Standard&lt;/strong&gt; node, the SIEM architecture is structured to immediately intercept, calculate cryptographic hash shifts, and alert on system-level changes in real-time.&lt;/p&gt;</description></item><item><title>Lab 4: Centralized Log Management with Wazuh SIEM</title><link>https://ryanburmese-crypto.github.io/posts/simple-wazuh-siem-lab/</link><pubDate>Tue, 14 Jul 2026 00:00:00 +0000</pubDate><guid>https://ryanburmese-crypto.github.io/posts/simple-wazuh-siem-lab/</guid><description>&lt;style&gt;
- .max-w-prose, article, .prose { 
- max-width: 100% !important; 
- width: 100% !important; 
- }
-&lt;/style&gt;
-&lt;h2 id="executive-summary" class="relative group"&gt;Executive Summary &lt;span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"&gt;&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#executive-summary" aria-label="Anchor"&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h2&gt;&lt;p&gt;In modern Security Operations Centers (SOCs), Centralized Log Management is the foundational pillar of visibility. This project demonstrates the deployment of &lt;strong&gt;Wazuh SIEM/XDR&lt;/strong&gt;, an enterprise-ready open-source monitoring platform, within a virtualized lab environment (&lt;strong&gt;EVE-NG&lt;/strong&gt;).&lt;/p&gt;
-&lt;p&gt;The infrastructure features a managed Layer 2 network, a central SIEM Manager node, and dual-platform workloads (Windows Server and Ubuntu Desktop) configured to ship telemetry. The lab culminates in a successful detection and analysis of a simulated credential-stuffing (SSH Brute Force) attack.&lt;/p&gt;</description></item><item><title>Building My Lab Environment with VMware Workstation</title><link>https://ryanburmese-crypto.github.io/posts/welcome/</link><pubDate>Sun, 12 Jul 2026 12:23:12 +1000</pubDate><guid>https://ryanburmese-crypto.github.io/posts/welcome/</guid><description>&lt;p&gt;Hi everyone! Welcome to my tech blog. In this first post, I want to share how I set up my hands-on practice environment for Linux system administration and cybersecurity monitoring.&lt;/p&gt;
-&lt;h2 id="why-a-home-lab" class="relative group"&gt;Why a Home Lab? &lt;span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"&gt;&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#why-a-home-lab" aria-label="Anchor"&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h2&gt;&lt;p&gt;As an aspiring system engineer, having a safe sandbox to break things and fix them is crucial. A well-structured home lab allows me to test enterprise distributions, configure firewalls, and analyze logs without risking any production environment.&lt;/p&gt;</description></item><item><title>Lab 1: Building a Nested Virtualization Lab with EVE-NG on Ubuntu</title><link>https://ryanburmese-crypto.github.io/posts/nested-virtualization-eve-ng/</link><pubDate>Sun, 12 Jul 2026 00:00:00 +0000</pubDate><guid>https://ryanburmese-crypto.github.io/posts/nested-virtualization-eve-ng/</guid><description>How to resolve performance issues and enable hardware acceleration in a nested hypervisor environment.</description></item><item><title>Lab 2: Active Directory Domain Services &amp; Troubleshooting SID Conflicts</title><link>https://ryanburmese-crypto.github.io/posts/active-directory-sid-conflict/</link><pubDate>Sun, 12 Jul 2026 00:00:00 +0000</pubDate><guid>https://ryanburmese-crypto.github.io/posts/active-directory-sid-conflict/</guid><description>How to fix duplicate Security Identifier (SID) errors when joining cloned Windows Server machines to an Active Directory domain.</description></item><item><title>Lab 3: Cross-Platform SMB Integration &amp; NTFS Hardening</title><link>https://ryanburmese-crypto.github.io/posts/smb-cross-platform-integration/</link><pubDate>Sun, 12 Jul 2026 00:00:00 +0000</pubDate><guid>https://ryanburmese-crypto.github.io/posts/smb-cross-platform-integration/</guid><description>Securing an enterprise share with advanced NTFS permissions and mounting it from an authenticated Ubuntu Linux Desktop.</description></item><item><title>Contact Me</title><link>https://ryanburmese-crypto.github.io/contact/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://ryanburmese-crypto.github.io/contact/</guid><description>&lt;p&gt;I am always open to collaborating on open-source projects or discussing system security. Whether you have a question, a project proposal, or just want to say hi, feel free to reach out through any of the channels below!&lt;/p&gt;
-&lt;hr&gt;
-&lt;h3 id="-direct-contact" class="relative group"&gt;📞 Direct Contact &lt;span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"&gt;&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#-direct-contact" aria-label="Anchor"&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;📱 &lt;strong&gt;Phone:&lt;/strong&gt; &lt;a href="tel:&amp;#43;61478025043"&gt;+61 478 025 043&lt;/a&gt; &lt;em&gt;(Australia)&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;✉️ &lt;strong&gt;Email:&lt;/strong&gt; &lt;a href="mailto:ryanburmese@gmail.com"&gt;ryanburmese@gmail.com&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="-professional-networks" class="relative group"&gt;🌐 Professional Networks &lt;span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"&gt;&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#-professional-networks" aria-label="Anchor"&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;💻 &lt;strong&gt;GitHub:&lt;/strong&gt; &lt;a href="https://github.com/ryanburmese-crypto" target="_blank" rel="noreferrer"&gt;github.com/ryanburmese-crypto&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;👔 &lt;strong&gt;LinkedIn:&lt;/strong&gt; &lt;a href="https://linkedin.com/in/aung-ko-latt-1a2a5691" target="_blank" rel="noreferrer"&gt;linkedin.com/in/aung-ko-latt-1a2a5691&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;h3 id="-response-time" class="relative group"&gt;⏳ Response Time &lt;span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"&gt;&lt;a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#-response-time" aria-label="Anchor"&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h3&gt;&lt;p&gt;I usually respond to emails and LinkedIn messages within &lt;strong&gt;24–48 hours&lt;/strong&gt;. For urgent matters, feel free to give me a call or send a text message.&lt;/p&gt;</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Welcome to My Tech Space on Ryan Burman | Tech Lab</title>
+		<link>http://localhost:1313/</link>
+		<description>Recent content in Welcome to My Tech Space on Ryan Burman | Tech Lab</description>
+		<generator>Hugo</generator>
+		<language>en</language>
+		
+		
+		
+		
+			<lastBuildDate>Sat, 18 Jul 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Lab 7: Building an Enterprise SOC Architecture with Palo Alto Firewall &amp; Wazuh SIEM</title>
+				<link>http://localhost:1313/posts/lab7soc/</link>
+				<pubDate>Sat, 18 Jul 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/posts/lab7soc/</guid>
+				<description>&lt;style&gt;&#xA;  .max-w-prose, article, .prose { &#xA;    max-width: 100% !important; &#xA;    width: 100% !important; &#xA;  }&#xA;&lt;/style&gt;&#xA;&lt;h2 id=&#34;-executive-summary&#34; class=&#34;relative group&#34;&gt;🎯 Executive Summary &lt;span class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100&#34;&gt;&lt;a class=&#34;group-hover:text-primary-300 dark:group-hover:text-neutral-700&#34; style=&#34;text-decoration-line: none !important;&#34; href=&#34;#-executive-summary&#34; aria-label=&#34;Anchor&#34;&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h2&gt;&lt;p&gt;The purpose of this lab is to design, deploy, and test a mini-enterprise security infrastructure. This project simulates real-world security engineering tasks by connecting a network security control platform with a centralized detection mechanism.&lt;/p&gt;&#xA;&lt;h3 id=&#34;key-milestones-achieved&#34; class=&#34;relative group&#34;&gt;Key Milestones Achieved: &lt;span class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100&#34;&gt;&lt;a class=&#34;group-hover:text-primary-300 dark:group-hover:text-neutral-700&#34; style=&#34;text-decoration-line: none !important;&#34; href=&#34;#key-milestones-achieved&#34; aria-label=&#34;Anchor&#34;&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h3&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Network Segmentation:&lt;/strong&gt; Built three distinct security zones (Inside, DMZ, Outside) using a Palo Alto Next-Generation Firewall to control traffic flow.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Centralized Monitoring:&lt;/strong&gt; Deployed a Wazuh SIEM Server inside the DMZ zone and successfully configured log forwarding from internal endpoints.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Threat Simulation:&lt;/strong&gt; Executed an active SSH Brute-Force attack using Kali Linux and verified that security alerts were properly detected and visible on the Wazuh Dashboard in real-time.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;  &#xA;  &#xA;&lt;figure&gt;&lt;img src=&#34;http://localhost:1313/images/lab7/image1.png&#34; alt=&#34;Lab Topology&#34; class=&#34;mx-auto my-0 rounded-md&#34; /&gt;&#xA;&lt;/figure&gt;&#xA;&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Lab 5: Automated Incident Response via Wazuh Active Response</title>
+				<link>http://localhost:1313/posts/activeresponse/</link>
+				<pubDate>Wed, 15 Jul 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/posts/activeresponse/</guid>
+				<description>&lt;style&gt;&#xA;  .max-w-prose, article, .prose { &#xA;    max-width: 100% !important; &#xA;    width: 100% !important; &#xA;  }&#xA;&lt;/style&gt;&#xA;&lt;h2 id=&#34;executive-summary&#34; class=&#34;relative group&#34;&gt;Executive Summary &lt;span class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100&#34;&gt;&lt;a class=&#34;group-hover:text-primary-300 dark:group-hover:text-neutral-700&#34; style=&#34;text-decoration-line: none !important;&#34; href=&#34;#executive-summary&#34; aria-label=&#34;Anchor&#34;&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h2&gt;&lt;p&gt;Detecting a threat is only half the battle; responding to it efficiently is what minimizes the blast radius. This project demonstrates the deployment of &lt;strong&gt;Automated Incident Response (SOAR capabilities)&lt;/strong&gt; using the Wazuh Active Response engine.&lt;/p&gt;&#xA;&lt;p&gt;By separating the attacker infrastructure onto a dedicated &lt;strong&gt;Kali Linux&lt;/strong&gt; instance, we simulate an unauthenticated brute-force scenario. Upon detection, the Wazuh Manager dynamically instructs the target endpoint to drop all subsequent traffic from the threat actor&amp;rsquo;s IP address using native system firewalls (&lt;code&gt;IPtables&lt;/code&gt;).&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Lab 6: Real-Time File Integrity Monitoring (FIM) via Wazuh Syscheck</title>
+				<link>http://localhost:1313/posts/file-integrity-monitoring/</link>
+				<pubDate>Wed, 15 Jul 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/posts/file-integrity-monitoring/</guid>
+				<description>&lt;style&gt;&#xA;  .max-w-prose, article, .prose { &#xA;    max-width: 100% !important; &#xA;    width: 100% !important; &#xA;  }&#xA;&lt;/style&gt;&#xA;&lt;h2 id=&#34;executive-summary&#34; class=&#34;relative group&#34;&gt;Executive Summary &lt;span class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100&#34;&gt;&lt;a class=&#34;group-hover:text-primary-300 dark:group-hover:text-neutral-700&#34; style=&#34;text-decoration-line: none !important;&#34; href=&#34;#executive-summary&#34; aria-label=&#34;Anchor&#34;&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h2&gt;&lt;p&gt;Maintaining data integrity across core infrastructure assets is vital for preventing advanced persistent threats (APTs) and unauthorized adjustments to configuration scripts. This project demonstrates the design and execution of &lt;strong&gt;File Integrity Monitoring (FIM)&lt;/strong&gt; using the built-in Wazuh Syscheck engine.&lt;/p&gt;&#xA;&lt;p&gt;By target-monitoring a highly sensitive corporate directory inside a &lt;strong&gt;Windows Server 2022 Standard&lt;/strong&gt; node, the SIEM architecture is structured to immediately intercept, calculate cryptographic hash shifts, and alert on system-level changes in real-time.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Lab 4: Centralized Log Management with Wazuh SIEM</title>
+				<link>http://localhost:1313/posts/simple-wazuh-siem-lab/</link>
+				<pubDate>Tue, 14 Jul 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/posts/simple-wazuh-siem-lab/</guid>
+				<description>&lt;style&gt;&#xA;  .max-w-prose, article, .prose { &#xA;    max-width: 100% !important; &#xA;    width: 100% !important; &#xA;  }&#xA;&lt;/style&gt;&#xA;&lt;h2 id=&#34;executive-summary&#34; class=&#34;relative group&#34;&gt;Executive Summary &lt;span class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100&#34;&gt;&lt;a class=&#34;group-hover:text-primary-300 dark:group-hover:text-neutral-700&#34; style=&#34;text-decoration-line: none !important;&#34; href=&#34;#executive-summary&#34; aria-label=&#34;Anchor&#34;&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h2&gt;&lt;p&gt;In modern Security Operations Centers (SOCs), Centralized Log Management is the foundational pillar of visibility. This project demonstrates the deployment of &lt;strong&gt;Wazuh SIEM/XDR&lt;/strong&gt;, an enterprise-ready open-source monitoring platform, within a virtualized lab environment (&lt;strong&gt;EVE-NG&lt;/strong&gt;).&lt;/p&gt;&#xA;&lt;p&gt;The infrastructure features a managed Layer 2 network, a central SIEM Manager node, and dual-platform workloads (Windows Server and Ubuntu Desktop) configured to ship telemetry. The lab culminates in a successful detection and analysis of a simulated credential-stuffing (SSH Brute Force) attack.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Building My Lab Environment with VMware Workstation</title>
+				<link>http://localhost:1313/posts/welcome/</link>
+				<pubDate>Sun, 12 Jul 2026 12:23:12 +1000</pubDate>
+				<guid>http://localhost:1313/posts/welcome/</guid>
+				<description>&lt;p&gt;Hi everyone! Welcome to my tech blog. In this first post, I want to share how I set up my hands-on practice environment for Linux system administration and cybersecurity monitoring.&lt;/p&gt;&#xA;&lt;h2 id=&#34;why-a-home-lab&#34; class=&#34;relative group&#34;&gt;Why a Home Lab? &lt;span class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100&#34;&gt;&lt;a class=&#34;group-hover:text-primary-300 dark:group-hover:text-neutral-700&#34; style=&#34;text-decoration-line: none !important;&#34; href=&#34;#why-a-home-lab&#34; aria-label=&#34;Anchor&#34;&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h2&gt;&lt;p&gt;As an aspiring system engineer, having a safe sandbox to break things and fix them is crucial. A well-structured home lab allows me to test enterprise distributions, configure firewalls, and analyze logs without risking any production environment.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Lab 1: Building a Nested Virtualization Lab with EVE-NG on Ubuntu</title>
+				<link>http://localhost:1313/posts/nested-virtualization-eve-ng/</link>
+				<pubDate>Sun, 12 Jul 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/posts/nested-virtualization-eve-ng/</guid>
+				<description>How to resolve performance issues and enable hardware acceleration in a nested hypervisor environment.</description>
+			</item>
+			<item>
+				<title>Lab 2: Active Directory Domain Services &amp; Troubleshooting SID Conflicts</title>
+				<link>http://localhost:1313/posts/active-directory-sid-conflict/</link>
+				<pubDate>Sun, 12 Jul 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/posts/active-directory-sid-conflict/</guid>
+				<description>How to fix duplicate Security Identifier (SID) errors when joining cloned Windows Server machines to an Active Directory domain.</description>
+			</item>
+			<item>
+				<title>Lab 3: Cross-Platform SMB Integration &amp; NTFS Hardening</title>
+				<link>http://localhost:1313/posts/smb-cross-platform-integration/</link>
+				<pubDate>Sun, 12 Jul 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/posts/smb-cross-platform-integration/</guid>
+				<description>Securing an enterprise share with advanced NTFS permissions and mounting it from an authenticated Ubuntu Linux Desktop.</description>
+			</item>
+			<item>
+				<title>Contact Me</title>
+				<link>http://localhost:1313/contact/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/contact/</guid>
+				<description>&lt;p&gt;I am always open to collaborating on open-source projects or discussing system security. Whether you have a question, a project proposal, or just want to say hi, feel free to reach out through any of the channels below!&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h3 id=&#34;-direct-contact&#34; class=&#34;relative group&#34;&gt;📞 Direct Contact &lt;span class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100&#34;&gt;&lt;a class=&#34;group-hover:text-primary-300 dark:group-hover:text-neutral-700&#34; style=&#34;text-decoration-line: none !important;&#34; href=&#34;#-direct-contact&#34; aria-label=&#34;Anchor&#34;&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h3&gt;&lt;ul&gt;&#xA;&lt;li&gt;📱 &lt;strong&gt;Phone:&lt;/strong&gt; &lt;a href=&#34;tel:&amp;#43;61478025043&#34;&gt;+61 478 025 043&lt;/a&gt; &lt;em&gt;(Australia)&lt;/em&gt;&lt;/li&gt;&#xA;&lt;li&gt;✉️ &lt;strong&gt;Email:&lt;/strong&gt; &lt;a href=&#34;mailto:ryanburmese@gmail.com&#34;&gt;ryanburmese@gmail.com&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;-professional-networks&#34; class=&#34;relative group&#34;&gt;🌐 Professional Networks &lt;span class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100&#34;&gt;&lt;a class=&#34;group-hover:text-primary-300 dark:group-hover:text-neutral-700&#34; style=&#34;text-decoration-line: none !important;&#34; href=&#34;#-professional-networks&#34; aria-label=&#34;Anchor&#34;&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h3&gt;&lt;ul&gt;&#xA;&lt;li&gt;💻 &lt;strong&gt;GitHub:&lt;/strong&gt; &lt;a href=&#34;https://github.com/ryanburmese-crypto&#34; target=&#34;_blank&#34; rel=&#34;noreferrer&#34;&gt;github.com/ryanburmese-crypto&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;👔 &lt;strong&gt;LinkedIn:&lt;/strong&gt; &lt;a href=&#34;https://linkedin.com/in/aung-ko-latt-1a2a5691&#34; target=&#34;_blank&#34; rel=&#34;noreferrer&#34;&gt;linkedin.com/in/aung-ko-latt-1a2a5691&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h3 id=&#34;-response-time&#34; class=&#34;relative group&#34;&gt;⏳ Response Time &lt;span class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100&#34;&gt;&lt;a class=&#34;group-hover:text-primary-300 dark:group-hover:text-neutral-700&#34; style=&#34;text-decoration-line: none !important;&#34; href=&#34;#-response-time&#34; aria-label=&#34;Anchor&#34;&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h3&gt;&lt;p&gt;I usually respond to emails and LinkedIn messages within &lt;strong&gt;24–48 hours&lt;/strong&gt;. For urgent matters, feel free to give me a call or send a text message.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>
