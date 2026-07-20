@@ -12,6 +12,21 @@ layout: "page"
 </style>
 ---
 # Hello, I'm Ryan (Aung Ko Latt) 👋
+{{< button href="/myResume/Aung-Ko-Latt(Ryan)-Resume.pdf" target="_blank" >}}
+📄 Download Resume
+{{< /button >}}
+
+{{< button href="https://github.com/ryanburmese-crypto" target="_blank" >}}
+💻 GitHub
+{{< /button >}}
+
+{{< button href="https://linkedin.com/in/aung-ko-latt-1a2a5691" target="_blank" >}}
+🔗 LinkedIn
+{{< /button >}}
+
+{{< button href="/posts/" >}}
+🧪 View Labs
+{{< /button >}}
 
 
 I am an IT professional with experience in IT support, systems administration, infrastructure operations, technical suport, and technology management across hospitality and non-profit environments.
