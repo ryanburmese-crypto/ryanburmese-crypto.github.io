@@ -24,6 +24,7 @@ links:
 </div>
 
 ### Aspiring SOC Analyst | Infrastructure & Security Lab Builder
+<div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 20px 0;">
 {{< button href="/myResume/Aung-Ko-Latt(Ryan)-Resume.pdf" target="_blank" >}}
 📄 Download Resume
 {{< /button >}}
