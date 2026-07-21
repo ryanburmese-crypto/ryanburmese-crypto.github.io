@@ -142,7 +142,7 @@ Screenshot of Initial Configuration
 
 1. **Outside Interface (ethernet1/1) Configuration**
 
-Purpose: Connecting from Palo Alto to Cisco Router throught `e0/1` `(192.168.100.100)` to get internet access.
+**Purpose**: Connecting from Palo Alto to Cisco Router throught `e0/1` `(192.168.100.100)` to get internet access.
 
 - Palo Alto Web UI - > `Network Tab` → `Interface` → `Ethernet`
 - Click on `ethernet1/1`
@@ -182,7 +182,7 @@ Purpose: Connecting from Palo Alto to Cisco Router throught `e0/1` `(192.168.100
 
 ### Configuring DMZ Interface (ethernet1/2)
 
-**Purpose:** To configure Cisco `SW1` to act as the Gateway for `WSUS01` and `FILE01` (DMZ Subnet 192.168.40.0/24)
+**Purpose:** Configuring  DMZ Interface on Palo Alto (Gateway for DMZ Subnet 192.168.40.0/24)
 
 1. Network Tab - > `Interfaces` - > `Ethernet` → click on `ethernet1/2`
 2. Config Tab:
@@ -280,7 +280,7 @@ SW1(config)#
 
 #### Configuring `e0/0` interface connecting to Palo Alto Firewall
 
-This opens a trunk connection between the two switches to allow `VLAN 10,20, and 30` traffic from `SW2` to reach Palo Alto firewall.
+Configuring e0/0 interface connecting to Palo Alto Fireall (Access Port for VLAN 40 DMZ)
 
 ```cmd
 SW1(config)#int e0/0
