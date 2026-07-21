@@ -88,7 +88,7 @@ Setting up an enterprise-grade Wazuh SIEM/XDR architecture in EVE-NG with Cisco 
 **Victoria University** | *Completed 2025*
 
 * **Cisco Certified Network Associate (2011)**
-* **Microsoft Certified System Administrator (2207)**
+* **Microsoft Certified System Administrator (2007)**
 
 ### 🚀 In-Progress Academic Targets
 * Microsoft Certified: Azure Fundamentals (`AZ-900`)
