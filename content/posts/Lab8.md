@@ -42,7 +42,7 @@ The objective as to deploy a secure Windows Infrastructure, implement Group Poli
 
 | Device | Role | IP Address |
 | --- | --- | --- |
-| R1 | Internet Router | 192.168.64.2 |
+| R1 | Internet Router | 192.168.64.148 |
 | Palo Alto Outside | WAN Interface | DHCP |
 | Palo Alto VLAN10 | Server Gateway | 10.1.10.1 |
 | Palo Alto VLAN20 | HR Gateway | 10.1.20.1 |
