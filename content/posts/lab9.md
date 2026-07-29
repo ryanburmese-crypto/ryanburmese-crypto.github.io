@@ -1,7 +1,7 @@
 ---
 title: "Lab 9: Building a Local AI News Automation Agent with Docker, Ollama, n8n & Telegram"
 description: "Step-by-step guide to building a privacy-focused local AI news digestion pipeline using Docker, Ollama (Llama 3), n8n workflow automation, and Telegram bot integration."
-date: '2026-07-21T16:25:50+10:00'
+date: '2026-07-28T14:25:50+10:00'
 tags: ["Docker", "Ollama", "n8n", "Telegram", "AI Agent", "Ubuntu", "Automation", "Cybersecurity"]
 layout: "page"
 ---
