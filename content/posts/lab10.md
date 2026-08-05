@@ -342,4 +342,4 @@ drwxrwxr-x 3 system docker 4096 Aug  5 12:19  ..
 ---
 ## Conclusion
 
-This lab successfully demonstrates an end-to-end local AI workflow that takes a target job description, cross-references it with a candidate's master resume, and automatically outputs a fully formatted, customized `.docx` resume and cover letter[cite: 1]. The architecture ensures complete data privacy while streamlining the career application workflow through local infrastructure automation.
+This lab successfully demonstrates an end-to-end local AI workflow that takes a target job description, cross-references it with a candidate's master resume, and automatically outputs a fully formatted, customized `.docx` resume and cover letter. The architecture ensures complete data privacy while streamlining the career application workflow through local infrastructure automation.
