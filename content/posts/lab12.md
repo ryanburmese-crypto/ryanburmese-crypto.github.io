@@ -15,6 +15,21 @@ layout: "page"
 ## Executive Summary
 This lab demonstrates how to build a custom, lightweight, and portable Kali Linux Pentester Toolbox Container using Docker. Instead of deploying heavy Kali Linux virtual machines or installing security utilities directly on target hosts, penetration testers can quickly launch this container in any environment (Cloud, On-Premises, or Pivot Nodes) for reconnaissance, vulnerability analysis, web app assessment, and network security testing.
 
+## Lab Objectives
+By completing this lab, you will be able to:
+
+ * Build a custom Kali Linux Docker image using a Dockerfile.
+
+ * Package popular penetration testing and cybersecurity tools into a single container.
+
+ * Configure Docker network settings and privileges for advanced scanning tools (like `nmap`).
+
+ * Manage wordlists and path dependencies for web testing utilities (like `ffuf`).
+
+ * Mount local host directories to save scan results permanently.
+
+ * Run a lightweight, portable security testing environment anywhere without using heavy virtual machines.
+
 ## Architecture & Tool Categories
 ```bash
                      Security Tester / Red Teamer
