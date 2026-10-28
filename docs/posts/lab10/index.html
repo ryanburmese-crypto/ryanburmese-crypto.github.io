@@ -1,156 +1,840 @@
-<!doctype html><html lang=en dir=ltr class=scroll-smooth data-default-appearance=light data-auto-appearance=true><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=theme-color content="#FFFFFF"><title>Lab 10: Self-Hosted Automated AI Resume Tailoring Pipeline &#183; Ryan Burman | Tech Lab</title><meta name=title content="Lab 10: Self-Hosted Automated AI Resume Tailoring Pipeline &#183; Ryan Burman | Tech Lab"><script type=text/javascript src=https://ryanburmese-crypto.github.io/js/appearance.min.8a082f81b27f3cb2ee528df0b0bdc39787034cf2cc34d4669fbc9977c929023c.js integrity="sha256-iggvgbJ/PLLuUo3wsL3Dl4cDTPLMNNRmn7yZd8kpAjw="></script><link type=text/css rel=stylesheet href=https://ryanburmese-crypto.github.io/css/main.bundle.min.8a4c8f35e41ce0a9eaaf9d6a8077492d4c94f3598bdca18bdf28bf5cf2394803.css integrity="sha256-ikyPNeQc4Knqr51qgHdJLUyU81mL3KGL3yi/XPI5SAM="><meta name=description content="
+
+
+
+
+
+
+<!doctype html>
+<html
+  lang="en"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="light"
+  data-auto-appearance="true"
+><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FFFFFF" />
+  
+  <title>Lab 10: Self-Hosted Automated AI Resume Tailoring Pipeline &middot; Ryan Burman | Tech Lab</title>
+    <meta name="title" content="Lab 10: Self-Hosted Automated AI Resume Tailoring Pipeline &middot; Ryan Burman | Tech Lab" />
+  
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="http://localhost:1313/js/appearance.min.8a082f81b27f3cb2ee528df0b0bdc39787034cf2cc34d4669fbc9977c929023c.js"
+    integrity="sha256-iggvgbJ/PLLuUo3wsL3Dl4cDTPLMNNRmn7yZd8kpAjw="
+  ></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="http://localhost:1313/css/main.bundle.min.6ea8f8acfb220e5e88a5d29901a4eb7a5ec0b150e00e596c00634cdcd1daf9b3.css"
+    integrity="sha256-bqj4rPsiDl6IpdKZAaTrel7AsVDgDllsAGNM3NHa&#43;bM="
+  />
+  
+  
+  
+  
+  
+  
+  
+  <meta
+    name="description"
+    content="
       Step-by-step guide to building a privacy-focused local AI resume and cover letter tailoring pipeline using Docker, Ollama (Llama 3), n8n workflow automation, and CloudConvert.
-    "><link rel=canonical href=https://ryanburmese-crypto.github.io/posts/lab10/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><meta property="og:url" content="https://ryanburmese-crypto.github.io/posts/lab10/"><meta property="og:site_name" content="Ryan Burman | Tech Lab"><meta property="og:title" content="Lab 10: Self-Hosted Automated AI Resume Tailoring Pipeline"><meta property="og:description" content="Step-by-step guide to building a privacy-focused local AI resume and cover letter tailoring pipeline using Docker, Ollama (Llama 3), n8n workflow automation, and CloudConvert."><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-08-05T18:10:00+10:00"><meta property="article:modified_time" content="2026-08-05T18:10:00+10:00"><meta property="article:tag" content="Docker"><meta property="article:tag" content="Ollama"><meta property="article:tag" content="N8n"><meta property="article:tag" content="CloudConvert"><meta property="article:tag" content="LLM"><meta property="article:tag" content="AI Agent"><meta name=twitter:card content="summary"><meta name=twitter:title content="Lab 10: Self-Hosted Automated AI Resume Tailoring Pipeline"><meta name=twitter:description content="Step-by-step guide to building a privacy-focused local AI resume and cover letter tailoring pipeline using Docker, Ollama (Llama 3), n8n workflow automation, and CloudConvert."><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","articleSection":"Featured Projects \u0026 Labs","name":"Lab 10: Self-Hosted Automated AI Resume Tailoring Pipeline","headline":"Lab 10: Self-Hosted Automated AI Resume Tailoring Pipeline","description":"Step-by-step guide to building a privacy-focused local AI resume and cover letter tailoring pipeline using Docker, Ollama (Llama 3), n8n workflow automation, and CloudConvert.","abstract":"\u003cstyle\u003e\n  .max-w-prose, article, .prose { \n    max-width: 100% !important; \n    width: 100% !important; \n  }\n\u003c\/style\u003e\n\u003ch2 id=\u0022executive-summary\u0022 class=\u0022relative group\u0022\u003eExecutive Summary \u003cspan class=\u0022absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100\u0022\u003e\u003ca class=\u0022group-hover:text-primary-300 dark:group-hover:text-neutral-700\u0022 style=\u0022text-decoration-line: none !important;\u0022 href=\u0022#executive-summary\u0022 aria-label=\u0022Anchor\u0022\u003e#\u003c\/a\u003e\u003c\/span\u003e\u003c\/h2\u003e\u003cp\u003eThis project demonstrates a self-hosted, privacy-focused automation pipeline built using Docker, n8n, Ollama (Llama 3), and CloudConvert. The solution automates the process of tailoring a candidate\u0026rsquo;s master resume and generating a matching cover letter specific to any target job description.\u003c\/p\u003e\n\u003cp\u003eBy running Large Language Models (LLMs) locally via Ollama, sensitive personal data never leaves the host infrastructure during the generation process. The final output is automatically compiled into a clean, employer-ready Microsoft Word document (.docx) and saved to a local workspace.\u003c\/p\u003e","inLanguage":"en","url":"https:\/\/ryanburmese-crypto.github.io\/posts\/lab10\/","author":{"@type":"Person","name":""},"copyrightYear":"2026","dateCreated":"2026-08-05T18:10:00\u002b10:00","datePublished":"2026-08-05T18:10:00\u002b10:00","dateModified":"2026-08-05T18:10:00\u002b10:00","keywords":["Docker","Ollama","n8n","CloudConvert","LLM","AI Agent","Ubuntu","Automation"],"mainEntityOfPage":"true","wordCount":"1491"}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://ryanburmese-crypto.github.io/","name":"Welcome to My Tech Space","position":1},{"@type":"ListItem","item":"https://ryanburmese-crypto.github.io/posts/","name":"Featured Projects \u0026 Labs","position":2},{"@type":"ListItem","name":"Lab 10 Self Hosted Automated Ai Resume Tailoring Pipeline","position":3}]}</script></head><body class="m-auto flex h-screen max-w-7xl flex-col bg-neutral px-6 text-lg leading-7 text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32"><div id=the-top class="absolute flex self-center"><a class="-translate-y-8 rounded-b-lg bg-primary-200 px-3 py-1 text-sm focus:translate-y-0 dark:bg-neutral-600" href=#main-content><span class="pe-2 font-bold text-primary-600 dark:text-primary-400">&darr;</span>Skip to main content</a></div><header class="py-6 font-semibold text-neutral-900 dark:text-neutral sm:py-10 print:hidden"><nav class="flex items-start justify-between sm:items-center"><div class="flex flex-row items-center"><a class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2" rel=me href=/>Ryan Burman | Tech Lab</a></div><ul class="flex list-none flex-col text-end sm:flex-row"><li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5"><a href=/ title><span class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2">Home</span></a></li><li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5"><a href=/portfolio/ title><span class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2">Portfolio</span></a></li><li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5"><a href=/posts/ title><span class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2">Projects</span></a></li><li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5"><a href=/contact/ title><span class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2">Contact</span></a></li></ul></nav></header><div class="relative flex grow flex-col"><main id=main-content class=grow><article><header class=max-w-prose><h1 class="mb-8 mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">Lab 10: Self-Hosted Automated AI Resume Tailoring Pipeline</h1><div class="mb-10 text-base text-neutral-500 dark:text-neutral-400 print:hidden"><div class="flex flex-row flex-wrap items-center"><time datetime="2026-08-05 18:10:00 +1000 AEST">August 5, 2026</time><span class="px-2 text-primary-500">&#183;</span><span title="Reading time">7 mins</span></div></div></header><section class="prose mt-0 flex max-w-full flex-col dark:prose-invert lg:flex-row"><div class="min-h-0 min-w-0 max-w-prose grow"><style>.max-w-prose,article,.prose{max-width:100%!important;width:100%!important}</style><h2 id=executive-summary class="relative group">Executive Summary <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#executive-summary aria-label=Anchor>#</a></span></h2><p>This project demonstrates a self-hosted, privacy-focused automation pipeline built using Docker, n8n, Ollama (Llama 3), and CloudConvert. The solution automates the process of tailoring a candidate&rsquo;s master resume and generating a matching cover letter specific to any target job description.</p><p>By running Large Language Models (LLMs) locally via Ollama, sensitive personal data never leaves the host infrastructure during the generation process. The final output is automatically compiled into a clean, employer-ready Microsoft Word document (.docx) and saved to a local workspace.</p><h2 id=technical-architecture--workflow-design class="relative group">Technical Architecture & Workflow Design <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#technical-architecture--workflow-design aria-label=Anchor>#</a></span></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#f92672>[</span> n8n Form Submission <span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>          │
-</span></span><span style=display:flex><span>          ▼
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span> Read Master Resume <span style=color:#f92672>(</span>.md<span style=color:#f92672>)</span> <span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>          │
-</span></span><span style=display:flex><span>          ▼
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span> HTTP Request <span style=color:#f92672>(</span>Ollama Llama 3<span style=color:#f92672>)</span> <span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>          │
-</span></span><span style=display:flex><span>          ▼
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span> Convert Text to File <span style=color:#f92672>(</span>.md<span style=color:#f92672>)</span> <span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>          │
-</span></span><span style=display:flex><span>          ▼
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span> CloudConvert <span style=color:#f92672>(</span>MD -&gt; DOCX<span style=color:#f92672>)</span> <span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>          │
-</span></span><span style=display:flex><span>          ▼
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span> Save Final <span style=color:#f92672>(</span>.docx<span style=color:#f92672>)</span> to Disk <span style=color:#f92672>]</span>
-</span></span></code></pre></div><h2 id=component-overview class="relative group">Component Overview <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#component-overview aria-label=Anchor>#</a></span></h2><ul><li>n8n Form Submission (Trigger): Captures the target company name and job description text from the user.</li><li>Read File from Disk: Loads the local master_resume.md file from the host workspace.</li><li>HTTP Request (Ollama API): Sends the master resume and job description to the local Ollama instance (llama3:latest) via API to generate a tailored resume and cover letter.</li><li>Convert to File: Transforms the raw LLM text response into a structured .md binary file.</li><li>Convert a File (CloudConvert): Calls the CloudConvert API to convert the Markdown file into a formatted Microsoft Word document (.docx).</li><li>Write File to Disk: Writes the generated .docx file back to the host system using dynamic naming (e.g., tailored_resume_System Administrator _ Thales.docx).</li></ul><h2 id=infrastructure-setup--installation-guide class="relative group">Infrastructure Setup & Installation Guide <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#infrastructure-setup--installation-guide aria-label=Anchor>#</a></span></h2><h3 id=prerequisites class="relative group">Prerequisites <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#prerequisites aria-label=Anchor>#</a></span></h3><ul><li>OS: Ubuntu 22.04 LTS / 24.04 LTS or Debian-based Linux environment</li><li>Hardware: Minimum 8GB RAM (16GB recommended for LLM processing)</li><li>Software: Docker Engine & Docker Compose Plugin installed</li></ul><h2 id=step-1-docker--docker-compose-setup class="relative group">Step 1: Docker & Docker Compose Setup <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#step-1-docker--docker-compose-setup aria-label=Anchor>#</a></span></h2><p>Update system package index and install required packages:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>system@admin:~$ sudo apt update <span style=color:#f92672>&amp;&amp;</span> sudo apt upgrade -y
-</span></span><span style=display:flex><span>sudo apt install -y ca-certificates curl gnupg lsb-release git
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>sudo<span style=color:#f92672>]</span> password <span style=color:#66d9ef>for</span> system: 
-</span></span><span style=display:flex><span>Hit:1 http://au.archive.ubuntu.com/ubuntu noble InRelease
-</span></span><span style=display:flex><span>Hit:2 http://au.archive.ubuntu.com/ubuntu noble-updates InRelease                                   
-</span></span><span style=display:flex><span>Hit:3 http://au.archive.ubuntu.com/ubuntu noble-backports InRelease                                          
-</span></span><span style=display:flex><span>Hit:4 https://dl.google.com/linux/chrome-stable/deb stable InRelease                                         
-</span></span><span style=display:flex><span>Hit:5 http://security.ubuntu.com/ubuntu noble-security InRelease                                    
-</span></span><span style=display:flex><span>Reading package lists... Done
-</span></span><span style=display:flex><span>Building dependency tree... Done
-</span></span><span style=display:flex><span>Reading state information... Done
-</span></span></code></pre></div><p>Add Docker’s official GPG key and repository:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>system@admin:~$ sudo install -m <span style=color:#ae81ff>0755</span> -d /etc/apt/keyrings
-</span></span><span style=display:flex><span>curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-</span></span><span style=display:flex><span>sudo chmod a+r /etc/apt/keyrings/docker.gpg
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>echo <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;deb [arch=</span><span style=color:#66d9ef>$(</span>dpkg --print-architecture<span style=color:#66d9ef>)</span><span style=color:#e6db74> signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>  </span><span style=color:#66d9ef>$(</span>. /etc/os-release <span style=color:#f92672>&amp;&amp;</span> echo <span style=color:#e6db74>&#34;</span>$VERSION_CODENAME<span style=color:#e6db74>&#34;</span><span style=color:#66d9ef>)</span><span style=color:#e6db74> stable&#34;</span> | <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
-</span></span><span style=display:flex><span>system@admin:~$ 
-</span></span></code></pre></div><p>Install Docker Engine and Docker Compose plugin:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>system@admin:~$ sudo apt update
-</span></span><span style=display:flex><span>sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-</span></span></code></pre></div><p>Enable and start Docker service, then add your current user to the docker group:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>system@admin:~$ sudo systemctl enable --now docker
-</span></span><span style=display:flex><span>sudo usermod -aG docker $USER
-</span></span><span style=display:flex><span>newgrp docker
-</span></span><span style=display:flex><span>Synchronizing state of docker.service with SysV service script with /usr/lib/systemd/systemd-sysv-install.
-</span></span><span style=display:flex><span>Executing: /usr/lib/systemd/systemd-sysv-install enable doc
-</span></span></code></pre></div><h3 id=directory-setup--docker-composeyml-configuration class="relative group">Directory Setup & docker-compose.yml Configuration <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#directory-setup--docker-composeyml-configuration aria-label=Anchor>#</a></span></h3><p>Create dedicated project directory structure:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>system@admin:~$ mkdir -p ~/n8n-ollama-lab/workspace
-</span></span><span style=display:flex><span>cd ~/n8n-ollama-lab
-</span></span></code></pre></div><p>Create a docker-compose.yml file:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>system@admin:~/n8n-ollama-lab$ nano docker-compose.yml
-</span></span></code></pre></div><p>Paste the following container orchestration manifest:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-yml data-lang=yml><span style=display:flex><span><span style=color:#f92672>version</span>: <span style=color:#e6db74>&#39;3.8&#39;</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>services</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>ollama</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>image</span>: <span style=color:#ae81ff>ollama/ollama:latest</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>container_name</span>: <span style=color:#ae81ff>ollama</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>restart</span>: <span style=color:#ae81ff>unless-stopped</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>ports</span>:
-</span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#34;11434:11434&#34;</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>volumes</span>:
-</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>ollama_storage:/root/.ollama</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>networks</span>:
-</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>ai-network</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>n8n</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>image</span>: <span style=color:#ae81ff>docker.n8n.io/n8nio/n8n:latest</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>container_name</span>: <span style=color:#ae81ff>n8n</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>restart</span>: <span style=color:#ae81ff>unless-stopped</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>ports</span>:
-</span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#34;5678:5678&#34;</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>environment</span>:
-</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>N8N_HOST=localhost</span>
-</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>N8N_PORT=5678</span>
-</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>N8N_PROTOCOL=http</span>
-</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>NODE_FUNCTION_ALLOW_BUILTIN=*</span>
-</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>volumes</span>:
-</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>n8n_storage:/home/node/.n8n</span>
-</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>./workspace:/home/node/.n8n-files/workspace</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>networks</span>:
-</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>ai-network</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>depends_on</span>:
-</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>ollama</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>networks</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>ai-network</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>driver</span>: <span style=color:#ae81ff>bridge</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>volumes</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>ollama_storage</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>n8n_storage</span>:
-</span></span></code></pre></div><p>Launch services in detached mode:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>system@admin:~/n8n-ollama-lab$ sudo docker compose up -d
-</span></span><span style=display:flex><span>WARN<span style=color:#f92672>[</span>0000<span style=color:#f92672>]</span> /home/system/n8n-ollama-lab/docker-compose.yml: the attribute <span style=color:#e6db74>`</span>version<span style=color:#e6db74>`</span> is obsolete, it will be ignored, please remove it to avoid potential confusion 
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> up 16/18
-</span></span><span style=display:flex><span> ✔ Image docker.n8n.io/n8nio/n8n:latest Pulled                                                                                   163.2s ✔ Image ollama/ollama:latest           Pulled                                                                                   574.0s
-</span></span><span style=display:flex><span> ✔ Volume n8n-ollama-lab_ollama_storage Created                                                                                    0.0s
-</span></span><span style=display:flex><span> ✔ Network n8n-ollama-lab_ai-network    Created                                                                                    0.0s
-</span></span><span style=display:flex><span> ✔ Volume n8n-ollama-lab_n8n_storage    Created                                                                                    0.0s
-</span></span><span style=display:flex><span> ✔ Container ollama                     Started                                                                                    0.5s
-</span></span><span style=display:flex><span> ✔ Container n8n                        Started                                                                                    0.4s
-</span></span></code></pre></div><p>Verify running containers:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>ystem@admin:~/n8n-ollama-lab$ docker compose ps
-</span></span><span style=display:flex><span>WARN<span style=color:#f92672>[</span>0000<span style=color:#f92672>]</span> /home/system/n8n-ollama-lab/docker-compose.yml: the attribute <span style=color:#e6db74>`</span>version<span style=color:#e6db74>`</span> is obsolete, it will be ignored, please remove it to avoid potential confusion 
-</span></span><span style=display:flex><span>NAME      IMAGE                            COMMAND                  SERVICE   CREATED              STATUS              PORTS
-</span></span><span style=display:flex><span>n8n       docker.n8n.io/n8nio/n8n:latest   <span style=color:#e6db74>&#34;tini -- /docker-ent…&#34;</span>   n8n       About a minute ago   Up About a minute   0.0.0.0:5678-&gt;5678/tcp, <span style=color:#f92672>[</span>::<span style=color:#f92672>]</span>:5678-&gt;5678/tcp
-</span></span><span style=display:flex><span>ollama    ollama/ollama:latest             <span style=color:#e6db74>&#34;/bin/ollama serve&#34;</span>      ollama    About a minute ago   Up About a minute   0.0.0.0:11434-&gt;11434/tcp, <span style=color:#f92672>[</span>::<span style=color:#f92672>]</span>:11434-&gt;11434/tcp
-</span></span></code></pre></div><hr><h3 id=step-2-ollama-setup--model-pulling class="relative group">Step 2: Ollama Setup & Model Pulling <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#step-2-ollama-setup--model-pulling aria-label=Anchor>#</a></span></h3><p>Pull the Llama 3 LLM model into the Ollama container:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>system@admin:~/n8n-ollama-lab$ docker exec -it ollama ollama pull llama3
-</span></span><span style=display:flex><span>pulling manifest 
-</span></span><span style=display:flex><span>pulling 6a0746a1ec1a: 100% ▕██████████████████████████████████████████████████████████████████████████████████████████████████████████████ ▏ 4.7 GB/4.7 GB  6.9 MB/s      0s
-</span></span><span style=display:flex><span>verifying sha256 digest 
-</span></span><span style=display:flex><span>writing manifest 
-</span></span><span style=display:flex><span>success 
-</span></span></code></pre></div><p>Verify available models:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>system@admin:~/n8n-ollama-lab$ docker exec -it ollama ollama list
-</span></span><span style=display:flex><span>NAME             ID              SIZE      MODIFIED      
-</span></span><span style=display:flex><span>llama3:latest    365c0bd3c000    4.7 GB    <span style=color:#ae81ff>2</span> minutes ago   
-</span></span></code></pre></div><h3 id=step-3-workspace-preparation class="relative group">Step 3: Workspace Preparation <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#step-3-workspace-preparation aria-label=Anchor>#</a></span></h3><p>Place your base Master Resume markdown file in the shared mounted workspace folder on the host:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>system@admin:~/n8n-ollama-lab$ sudo nano ~/n8n-ollama-lab/workspace/master_resume.md
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>sudo<span style=color:#f92672>]</span> password <span style=color:#66d9ef>for</span> system: 
-</span></span><span style=display:flex><span>system@admin:~/n8n-ollama-lab$ 
-</span></span></code></pre></div><p>Add your complete background details into this file and save it.</p><p>Set proper file ownership and read permissions for n8n container user execution:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>system@admin:~/n8n-ollama-lab$ sudo chmod -R <span style=color:#ae81ff>777</span> ~/n8n-ollama-lab/workspace/
-</span></span></code></pre></div><h3 id=step-4-workflow-construction class="relative group">Step 4: Workflow Construction <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#step-4-workflow-construction aria-label=Anchor>#</a></span></h3><ul><li>Open web browser and navigate to http://&lt;SERVER_IP_OR_LOCALHOST>:5678.</li><li>Complete owner account setup upon first load.</li><li>Click Create Workflow and configure the nodes in sequence:</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#f92672>[</span> On form submission <span style=color:#f92672>]</span> ---&gt; <span style=color:#f92672>[</span> Read File from Disk <span style=color:#f92672>]</span> ---&gt; <span style=color:#f92672>[</span> HTTP Request <span style=color:#f92672>]</span> ---&gt; <span style=color:#f92672>[</span> Convert to File <span style=color:#f92672>]</span>  ---&gt; <span style=color:#f92672>[</span> Convert a File<span style=color:#f92672>]</span> ---&gt; <span style=color:#f92672>[</span>Write File to Disk<span style=color:#f92672>]</span>
-</span></span></code></pre></div><p><strong>n8n Setup</strong><figure><img src=/images/lab10/image5.png alt="n8n Setup" class="mx-auto my-0 rounded-md"></figure></p><p><figure><img src=/images/lab10/image6.png alt="n8n Setup" class="mx-auto my-0 rounded-md"></figure></p><h4 id=node-1-on-form-submission-trigger class="relative group">Node 1: <code>On form submission</code> (Trigger) <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#node-1-on-form-submission-trigger aria-label=Anchor>#</a></span></h4><ul><li><strong>Form Title:</strong> <code>IT Job Tailor Assistant</code></li><li><strong>Form Fields:</strong><ul><li>Field 1: <code>Target Company</code> (Text)</li><li>Field 2: <code>Job Description</code> (Textarea)</li></ul></li></ul><p><figure><img src=/images/lab10/image7.png alt="n8n Setup" class="mx-auto my-0 rounded-md"></figure></p><p><figure><img src=/images/lab10/image9.png alt="n8n Setup" class="mx-auto my-0 rounded-md"></figure></p><h4 id=node-2-read-file-from-disk-readwrite-files-from-disk class="relative group">Node 2: <code>Read File from Disk</code> (<code>Read/Write Files from Disk</code>) <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#node-2-read-file-from-disk-readwrite-files-from-disk aria-label=Anchor>#</a></span></h4><ul><li><strong>Operation:</strong> <code>Read File(s) From Disk</code></li><li><strong>File Path:</strong> <code>/home/node/.n8n-files/workspace/master_resume.md</code></li><li><strong>Output Property:</strong> <code>data</code></li></ul><p><figure><img src=/images/lab10/image10.png alt="n8n Setup" class="mx-auto my-0 rounded-md"></figure></p><h4 id=node-3-http-request-ollama-generation-node class="relative group">Node 3: <code>HTTP Request</code> (Ollama Generation Node) <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#node-3-http-request-ollama-generation-node aria-label=Anchor>#</a></span></h4><ul><li><strong>Method:</strong> <code>POST</code></li><li><strong>URL:</strong> <code>http://ollama:11434/api/generate</code></li><li><strong>Send Body:</strong> <code>Enabled</code></li><li><strong>Body Content Type:</strong> <code>JSON</code></li><li><strong>Specify Body:</strong> <code>Using Fields Below</code></li><li><strong>Options -> Timeout:</strong> <code>900000</code> (15 minutes limit to allow generation)</li></ul><p><strong>Body Parameters:</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-t data-lang=t><span style=display:flex><span><span style=color:#f92672>|</span> Parameter Name <span style=color:#f92672>|</span> Value Mode        <span style=color:#f92672>|</span> Value Content <span style=color:#f92672>/</span> Expression   <span style=color:#f92672>|</span> 
-</span></span><span style=display:flex><span><span style=color:#f92672>|</span> :<span style=color:#f92672>---</span>           <span style=color:#f92672>|</span> :<span style=color:#f92672>---</span>              <span style=color:#f92672>|</span> :<span style=color:#f92672>---</span>                         <span style=color:#f92672>|</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>|</span> <span style=color:#e6db74>`model`</span>        <span style=color:#f92672>|</span> Fixed             <span style=color:#f92672>|</span> <span style=color:#e6db74>`llama3:latest`</span>              <span style=color:#f92672>|</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>|</span> <span style=color:#e6db74>`stream`</span>       <span style=color:#f92672>|</span> Expression (<span style=color:#e6db74>`fx`</span>) <span style=color:#f92672>|</span> <span style=color:#e6db74>`{{ false }}`</span>                <span style=color:#f92672>|</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>|</span> <span style=color:#e6db74>`prompt`</span>       <span style=color:#f92672>|</span> Expression (<span style=color:#e6db74>`fx`</span>) <span style=color:#f92672>|</span> <span style=color:#f92672>*</span>(See Prompt Payload below)<span style=color:#f92672>*</span> <span style=color:#f92672>|</span>
-</span></span></code></pre></div><p><strong>Prompt Payload:</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>You are a highly detailed and expert IT Resume and Cover Letter Writer.
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>TASK:
-</span></span><span style=display:flex><span>Generate TWO distinct, high-quality, and complete Markdown documents:
-</span></span><span style=display:flex><span>1. <span style=color:#75715e># Tailored Resume</span>
-</span></span><span style=display:flex><span>2. <span style=color:#75715e># Professional Cover Letter</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>CRITICAL RULES:
-</span></span><span style=display:flex><span>- Extrapolate and strictly use ALL real skills, experience, qualifications, and achievements from the MASTER RESUME TEXT below.
-</span></span><span style=display:flex><span>- NEVER use generic placeholders like <span style=color:#f92672>[</span>Your Name<span style=color:#f92672>]</span>, <span style=color:#f92672>[</span>Company Name<span style=color:#f92672>]</span>, <span style=color:#f92672>[</span>Dates<span style=color:#f92672>]</span>, or <span style=color:#f92672>[</span>Manager Name<span style=color:#f92672>]</span>. Use exact details where available.
-</span></span><span style=display:flex><span>- Highlight technical strengths relevant to the job role.
-</span></span><span style=display:flex><span>- The Cover Letter must clearly express enthusiasm <span style=color:#66d9ef>for</span> the specific role described in the JOB DESCRIPTION, highlighting how the applicant<span style=color:#e6db74>&#39;s exact technical background maps to the position.
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>### JOB DESCRIPTION:
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>{{ $(&#39;</span>On form submission<span style=color:#e6db74>&#39;).item.json[&#39;</span>Job Description<span style=color:#e6db74>&#39;] }}
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>### MASTER RESUME TEXT:
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>{{ Buffer.from($(&#39;</span>Read/Write Files from Disk<span style=color:#e6db74>&#39;).item.binary.data.data, &#39;</span>base64<span style=color:#e6db74>&#39;).toString(&#39;</span>utf8<span style=color:#960050;background-color:#1e0010>&#39;</span><span style=color:#f92672>)</span> <span style=color:#f92672>}}</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>Return ONLY the Markdown content <span style=color:#66d9ef>for</span> both sections without any introductory text or conversational preamble.
-</span></span></code></pre></div><h4 id=node-4-convert-to-file class="relative group">Node 4: <code>Convert to File</code> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#node-4-convert-to-file aria-label=Anchor>#</a></span></h4><ul><li><strong>Operation:</strong> <code>Convert Text to File</code></li><li><strong>Text Input Field:</strong> <code>response</code></li><li><strong>Put Output File in Field:</strong> <code>data</code></li><li><strong>Options -> File Name:</strong> <code>input.md</code></li><li><strong>Options -> Mime Type:</strong> <code>text/markdown</code></li></ul><p><figure><img src=/images/lab10/image.png alt="n8n Setup" class="mx-auto my-0 rounded-md"></figure></p><h3 id=node-5-convert-a-file-cloudconvert-node class="relative group">Node 5: <code>Convert a file</code> (CloudConvert Node) <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#node-5-convert-a-file-cloudconvert-node aria-label=Anchor>#</a></span></h3><ul><li><strong>Resource:</strong> <code>File</code></li><li><strong>Operation:</strong> <code>Convert File</code></li><li><strong>Output Format:</strong> <code>docx</code></li><li><strong>Binary Input Data:</strong> <code>Enabled</code></li><li><strong>Binary Property:</strong> <code>data</code></li><li><strong>Additional Options -> Input Format:</strong> <code>md</code></li></ul><p><figure><img src=/images/lab10/image1.png alt="n8n Setup" class="mx-auto my-0 rounded-md"></figure></p><h4 id=node-6-readwrite-files-from-disk1-write-file-node class="relative group">Node 6: <code>Read/Write Files from Disk1</code> (Write File Node) <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#node-6-readwrite-files-from-disk1-write-file-node aria-label=Anchor>#</a></span></h4><ul><li><strong>Operation:</strong> <code>Write File to Disk</code></li><li><strong>File Path and Name (Expression <code>fx</code>):</strong><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#f92672>{{</span> <span style=color:#e6db74>&#39;/home/node/.n8n-files/workspace/tailored_resume_&#39;</span> + <span style=color:#66d9ef>$(</span><span style=color:#e6db74>&#39;On form submission&#39;</span><span style=color:#66d9ef>)</span>.item.json<span style=color:#f92672>[</span><span style=color:#e6db74>&#39;Target Company&#39;</span><span style=color:#f92672>]</span> + <span style=color:#e6db74>&#39;.docx&#39;</span> <span style=color:#f92672>}}</span>
-</span></span></code></pre></div></li><li><strong>Input Binary Field:</strong> <code>data</code><figure><img src=/images/lab10/image11.png alt="n8n Setup" class="mx-auto my-0 rounded-md"></figure><figure><img src=/images/lab10/image12.png alt="n8n Setup" class="mx-auto my-0 rounded-md"></figure></li></ul><h3 id=constraints--key-considerations class="relative group">Constraints & Key Considerations <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#constraints--key-considerations aria-label=Anchor>#</a></span></h3><ol><li><strong>Inference Latency & Timeouts:</strong> Running LLMs locally (e.g., Llama 3 8B) on CPU hardware requires extending node HTTP timeout limits to <code>900000ms</code> (15 minutes) in n8n to avoid premature <code>ECONNABORTED</code> execution failures.</li><li><strong>Type Mapping in Payload Data:</strong> The Ollama API strictly enforces Boolean data types for parameter parameters like <code>stream</code>. Sending <code>"false"</code> as a string causes Go unmarshaling errors; setting expression mode to <code>{{ false }}</code> ensures correct JSON payload formatting.</li><li><strong>MIME Type and Binary Input Definitions:</strong> External conversion APIs require explicit declaration of input formatting (<code>Input Format: md</code>) when consuming binary streams directly from preceding nodes in memory.</li></ol><h4 id=step-6-testing--end-to-end-verification class="relative group">Step 6: Testing & End-to-End Verification <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#step-6-testing--end-to-end-verification aria-label=Anchor>#</a></span></h4><ol><li>Click <strong>Execute Workflow</strong> in n8n.</li><li>Open the Form URL generated by Node 1.</li><li>Fill in <code>Target Company</code> and paste a target <code>Job Description</code>.</li><li>Submit the form.</li><li>Check workflow logs in n8n to ensure all nodes complete with green checkmarks.</li><li>Verify output document generation on host system:</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>system@admin:~$ ls -la ~/n8n-ollama-lab/workspace/
-</span></span><span style=display:flex><span>total <span style=color:#ae81ff>20</span>
-</span></span><span style=display:flex><span>drwxrwxrwx <span style=color:#ae81ff>2</span> system docker <span style=color:#ae81ff>4096</span> Aug  <span style=color:#ae81ff>5</span> 17:57  .
-</span></span><span style=display:flex><span>drwxrwxr-x <span style=color:#ae81ff>3</span> system docker <span style=color:#ae81ff>4096</span> Aug  <span style=color:#ae81ff>5</span> 12:19  ..
-</span></span><span style=display:flex><span>-rwxrwxrwx <span style=color:#ae81ff>1</span> root   root   <span style=color:#ae81ff>3447</span> Aug  <span style=color:#ae81ff>5</span> 13:08  master_resume.md
-</span></span><span style=display:flex><span>-rw-r--r-- <span style=color:#ae81ff>1</span> system system <span style=color:#ae81ff>6563</span> Aug  <span style=color:#ae81ff>5</span> 17:55 <span style=color:#e6db74>&#39;tailored_resume_System Administrator _ Thales.docx&#39;</span>
-</span></span></code></pre></div><p><figure><img src=/images/lab10/image3.png alt="n8n Setup" class="mx-auto my-0 rounded-md"></figure></p><h2 id=n8n-setup class="relative group"><figure><img src=/images/lab10/image4.png alt="n8n Setup" class="mx-auto my-0 rounded-md"></figure><span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#n8n-setup aria-label=Anchor>#</a></span></h2><h2 id=conclusion class="relative group">Conclusion <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#conclusion aria-label=Anchor>#</a></span></h2><p>This lab successfully demonstrates an end-to-end local AI workflow that takes a target job description, cross-references it with a candidate&rsquo;s master resume, and automatically outputs a fully formatted, customized <code>.docx</code> resume and cover letter. The architecture ensures complete data privacy while streamlining the career application workflow through local infrastructure automation.</p></div></section><footer class="max-w-prose pt-8 print:hidden"><div class=pt-8><hr class="border-dotted border-neutral-300 dark:border-neutral-600"><div class="flex justify-between pt-3"><span><a class="group flex" href=https://ryanburmese-crypto.github.io/posts/lab9/><span class="me-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"><span class="ltr:inline rtl:hidden">&larr;</span><span class="ltr:hidden rtl:inline">&rarr;</span></span>
-<span class="flex flex-col"><span class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500">Lab 9: Building a Local AI News Automation Agent with Docker, Ollama, n8n & Telegram</span>
-<span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400"><time datetime="2026-07-28 14:25:50 +1000 AEST">July 28, 2026</time>
-</span></span></a></span><span><a class="group flex text-right" href=https://ryanburmese-crypto.github.io/posts/lab11/><span class="flex flex-col"><span class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500">Lab 11: Building a Custom Linux System Administrator Toolbox Container</span>
-<span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400"><time datetime="2026-08-05 20:29:44 +1000 AEST">August 5, 2026</time>
-</span></span><span class="ms-2 text-neutral-700 transition-transform group-hover:-translate-x-[-2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"><span class="ltr:inline rtl:hidden">&rarr;</span><span class="ltr:hidden rtl:inline">&larr;</span></span></a></span></div></div></footer></article></main><div class="pointer-events-none absolute bottom-0 end-0 top-[100vh] w-12" id=to-top hidden=true><a href=#the-top class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 backdrop-blur hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400" aria-label="Scroll to top" title="Scroll to top">&uarr;</a></div><footer class="py-10 print:hidden"><div class="flex items-center justify-between"><div><p class="text-sm text-neutral-500 dark:text-neutral-400">&copy;
-2026</p><p class="text-xs text-neutral-500 dark:text-neutral-400">Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href=https://gohugo.io/ target=_blank rel="noopener noreferrer">Hugo</a> & <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href=https://github.com/jpanther/congo target=_blank rel="noopener noreferrer">Congo</a></p></div><div class="flex flex-row items-center"></div></div></footer></div></body></html>
+    "
+  />
+  
+  
+  
+  
+    <link rel="canonical" href="http://localhost:1313/posts/lab10/" />
+  
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="http://localhost:1313/posts/lab10/">
+	<meta property="og:site_name" content="Ryan Burman | Tech Lab">
+	<meta property="og:title" content="Lab 10: Self-Hosted Automated AI Resume Tailoring Pipeline">
+	<meta property="og:description" content="Step-by-step guide to building a privacy-focused local AI resume and cover letter tailoring pipeline using Docker, Ollama (Llama 3), n8n workflow automation, and CloudConvert.">
+	<meta property="og:locale" content="en">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-08-05T18:10:00+10:00">
+		<meta property="article:modified_time" content="2026-08-05T18:10:00+10:00">
+		<meta property="article:tag" content="Docker">
+		<meta property="article:tag" content="Ollama">
+		<meta property="article:tag" content="N8n">
+		<meta property="article:tag" content="CloudConvert">
+		<meta property="article:tag" content="LLM">
+		<meta property="article:tag" content="AI Agent">
+
+  
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Lab 10: Self-Hosted Automated AI Resume Tailoring Pipeline">
+	<meta name="twitter:description" content="Step-by-step guide to building a privacy-focused local AI resume and cover letter tailoring pipeline using Docker, Ollama (Llama 3), n8n workflow automation, and CloudConvert.">
+
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Featured Projects \u0026 Labs",
+    "name": "Lab 10: Self-Hosted Automated AI Resume Tailoring Pipeline",
+    "headline": "Lab 10: Self-Hosted Automated AI Resume Tailoring Pipeline",
+    "description": "Step-by-step guide to building a privacy-focused local AI resume and cover letter tailoring pipeline using Docker, Ollama (Llama 3), n8n workflow automation, and CloudConvert.",
+    "abstract": "\u003cstyle\u003e\n  .max-w-prose, article, .prose { \n    max-width: 100% !important; \n    width: 100% !important; \n  }\n\u003c\/style\u003e\n\u003ch2 id=\u0022executive-summary\u0022 class=\u0022relative group\u0022\u003eExecutive Summary \u003cspan class=\u0022absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100\u0022\u003e\u003ca class=\u0022group-hover:text-primary-300 dark:group-hover:text-neutral-700\u0022 style=\u0022text-decoration-line: none !important;\u0022 href=\u0022#executive-summary\u0022 aria-label=\u0022Anchor\u0022\u003e#\u003c\/a\u003e\u003c\/span\u003e\u003c\/h2\u003e\u003cp\u003eThis project demonstrates a self-hosted, privacy-focused automation pipeline built using Docker, n8n, Ollama (Llama 3), and CloudConvert. The solution automates the process of tailoring a candidate\u0026rsquo;s master resume and generating a matching cover letter specific to any target job description.\u003c\/p\u003e\n\u003cp\u003eBy running Large Language Models (LLMs) locally via Ollama, sensitive personal data never leaves the host infrastructure during the generation process. The final output is automatically compiled into a clean, employer-ready Microsoft Word document (.docx) and saved to a local workspace.\u003c\/p\u003e",
+    "inLanguage": "en",
+    "url" : "http:\/\/localhost:1313\/posts\/lab10\/",
+    "author" : {
+      "@type": "Person",
+      "name": ""
+    },
+    "copyrightYear": "2026",
+    "dateCreated": "2026-08-05T18:10:00\u002b10:00",
+    "datePublished": "2026-08-05T18:10:00\u002b10:00",
+    
+    "dateModified": "2026-08-05T18:10:00\u002b10:00",
+    
+    "keywords": ["Docker","Ollama","n8n","CloudConvert","LLM","AI Agent","Ubuntu","Automation"],
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "1491"
+  }
+  </script>
+    
+    <script type="application/ld+json">
+    {
+   "@context": "https://schema.org",
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+     {
+       "@type": "ListItem",
+       "item": "http://localhost:1313/",
+       "name": "Welcome to My Tech Space",
+       "position": 1
+     },
+     {
+       "@type": "ListItem",
+       "item": "http://localhost:1313/posts/",
+       "name": "Featured Projects \u0026 Labs",
+       "position": 2
+     },
+     {
+       "@type": "ListItem",
+       "name": "Lab 10 Self Hosted Automated Ai Resume Tailoring Pipeline",
+       "position": 3
+     }
+   ]
+ }
+  </script>
+
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+  
+  
+
+  
+  
+</head>
+<body
+    class="m-auto flex h-screen max-w-7xl flex-col bg-neutral px-6 text-lg leading-7 text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32"
+  >
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="-translate-y-8 rounded-b-lg bg-primary-200 px-3 py-1 text-sm focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content"
+        ><span class="pe-2 font-bold text-primary-600 dark:text-primary-400">&darr;</span
+        >Skip to main content</a
+      >
+    </div>
+    
+    
+      <header class="py-6 font-semibold text-neutral-900 dark:text-neutral sm:py-10 print:hidden">
+  <nav class="flex items-start justify-between sm:items-center">
+    
+    <div class="flex flex-row items-center">
+      
+  <a
+    class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2"
+    rel="me"
+    href="/"
+    >Ryan Burman | Tech Lab</a
+  >
+
+    </div>
+    
+    
+      <ul class="flex list-none flex-col text-end sm:flex-row">
+        
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/"
+                  title=""
+                  
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Home</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/portfolio/"
+                  title=""
+                  
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Portfolio</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/posts/"
+                  title=""
+                  
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Projects</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/contact/"
+                  title=""
+                  
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Contact</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+          
+        
+      </ul>
+    
+  </nav>
+</header>
+
+    
+    <div class="relative flex grow flex-col">
+      <main id="main-content" class="grow">
+        
+  <article>
+    <header class="max-w-prose">
+      
+      <h1 class="mb-8 mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        Lab 10: Self-Hosted Automated AI Resume Tailoring Pipeline
+      </h1>
+      
+        <div class="mb-10 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+          
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+    
+  
+
+  
+
+  
+
+  
+    
+  
+
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <time datetime="2026-08-05 18:10:00 &#43;1000 AEST">August 5, 2026</time><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">8 mins</span>
+    
+
+    
+    
+  </div>
+
+  
+  
+
+
+        </div>
+      
+      
+    </header>
+    <section class="prose mt-0 flex max-w-full flex-col dark:prose-invert lg:flex-row">
+      
+      <div class="min-h-0 min-w-0 max-w-prose grow">
+        <style>
+  .max-w-prose, article, .prose { 
+    max-width: 100% !important; 
+    width: 100% !important; 
+  }
+</style>
+<h2 id="executive-summary" class="relative group">Executive Summary <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#executive-summary" aria-label="Anchor">#</a></span></h2><p>This project demonstrates a self-hosted, privacy-focused automation pipeline built using Docker, n8n, Ollama (Llama 3), and CloudConvert. The solution automates the process of tailoring a candidate&rsquo;s master resume and generating a matching cover letter specific to any target job description.</p>
+<p>By running Large Language Models (LLMs) locally via Ollama, sensitive personal data never leaves the host infrastructure during the generation process. The final output is automatically compiled into a clean, employer-ready Microsoft Word document (.docx) and saved to a local workspace.</p>
+<h2 id="technical-architecture--workflow-design" class="relative group">Technical Architecture &amp; Workflow Design <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#technical-architecture--workflow-design" aria-label="Anchor">#</a></span></h2><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span> n8n Form Submission <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>          │
+</span></span><span style="display:flex;"><span>          ▼
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> Read Master Resume <span style="color:#f92672">(</span>.md<span style="color:#f92672">)</span> <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>          │
+</span></span><span style="display:flex;"><span>          ▼
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> HTTP Request <span style="color:#f92672">(</span>Ollama Llama 3<span style="color:#f92672">)</span> <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>          │
+</span></span><span style="display:flex;"><span>          ▼
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> Convert Text to File <span style="color:#f92672">(</span>.md<span style="color:#f92672">)</span> <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>          │
+</span></span><span style="display:flex;"><span>          ▼
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> CloudConvert <span style="color:#f92672">(</span>MD -&gt; DOCX<span style="color:#f92672">)</span> <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>          │
+</span></span><span style="display:flex;"><span>          ▼
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> Save Final <span style="color:#f92672">(</span>.docx<span style="color:#f92672">)</span> to Disk <span style="color:#f92672">]</span>
+</span></span></code></pre></div><h2 id="component-overview" class="relative group">Component Overview <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#component-overview" aria-label="Anchor">#</a></span></h2><ul>
+<li>n8n Form Submission (Trigger): Captures the target company name and job description text from the user.</li>
+<li>Read File from Disk: Loads the local master_resume.md file from the host workspace.</li>
+<li>HTTP Request (Ollama API): Sends the master resume and job description to the local Ollama instance (llama3:latest) via API to generate a tailored resume and cover letter.</li>
+<li>Convert to File: Transforms the raw LLM text response into a structured .md binary file.</li>
+<li>Convert a File (CloudConvert): Calls the CloudConvert API to convert the Markdown file into a formatted Microsoft Word document (.docx).</li>
+<li>Write File to Disk: Writes the generated .docx file back to the host system using dynamic naming (e.g., tailored_resume_System Administrator _ Thales.docx).</li>
+</ul>
+<h2 id="infrastructure-setup--installation-guide" class="relative group">Infrastructure Setup &amp; Installation Guide <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#infrastructure-setup--installation-guide" aria-label="Anchor">#</a></span></h2><h3 id="prerequisites" class="relative group">Prerequisites <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#prerequisites" aria-label="Anchor">#</a></span></h3><ul>
+<li>OS: Ubuntu 22.04 LTS / 24.04 LTS or Debian-based Linux environment</li>
+<li>Hardware: Minimum 8GB RAM (16GB recommended for LLM processing)</li>
+<li>Software: Docker Engine &amp; Docker Compose Plugin installed</li>
+</ul>
+<h2 id="step-1-docker--docker-compose-setup" class="relative group">Step 1: Docker &amp; Docker Compose Setup <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#step-1-docker--docker-compose-setup" aria-label="Anchor">#</a></span></h2><p>Update system package index and install required packages:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>system@admin:~$ sudo apt update <span style="color:#f92672">&amp;&amp;</span> sudo apt upgrade -y
+</span></span><span style="display:flex;"><span>sudo apt install -y ca-certificates curl gnupg lsb-release git
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>sudo<span style="color:#f92672">]</span> password <span style="color:#66d9ef">for</span> system: 
+</span></span><span style="display:flex;"><span>Hit:1 http://au.archive.ubuntu.com/ubuntu noble InRelease
+</span></span><span style="display:flex;"><span>Hit:2 http://au.archive.ubuntu.com/ubuntu noble-updates InRelease                                   
+</span></span><span style="display:flex;"><span>Hit:3 http://au.archive.ubuntu.com/ubuntu noble-backports InRelease                                          
+</span></span><span style="display:flex;"><span>Hit:4 https://dl.google.com/linux/chrome-stable/deb stable InRelease                                         
+</span></span><span style="display:flex;"><span>Hit:5 http://security.ubuntu.com/ubuntu noble-security InRelease                                    
+</span></span><span style="display:flex;"><span>Reading package lists... Done
+</span></span><span style="display:flex;"><span>Building dependency tree... Done
+</span></span><span style="display:flex;"><span>Reading state information... Done
+</span></span></code></pre></div><p>Add Docker’s official GPG key and repository:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>system@admin:~$ sudo install -m <span style="color:#ae81ff">0755</span> -d /etc/apt/keyrings
+</span></span><span style="display:flex;"><span>curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+</span></span><span style="display:flex;"><span>sudo chmod a+r /etc/apt/keyrings/docker.gpg
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;deb [arch=</span><span style="color:#66d9ef">$(</span>dpkg --print-architecture<span style="color:#66d9ef">)</span><span style="color:#e6db74"> signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  </span><span style="color:#66d9ef">$(</span>. /etc/os-release <span style="color:#f92672">&amp;&amp;</span> echo <span style="color:#e6db74">&#34;</span>$VERSION_CODENAME<span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74"> stable&#34;</span> | <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
+</span></span><span style="display:flex;"><span>system@admin:~$ 
+</span></span></code></pre></div><p>Install Docker Engine and Docker Compose plugin:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>system@admin:~$ sudo apt update
+</span></span><span style="display:flex;"><span>sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+</span></span></code></pre></div><p>Enable and start Docker service, then add your current user to the docker group:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>system@admin:~$ sudo systemctl enable --now docker
+</span></span><span style="display:flex;"><span>sudo usermod -aG docker $USER
+</span></span><span style="display:flex;"><span>newgrp docker
+</span></span><span style="display:flex;"><span>Synchronizing state of docker.service with SysV service script with /usr/lib/systemd/systemd-sysv-install.
+</span></span><span style="display:flex;"><span>Executing: /usr/lib/systemd/systemd-sysv-install enable doc
+</span></span></code></pre></div><h3 id="directory-setup--docker-composeyml-configuration" class="relative group">Directory Setup &amp; docker-compose.yml Configuration <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#directory-setup--docker-composeyml-configuration" aria-label="Anchor">#</a></span></h3><p>Create dedicated project directory structure:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>system@admin:~$ mkdir -p ~/n8n-ollama-lab/workspace
+</span></span><span style="display:flex;"><span>cd ~/n8n-ollama-lab
+</span></span></code></pre></div><p>Create a docker-compose.yml file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>system@admin:~/n8n-ollama-lab$ nano docker-compose.yml
+</span></span></code></pre></div><p>Paste the following container orchestration manifest:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3.8&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">ollama</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">ollama/ollama:latest</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">ollama</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;11434:11434&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">ollama_storage:/root/.ollama</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">ai-network</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">n8n</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">docker.n8n.io/n8nio/n8n:latest</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">n8n</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;5678:5678&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">N8N_HOST=localhost</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">N8N_PORT=5678</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">N8N_PROTOCOL=http</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">NODE_FUNCTION_ALLOW_BUILTIN=*</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">n8n_storage:/home/node/.n8n</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./workspace:/home/node/.n8n-files/workspace</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">ai-network</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">depends_on</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">ollama</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">ai-network</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">driver</span>: <span style="color:#ae81ff">bridge</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">ollama_storage</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">n8n_storage</span>:
+</span></span></code></pre></div><p>Launch services in detached mode:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>system@admin:~/n8n-ollama-lab$ sudo docker compose up -d
+</span></span><span style="display:flex;"><span>WARN<span style="color:#f92672">[</span>0000<span style="color:#f92672">]</span> /home/system/n8n-ollama-lab/docker-compose.yml: the attribute <span style="color:#e6db74">`</span>version<span style="color:#e6db74">`</span> is obsolete, it will be ignored, please remove it to avoid potential confusion 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> up 16/18
+</span></span><span style="display:flex;"><span> ✔ Image docker.n8n.io/n8nio/n8n:latest Pulled                                                                                   163.2s ✔ Image ollama/ollama:latest           Pulled                                                                                   574.0s
+</span></span><span style="display:flex;"><span> ✔ Volume n8n-ollama-lab_ollama_storage Created                                                                                    0.0s
+</span></span><span style="display:flex;"><span> ✔ Network n8n-ollama-lab_ai-network    Created                                                                                    0.0s
+</span></span><span style="display:flex;"><span> ✔ Volume n8n-ollama-lab_n8n_storage    Created                                                                                    0.0s
+</span></span><span style="display:flex;"><span> ✔ Container ollama                     Started                                                                                    0.5s
+</span></span><span style="display:flex;"><span> ✔ Container n8n                        Started                                                                                    0.4s
+</span></span></code></pre></div><p>Verify running containers:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ystem@admin:~/n8n-ollama-lab$ docker compose ps
+</span></span><span style="display:flex;"><span>WARN<span style="color:#f92672">[</span>0000<span style="color:#f92672">]</span> /home/system/n8n-ollama-lab/docker-compose.yml: the attribute <span style="color:#e6db74">`</span>version<span style="color:#e6db74">`</span> is obsolete, it will be ignored, please remove it to avoid potential confusion 
+</span></span><span style="display:flex;"><span>NAME      IMAGE                            COMMAND                  SERVICE   CREATED              STATUS              PORTS
+</span></span><span style="display:flex;"><span>n8n       docker.n8n.io/n8nio/n8n:latest   <span style="color:#e6db74">&#34;tini -- /docker-ent…&#34;</span>   n8n       About a minute ago   Up About a minute   0.0.0.0:5678-&gt;5678/tcp, <span style="color:#f92672">[</span>::<span style="color:#f92672">]</span>:5678-&gt;5678/tcp
+</span></span><span style="display:flex;"><span>ollama    ollama/ollama:latest             <span style="color:#e6db74">&#34;/bin/ollama serve&#34;</span>      ollama    About a minute ago   Up About a minute   0.0.0.0:11434-&gt;11434/tcp, <span style="color:#f92672">[</span>::<span style="color:#f92672">]</span>:11434-&gt;11434/tcp
+</span></span></code></pre></div><hr>
+<h3 id="step-2-ollama-setup--model-pulling" class="relative group">Step 2: Ollama Setup &amp; Model Pulling <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#step-2-ollama-setup--model-pulling" aria-label="Anchor">#</a></span></h3><p>Pull the Llama 3 LLM model into the Ollama container:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>system@admin:~/n8n-ollama-lab$ docker exec -it ollama ollama pull llama3
+</span></span><span style="display:flex;"><span>pulling manifest 
+</span></span><span style="display:flex;"><span>pulling 6a0746a1ec1a: 100% ▕██████████████████████████████████████████████████████████████████████████████████████████████████████████████ ▏ 4.7 GB/4.7 GB  6.9 MB/s      0s
+</span></span><span style="display:flex;"><span>verifying sha256 digest 
+</span></span><span style="display:flex;"><span>writing manifest 
+</span></span><span style="display:flex;"><span>success 
+</span></span></code></pre></div><p>Verify available models:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>system@admin:~/n8n-ollama-lab$ docker exec -it ollama ollama list
+</span></span><span style="display:flex;"><span>NAME             ID              SIZE      MODIFIED      
+</span></span><span style="display:flex;"><span>llama3:latest    365c0bd3c000    4.7 GB    <span style="color:#ae81ff">2</span> minutes ago   
+</span></span></code></pre></div><h3 id="step-3-workspace-preparation" class="relative group">Step 3: Workspace Preparation <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#step-3-workspace-preparation" aria-label="Anchor">#</a></span></h3><p>Place your base Master Resume markdown file in the shared mounted workspace folder on the host:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>system@admin:~/n8n-ollama-lab$ sudo nano ~/n8n-ollama-lab/workspace/master_resume.md
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>sudo<span style="color:#f92672">]</span> password <span style="color:#66d9ef">for</span> system: 
+</span></span><span style="display:flex;"><span>system@admin:~/n8n-ollama-lab$ 
+</span></span></code></pre></div><p>Add your complete background details into this file and save it.</p>
+<p>Set proper file ownership and read permissions for n8n container user execution:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>system@admin:~/n8n-ollama-lab$ sudo chmod -R <span style="color:#ae81ff">777</span> ~/n8n-ollama-lab/workspace/
+</span></span></code></pre></div><h3 id="step-4-workflow-construction" class="relative group">Step 4: Workflow Construction <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#step-4-workflow-construction" aria-label="Anchor">#</a></span></h3><ul>
+<li>Open web browser and navigate to http://&lt;SERVER_IP_OR_LOCALHOST&gt;:5678.</li>
+<li>Complete owner account setup upon first load.</li>
+<li>Click Create Workflow and configure the nodes in sequence:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span> On form submission <span style="color:#f92672">]</span> ---&gt; <span style="color:#f92672">[</span> Read File from Disk <span style="color:#f92672">]</span> ---&gt; <span style="color:#f92672">[</span> HTTP Request <span style="color:#f92672">]</span> ---&gt; <span style="color:#f92672">[</span> Convert to File <span style="color:#f92672">]</span>  ---&gt; <span style="color:#f92672">[</span> Convert a File<span style="color:#f92672">]</span> ---&gt; <span style="color:#f92672">[</span>Write File to Disk<span style="color:#f92672">]</span>
+</span></span></code></pre></div><p><strong>n8n Setup</strong>
+
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/lab10/image5.png" alt="n8n Setup" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/lab10/image6.png" alt="n8n Setup" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<h4 id="node-1-on-form-submission-trigger" class="relative group">Node 1: <code>On form submission</code> (Trigger) <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#node-1-on-form-submission-trigger" aria-label="Anchor">#</a></span></h4><ul>
+<li><strong>Form Title:</strong> <code>IT Job Tailor Assistant</code></li>
+<li><strong>Form Fields:</strong>
+<ul>
+<li>Field 1: <code>Target Company</code> (Text)</li>
+<li>Field 2: <code>Job Description</code> (Textarea)</li>
+</ul>
+</li>
+</ul>
+<p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/lab10/image7.png" alt="n8n Setup" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/lab10/image9.png" alt="n8n Setup" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<h4 id="node-2-read-file-from-disk-readwrite-files-from-disk" class="relative group">Node 2: <code>Read File from Disk</code> (<code>Read/Write Files from Disk</code>) <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#node-2-read-file-from-disk-readwrite-files-from-disk" aria-label="Anchor">#</a></span></h4><ul>
+<li><strong>Operation:</strong> <code>Read File(s) From Disk</code></li>
+<li><strong>File Path:</strong> <code>/home/node/.n8n-files/workspace/master_resume.md</code></li>
+<li><strong>Output Property:</strong> <code>data</code></li>
+</ul>
+<p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/lab10/image10.png" alt="n8n Setup" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<h4 id="node-3-http-request-ollama-generation-node" class="relative group">Node 3: <code>HTTP Request</code> (Ollama Generation Node) <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#node-3-http-request-ollama-generation-node" aria-label="Anchor">#</a></span></h4><ul>
+<li><strong>Method:</strong> <code>POST</code></li>
+<li><strong>URL:</strong> <code>http://ollama:11434/api/generate</code></li>
+<li><strong>Send Body:</strong> <code>Enabled</code></li>
+<li><strong>Body Content Type:</strong> <code>JSON</code></li>
+<li><strong>Specify Body:</strong> <code>Using Fields Below</code></li>
+<li><strong>Options -&gt; Timeout:</strong> <code>900000</code> (15 minutes limit to allow generation)</li>
+</ul>
+<p><strong>Body Parameters:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-t" data-lang="t"><span style="display:flex;"><span><span style="color:#f92672">|</span> Parameter Name <span style="color:#f92672">|</span> Value Mode        <span style="color:#f92672">|</span> Value Content <span style="color:#f92672">/</span> Expression   <span style="color:#f92672">|</span> 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> :<span style="color:#f92672">---</span>           <span style="color:#f92672">|</span> :<span style="color:#f92672">---</span>              <span style="color:#f92672">|</span> :<span style="color:#f92672">---</span>                         <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#e6db74">`model`</span>        <span style="color:#f92672">|</span> Fixed             <span style="color:#f92672">|</span> <span style="color:#e6db74">`llama3:latest`</span>              <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#e6db74">`stream`</span>       <span style="color:#f92672">|</span> Expression (<span style="color:#e6db74">`fx`</span>) <span style="color:#f92672">|</span> <span style="color:#e6db74">`{{ false }}`</span>                <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#e6db74">`prompt`</span>       <span style="color:#f92672">|</span> Expression (<span style="color:#e6db74">`fx`</span>) <span style="color:#f92672">|</span> <span style="color:#f92672">*</span>(See Prompt Payload below)<span style="color:#f92672">*</span> <span style="color:#f92672">|</span>
+</span></span></code></pre></div><p><strong>Prompt Payload:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>You are a highly detailed and expert IT Resume and Cover Letter Writer.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>TASK:
+</span></span><span style="display:flex;"><span>Generate TWO distinct, high-quality, and complete Markdown documents:
+</span></span><span style="display:flex;"><span>1. <span style="color:#75715e"># Tailored Resume</span>
+</span></span><span style="display:flex;"><span>2. <span style="color:#75715e"># Professional Cover Letter</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>CRITICAL RULES:
+</span></span><span style="display:flex;"><span>- Extrapolate and strictly use ALL real skills, experience, qualifications, and achievements from the MASTER RESUME TEXT below.
+</span></span><span style="display:flex;"><span>- NEVER use generic placeholders like <span style="color:#f92672">[</span>Your Name<span style="color:#f92672">]</span>, <span style="color:#f92672">[</span>Company Name<span style="color:#f92672">]</span>, <span style="color:#f92672">[</span>Dates<span style="color:#f92672">]</span>, or <span style="color:#f92672">[</span>Manager Name<span style="color:#f92672">]</span>. Use exact details where available.
+</span></span><span style="display:flex;"><span>- Highlight technical strengths relevant to the job role.
+</span></span><span style="display:flex;"><span>- The Cover Letter must clearly express enthusiasm <span style="color:#66d9ef">for</span> the specific role described in the JOB DESCRIPTION, highlighting how the applicant<span style="color:#e6db74">&#39;s exact technical background maps to the position.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">### JOB DESCRIPTION:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">{{ $(&#39;</span>On form submission<span style="color:#e6db74">&#39;).item.json[&#39;</span>Job Description<span style="color:#e6db74">&#39;] }}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">### MASTER RESUME TEXT:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">{{ Buffer.from($(&#39;</span>Read/Write Files from Disk<span style="color:#e6db74">&#39;).item.binary.data.data, &#39;</span>base64<span style="color:#e6db74">&#39;).toString(&#39;</span>utf8<span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">}}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Return ONLY the Markdown content <span style="color:#66d9ef">for</span> both sections without any introductory text or conversational preamble.
+</span></span></code></pre></div><h4 id="node-4-convert-to-file" class="relative group">Node 4: <code>Convert to File</code> <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#node-4-convert-to-file" aria-label="Anchor">#</a></span></h4><ul>
+<li><strong>Operation:</strong> <code>Convert Text to File</code></li>
+<li><strong>Text Input Field:</strong> <code>response</code></li>
+<li><strong>Put Output File in Field:</strong> <code>data</code></li>
+<li><strong>Options -&gt; File Name:</strong> <code>input.md</code></li>
+<li><strong>Options -&gt; Mime Type:</strong> <code>text/markdown</code></li>
+</ul>
+<p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/lab10/image.png" alt="n8n Setup" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<h3 id="node-5-convert-a-file-cloudconvert-node" class="relative group">Node 5: <code>Convert a file</code> (CloudConvert Node) <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#node-5-convert-a-file-cloudconvert-node" aria-label="Anchor">#</a></span></h3><ul>
+<li><strong>Resource:</strong> <code>File</code></li>
+<li><strong>Operation:</strong> <code>Convert File</code></li>
+<li><strong>Output Format:</strong> <code>docx</code></li>
+<li><strong>Binary Input Data:</strong> <code>Enabled</code></li>
+<li><strong>Binary Property:</strong> <code>data</code></li>
+<li><strong>Additional Options -&gt; Input Format:</strong> <code>md</code></li>
+</ul>
+<p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/lab10/image1.png" alt="n8n Setup" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<h4 id="node-6-readwrite-files-from-disk1-write-file-node" class="relative group">Node 6: <code>Read/Write Files from Disk1</code> (Write File Node) <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#node-6-readwrite-files-from-disk1-write-file-node" aria-label="Anchor">#</a></span></h4><ul>
+<li><strong>Operation:</strong> <code>Write File to Disk</code></li>
+<li><strong>File Path and Name (Expression <code>fx</code>):</strong>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">{{</span> <span style="color:#e6db74">&#39;/home/node/.n8n-files/workspace/tailored_resume_&#39;</span> + <span style="color:#66d9ef">$(</span><span style="color:#e6db74">&#39;On form submission&#39;</span><span style="color:#66d9ef">)</span>.item.json<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;Target Company&#39;</span><span style="color:#f92672">]</span> + <span style="color:#e6db74">&#39;.docx&#39;</span> <span style="color:#f92672">}}</span>
+</span></span></code></pre></div></li>
+<li><strong>Input Binary Field:</strong> <code>data</code>
+
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/lab10/image11.png" alt="n8n Setup" class="mx-auto my-0 rounded-md" />
+</figure>
+
+
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/lab10/image12.png" alt="n8n Setup" class="mx-auto my-0 rounded-md" />
+</figure>
+</li>
+</ul>
+<h3 id="constraints--key-considerations" class="relative group">Constraints &amp; Key Considerations <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#constraints--key-considerations" aria-label="Anchor">#</a></span></h3><ol>
+<li><strong>Inference Latency &amp; Timeouts:</strong> Running LLMs locally (e.g., Llama 3 8B) on CPU hardware requires extending node HTTP timeout limits to <code>900000ms</code> (15 minutes) in n8n to avoid premature <code>ECONNABORTED</code> execution failures.</li>
+<li><strong>Type Mapping in Payload Data:</strong> The Ollama API strictly enforces Boolean data types for parameter parameters like <code>stream</code>. Sending <code>&quot;false&quot;</code> as a string causes Go unmarshaling errors; setting expression mode to <code>{{ false }}</code> ensures correct JSON payload formatting.</li>
+<li><strong>MIME Type and Binary Input Definitions:</strong> External conversion APIs require explicit declaration of input formatting (<code>Input Format: md</code>) when consuming binary streams directly from preceding nodes in memory.</li>
+</ol>
+<h4 id="step-6-testing--end-to-end-verification" class="relative group">Step 6: Testing &amp; End-to-End Verification <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#step-6-testing--end-to-end-verification" aria-label="Anchor">#</a></span></h4><ol>
+<li>Click <strong>Execute Workflow</strong> in n8n.</li>
+<li>Open the Form URL generated by Node 1.</li>
+<li>Fill in <code>Target Company</code> and paste a target <code>Job Description</code>.</li>
+<li>Submit the form.</li>
+<li>Check workflow logs in n8n to ensure all nodes complete with green checkmarks.</li>
+<li>Verify output document generation on host system:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>system@admin:~$ ls -la ~/n8n-ollama-lab/workspace/
+</span></span><span style="display:flex;"><span>total <span style="color:#ae81ff">20</span>
+</span></span><span style="display:flex;"><span>drwxrwxrwx <span style="color:#ae81ff">2</span> system docker <span style="color:#ae81ff">4096</span> Aug  <span style="color:#ae81ff">5</span> 17:57  .
+</span></span><span style="display:flex;"><span>drwxrwxr-x <span style="color:#ae81ff">3</span> system docker <span style="color:#ae81ff">4096</span> Aug  <span style="color:#ae81ff">5</span> 12:19  ..
+</span></span><span style="display:flex;"><span>-rwxrwxrwx <span style="color:#ae81ff">1</span> root   root   <span style="color:#ae81ff">3447</span> Aug  <span style="color:#ae81ff">5</span> 13:08  master_resume.md
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> system system <span style="color:#ae81ff">6563</span> Aug  <span style="color:#ae81ff">5</span> 17:55 <span style="color:#e6db74">&#39;tailored_resume_System Administrator _ Thales.docx&#39;</span>
+</span></span></code></pre></div><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/lab10/image3.png" alt="n8n Setup" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<h2 id="n8n-setup" class="relative group">
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/lab10/image4.png" alt="n8n Setup" class="mx-auto my-0 rounded-md" />
+</figure>
+ <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#n8n-setup" aria-label="Anchor">#</a></span></h2><h2 id="conclusion" class="relative group">Conclusion <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#conclusion" aria-label="Anchor">#</a></span></h2><p>This lab successfully demonstrates an end-to-end local AI workflow that takes a target job description, cross-references it with a candidate&rsquo;s master resume, and automatically outputs a fully formatted, customized <code>.docx</code> resume and cover letter. The architecture ensures complete data privacy while streamlining the career application workflow through local infrastructure automation.</p>
+
+      </div>
+    </section>
+    <footer class="max-w-prose pt-8 print:hidden">
+      
+
+      
+
+      
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="group flex" href="http://localhost:1313/posts/lab9/">
+              <span
+                class="me-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&larr;</span
+                ><span class="ltr:hidden rtl:inline">&rarr;</span></span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >Lab 9: Building a Local AI News Automation Agent with Docker, Ollama, n8n & Telegram</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2026-07-28 14:25:50 &#43;1000 AEST">July 28, 2026</time>
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+            <a class="group flex text-right" href="http://localhost:1313/posts/lab11/">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >Lab 11: Building a Custom Linux System Administrator Toolbox Container</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2026-08-05 20:29:44 &#43;1000 AEST">August 5, 2026</time>
+                  
+                </span>
+              </span>
+              <span
+                class="ms-2 text-neutral-700 transition-transform group-hover:-translate-x-[-2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&rarr;</span
+                ><span class="ltr:hidden rtl:inline">&larr;</span></span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+      
+    </footer>
+  </article>
+
+      </main>
+      
+        <div
+          class="pointer-events-none absolute bottom-0 end-0 top-[100vh] w-12"
+          id="to-top"
+          hidden="true"
+        >
+          <a
+            href="#the-top"
+            class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 backdrop-blur hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+            aria-label="Scroll to top"
+            title="Scroll to top"
+          >
+            &uarr;
+          </a>
+        </div>
+      <footer class="py-10 print:hidden">
+  
+  
+  <div class="flex items-center justify-between">
+    <div>
+      
+      
+        <p class="text-sm text-neutral-500 dark:text-neutral-400">
+            &copy;
+            2026
+            
+        </p>
+      
+      
+      
+        <p class="text-xs text-neutral-500 dark:text-neutral-400">
+          
+          
+          Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+            href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href="https://github.com/jpanther/congo" target="_blank" rel="noopener noreferrer">Congo</a>
+        </p>
+      
+    </div>
+    <div class="flex flex-row items-center">
+      
+      
+      
+      
+    </div>
+  </div>
+  
+  
+</footer>
+
+    </div>
+  </body>
+</html>

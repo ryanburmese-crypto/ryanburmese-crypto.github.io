@@ -1,291 +1,825 @@
-<!doctype html><html lang=en dir=ltr class=scroll-smooth data-default-appearance=light data-auto-appearance=true><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=theme-color content="#FFFFFF"><title>Lab 12: Building a Custom Kali Linux Pentester Toolbox Container &#183; Ryan Burman | Tech Lab</title><meta name=title content="Lab 12: Building a Custom Kali Linux Pentester Toolbox Container &#183; Ryan Burman | Tech Lab"><script type=text/javascript src=https://ryanburmese-crypto.github.io/js/appearance.min.8a082f81b27f3cb2ee528df0b0bdc39787034cf2cc34d4669fbc9977c929023c.js integrity="sha256-iggvgbJ/PLLuUo3wsL3Dl4cDTPLMNNRmn7yZd8kpAjw="></script><link type=text/css rel=stylesheet href=https://ryanburmese-crypto.github.io/css/main.bundle.min.8a4c8f35e41ce0a9eaaf9d6a8077492d4c94f3598bdca18bdf28bf5cf2394803.css integrity="sha256-ikyPNeQc4Knqr51qgHdJLUyU81mL3KGL3yi/XPI5SAM="><meta name=description content="
+
+
+
+
+
+
+<!doctype html>
+<html
+  lang="en"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="light"
+  data-auto-appearance="true"
+><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FFFFFF" />
+  
+  <title>Lab 12: Building a Custom Kali Linux Pentester Toolbox Container &middot; Ryan Burman | Tech Lab</title>
+    <meta name="title" content="Lab 12: Building a Custom Kali Linux Pentester Toolbox Container &middot; Ryan Burman | Tech Lab" />
+  
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="http://localhost:1313/js/appearance.min.8a082f81b27f3cb2ee528df0b0bdc39787034cf2cc34d4669fbc9977c929023c.js"
+    integrity="sha256-iggvgbJ/PLLuUo3wsL3Dl4cDTPLMNNRmn7yZd8kpAjw="
+  ></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="http://localhost:1313/css/main.bundle.min.6ea8f8acfb220e5e88a5d29901a4eb7a5ec0b150e00e596c00634cdcd1daf9b3.css"
+    integrity="sha256-bqj4rPsiDl6IpdKZAaTrel7AsVDgDllsAGNM3NHa&#43;bM="
+  />
+  
+  
+  
+  
+  
+  
+  
+  <meta
+    name="description"
+    content="
       Step-by-step guide to building a portable, lightweight Kali Linux Docker container equipped with real-world reconnaissance, web application security, credential testing, and post-exploitation tools.
-    "><link rel=canonical href=https://ryanburmese-crypto.github.io/posts/lab12/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><meta property="og:url" content="https://ryanburmese-crypto.github.io/posts/lab12/"><meta property="og:site_name" content="Ryan Burman | Tech Lab"><meta property="og:title" content="Lab 12: Building a Custom Kali Linux Pentester Toolbox Container"><meta property="og:description" content="Step-by-step guide to building a portable, lightweight Kali Linux Docker container equipped with real-world reconnaissance, web application security, credential testing, and post-exploitation tools."><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-08-10T14:10:00+10:00"><meta property="article:modified_time" content="2026-08-10T14:10:00+10:00"><meta property="article:tag" content="Docker"><meta property="article:tag" content="Kali Linux"><meta property="article:tag" content="Cybersecurity"><meta property="article:tag" content="Pentesting"><meta property="article:tag" content="Red Team"><meta property="article:tag" content="Nmap"><meta name=twitter:card content="summary"><meta name=twitter:title content="Lab 12: Building a Custom Kali Linux Pentester Toolbox Container"><meta name=twitter:description content="Step-by-step guide to building a portable, lightweight Kali Linux Docker container equipped with real-world reconnaissance, web application security, credential testing, and post-exploitation tools."><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","articleSection":"Featured Projects \u0026 Labs","name":"Lab 12: Building a Custom Kali Linux Pentester Toolbox Container","headline":"Lab 12: Building a Custom Kali Linux Pentester Toolbox Container","description":"Step-by-step guide to building a portable, lightweight Kali Linux Docker container equipped with real-world reconnaissance, web application security, credential testing, and post-exploitation tools.","abstract":"\u003cstyle\u003e\n  .max-w-prose, article, .prose { \n    max-width: 100% !important; \n    width: 100% !important; \n  }\n\u003c\/style\u003e\n\u003ch2 id=\u0022executive-summary\u0022 class=\u0022relative group\u0022\u003eExecutive Summary \u003cspan class=\u0022absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100\u0022\u003e\u003ca class=\u0022group-hover:text-primary-300 dark:group-hover:text-neutral-700\u0022 style=\u0022text-decoration-line: none !important;\u0022 href=\u0022#executive-summary\u0022 aria-label=\u0022Anchor\u0022\u003e#\u003c\/a\u003e\u003c\/span\u003e\u003c\/h2\u003e\u003cp\u003eThis lab demonstrates how to build a custom, lightweight, and portable Kali Linux Pentester Toolbox Container using Docker. Instead of deploying heavy Kali Linux virtual machines or installing security utilities directly on target hosts, penetration testers can quickly launch this container in any environment (Cloud, On-Premises, or Pivot Nodes) for reconnaissance, vulnerability analysis, web app assessment, and network security testing.\u003c\/p\u003e","inLanguage":"en","url":"https:\/\/ryanburmese-crypto.github.io\/posts\/lab12\/","author":{"@type":"Person","name":""},"copyrightYear":"2026","dateCreated":"2026-08-10T14:10:00\u002b10:00","datePublished":"2026-08-10T14:10:00\u002b10:00","dateModified":"2026-08-10T14:10:00\u002b10:00","keywords":["Docker","Kali Linux","Cybersecurity","Pentesting","Red Team","Nmap","Metasploit","DevSecOps"],"mainEntityOfPage":"true","wordCount":"2229"}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://ryanburmese-crypto.github.io/","name":"Welcome to My Tech Space","position":1},{"@type":"ListItem","item":"https://ryanburmese-crypto.github.io/posts/","name":"Featured Projects \u0026 Labs","position":2},{"@type":"ListItem","name":"Lab 12 Building a Custom Kali Linux Pentester Toolbox Container","position":3}]}</script></head><body class="m-auto flex h-screen max-w-7xl flex-col bg-neutral px-6 text-lg leading-7 text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32"><div id=the-top class="absolute flex self-center"><a class="-translate-y-8 rounded-b-lg bg-primary-200 px-3 py-1 text-sm focus:translate-y-0 dark:bg-neutral-600" href=#main-content><span class="pe-2 font-bold text-primary-600 dark:text-primary-400">&darr;</span>Skip to main content</a></div><header class="py-6 font-semibold text-neutral-900 dark:text-neutral sm:py-10 print:hidden"><nav class="flex items-start justify-between sm:items-center"><div class="flex flex-row items-center"><a class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2" rel=me href=/>Ryan Burman | Tech Lab</a></div><ul class="flex list-none flex-col text-end sm:flex-row"><li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5"><a href=/ title><span class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2">Home</span></a></li><li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5"><a href=/portfolio/ title><span class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2">Portfolio</span></a></li><li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5"><a href=/posts/ title><span class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2">Projects</span></a></li><li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5"><a href=/contact/ title><span class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2">Contact</span></a></li></ul></nav></header><div class="relative flex grow flex-col"><main id=main-content class=grow><article><header class=max-w-prose><h1 class="mb-8 mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">Lab 12: Building a Custom Kali Linux Pentester Toolbox Container</h1><div class="mb-10 text-base text-neutral-500 dark:text-neutral-400 print:hidden"><div class="flex flex-row flex-wrap items-center"><time datetime="2026-08-10 14:10:00 +1000 AEST">August 10, 2026</time><span class="px-2 text-primary-500">&#183;</span><span title="Reading time">11 mins</span></div></div></header><section class="prose mt-0 flex max-w-full flex-col dark:prose-invert lg:flex-row"><div class="min-h-0 min-w-0 max-w-prose grow"><style>.max-w-prose,article,.prose{max-width:100%!important;width:100%!important}</style><h2 id=executive-summary class="relative group">Executive Summary <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#executive-summary aria-label=Anchor>#</a></span></h2><p>This lab demonstrates how to build a custom, lightweight, and portable Kali Linux Pentester Toolbox Container using Docker. Instead of deploying heavy Kali Linux virtual machines or installing security utilities directly on target hosts, penetration testers can quickly launch this container in any environment (Cloud, On-Premises, or Pivot Nodes) for reconnaissance, vulnerability analysis, web app assessment, and network security testing.</p><h2 id=lab-objectives class="relative group">Lab Objectives <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#lab-objectives aria-label=Anchor>#</a></span></h2><p>By completing this lab, you will be able to:</p><ul><li><p>Build a custom Kali Linux Docker image using a Dockerfile.</p></li><li><p>Package popular penetration testing and cybersecurity tools into a single container.</p></li><li><p>Configure Docker network settings and privileges for advanced scanning tools (like <code>nmap</code>).</p></li><li><p>Manage wordlists and path dependencies for web testing utilities (like <code>ffuf</code>).</p></li><li><p>Mount local host directories to save scan results permanently.</p></li><li><p>Run a lightweight, portable security testing environment anywhere without using heavy virtual machines.</p></li></ul><h2 id=architecture--tool-categories class="relative group">Architecture & Tool Categories <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#architecture--tool-categories aria-label=Anchor>#</a></span></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>                     Security Tester / Red Teamer
-</span></span><span style=display:flex><span>                                    │
-</span></span><span style=display:flex><span>                                    ▼
-</span></span><span style=display:flex><span>                    Kali Pentester Toolbox Container
-</span></span><span style=display:flex><span>                                    │
-</span></span><span style=display:flex><span>    ┌──────────────────┬────────────┴──────────┬──────────────────┐
-</span></span><span style=display:flex><span>    ▼                  ▼                       ▼                  ▼
-</span></span><span style=display:flex><span>Recon &amp; OSINT    Network &amp; Scanners      Web Security      Post-Exploit/Cracking
-</span></span><span style=display:flex><span>  • amass          • nmap                  • burpsuite       • john
-</span></span><span style=display:flex><span>  • subfinder      • masscan               • sqlmap          • hashcat
-</span></span><span style=display:flex><span>  • httpx          • netcat                • ffuf / wfuzz    • hydra
-</span></span><span style=display:flex><span>  • dnsrecon       • wireshark/tshark      • nikto           • impacket
-</span></span></code></pre></div><h3 id=step-1-create-a-project-directory class="relative group">Step 1: Create a Project Directory <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#step-1-create-a-project-directory aria-label=Anchor>#</a></span></h3><p>First, open the terminal and create a folder to hold the project files.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>system@admin:~$ sudo mkdir -p ~/homelab/pentest-toolbox
-</span></span><span style=display:flex><span>system@admin:~$ cd ~/homelab/pentest-toolbox/
-</span></span><span style=display:flex><span>system@admin:~/homelab/pentest-toolbox$ 
-</span></span></code></pre></div><h3 id=step-2-create-the-dockerfile class="relative group">Step 2: Create the Dockerfile <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#step-2-create-the-dockerfile aria-label=Anchor>#</a></span></h3><p>A <code>Dockerfile</code> tells Docker how to build the custom image.</p><ol><li>Open a new file name <code>Dockerfile</code> using nano:</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>system@admin:~/homelab/pentest-toolbox$ sudo nano Dockerfile
-</span></span></code></pre></div><ol start=2><li>Paste the following configuration into the file.</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#ae81ff>FROM kalilinux/kali-rolling:latest</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Environment Variable to prevent interactive prompts during package installation</span>
-</span></span><span style=display:flex><span><span style=color:#ae81ff>ENV DEBIAN_FRONTEND=noninteractive</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Update system repositories and install real-world Pentesting tools</span>
-</span></span><span style=display:flex><span><span style=color:#ae81ff>RUN apt-get update &amp;&amp; apt-get install -y --no-install-recommends \</span>
-</span></span><span style=display:flex><span>    <span style=color:#75715e># Core Utilities &amp; Networking</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>curl \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>wget \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>git \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>vim \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>tmux \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>iputils-ping \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>net-tools \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>iproute2 \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>dnsutils \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>jq \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>python3 \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>python3-pip \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>python3-venv \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>ca-certificates \</span>
-</span></span><span style=display:flex><span>    <span style=color:#75715e>#</span>
-</span></span><span style=display:flex><span>    <span style=color:#75715e># Network Discovery &amp; Port Scanning</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>nmap \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>masscan \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>netcat-openbsd \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>tshark \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>tcpdump \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>traceroute \</span>
-</span></span><span style=display:flex><span>    <span style=color:#75715e>#</span>
-</span></span><span style=display:flex><span>    <span style=color:#75715e># Reconnaissance &amp; OSINT</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>amass \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>subfinder \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>httpx-toolkit \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>dnsrecon \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>whois \</span>
-</span></span><span style=display:flex><span>    <span style=color:#75715e>#</span>
-</span></span><span style=display:flex><span>    <span style=color:#75715e># Web Application Security &amp; Fuzzing</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>sqlmap \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>ffuf \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>wfuzz \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>nikto \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>gobuster \</span>
-</span></span><span style=display:flex><span>    <span style=color:#75715e>#</span>
-</span></span><span style=display:flex><span>    <span style=color:#75715e># Password Cracking &amp; Credential Attacks</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>john \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>hashcat \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>hydra \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>wordlists \</span>
-</span></span><span style=display:flex><span>    <span style=color:#75715e>#</span>
-</span></span><span style=display:flex><span>    <span style=color:#75715e># Active Directory &amp; Post-Exploitation / Pivoting</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>python3-impacket \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>smbclient \</span>
-</span></span><span style=display:flex><span>    <span style=color:#ae81ff>chisel \</span>
-</span></span><span style=display:flex><span>    <span style=color:#75715e>&amp;&amp;</span> <span style=color:#ae81ff>apt-get clean \</span>
-</span></span><span style=display:flex><span>    <span style=color:#75715e>&amp;&amp;</span> <span style=color:#ae81ff>rm -rf /var/lib/apt/lists/*</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Set SecLists directory path or alias for convenience</span>
-</span></span><span style=display:flex><span><span style=color:#ae81ff>WORKDIR /root/tools</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Set default command to interactive shell</span>
-</span></span><span style=display:flex><span><span style=color:#ae81ff>CMD [&#34;/bin/bash&#34;]</span>
-</span></span></code></pre></div><h3 id=step-3-build-the-docker-image class="relative group">Step 3: Build the Docker Image <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#step-3-build-the-docker-image aria-label=Anchor>#</a></span></h3><p>Run the following command to build the container image:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>system@admin:~/homelab/pentest-toolbox$ sudo docker build -t kali-pentest-toolbox:v1 .
-</span></span></code></pre></div><p>Note: The first build may take a few minutes depending on your internet connection speed.</p><p><strong>Expected Output</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> Building 277.7s <span style=color:#f92672>(</span>7/7<span style=color:#f92672>)</span> FINISHED                                                                  docker:default
-</span></span><span style=display:flex><span> <span style=color:#f92672>=</span>&gt; <span style=color:#f92672>[</span>internal<span style=color:#f92672>]</span> load build definition from Dockerfile                                                          0.0s
-</span></span><span style=display:flex><span> <span style=color:#f92672>=</span>&gt; <span style=color:#f92672>=</span>&gt; transferring dockerfile: 1.33kB                                                                        0.0s
-</span></span><span style=display:flex><span> <span style=color:#f92672>=</span>&gt; <span style=color:#f92672>[</span>internal<span style=color:#f92672>]</span> load metadata <span style=color:#66d9ef>for</span> docker.io/kalilinux/kali-rolling:latest                                      4.2s
-</span></span><span style=display:flex><span> <span style=color:#f92672>=</span>&gt; <span style=color:#f92672>[</span>internal<span style=color:#f92672>]</span> load .dockerignore                                                                             0.0s
-</span></span><span style=display:flex><span> <span style=color:#f92672>=</span>&gt; <span style=color:#f92672>=</span>&gt; transferring context: 2B                                                                               0.0s
-</span></span><span style=display:flex><span> <span style=color:#f92672>=</span>&gt; <span style=color:#f92672>[</span>1/3<span style=color:#f92672>]</span> FROM docker.io/kalilinux/kali-rolling:latest@sha256:f49124869e4eee549315879c3bd7ef92f23b8753fec75  12.5s
-</span></span><span style=display:flex><span> <span style=color:#f92672>=</span>&gt; <span style=color:#f92672>=</span>&gt; resolve docker.io/kalilinux/kali-rolling:latest@sha256:f49124869e4eee549315879c3bd7ef92f23b8753fec754  0.0s
-</span></span><span style=display:flex><span> <span style=color:#f92672>=</span>&gt; <span style=color:#f92672>=</span>&gt; sha256:8ada140629654c49961d11c5878c1e052f2707a5a0c60f510cd778455881087d 52.22MB / 52.22MB             11.8s
-</span></span><span style=display:flex><span> <span style=color:#f92672>=</span>&gt; <span style=color:#f92672>=</span>&gt; extracting sha256:8ada140629654c49961d11c5878c1e052f2707a5a0c60f510cd778455881087d                     0.7s
-</span></span><span style=display:flex><span> <span style=color:#f92672>=</span>&gt; <span style=color:#f92672>[</span>2/3<span style=color:#f92672>]</span> RUN apt-get update <span style=color:#f92672>&amp;&amp;</span> apt-get install -y --no-install-recommends     curl     wget     git     v  213.8s
-</span></span><span style=display:flex><span> <span style=color:#f92672>=</span>&gt; <span style=color:#f92672>[</span>3/3<span style=color:#f92672>]</span> WORKDIR /root/tools   
-</span></span><span style=display:flex><span>  <span style=color:#f92672>=</span>&gt; exporting to image                                                                                       47.0s 
-</span></span><span style=display:flex><span> <span style=color:#f92672>=</span>&gt; <span style=color:#f92672>=</span>&gt; exporting layers                                                                                      38.0s 
-</span></span><span style=display:flex><span> <span style=color:#f92672>=</span>&gt; <span style=color:#f92672>=</span>&gt; exporting manifest sha256:38ce164a2b39ebd9a6c25931411bebecfa33f681a9c3453f3e934523c291231a             0.0s 
-</span></span><span style=display:flex><span> <span style=color:#f92672>=</span>&gt; <span style=color:#f92672>=</span>&gt; exporting config sha256:14e6cb759c5c4f334f664a718d2a7f56f88f2c6274f6aec8f84c7e263978f63f               0.0s 
-</span></span><span style=display:flex><span> <span style=color:#f92672>=</span>&gt; <span style=color:#f92672>=</span>&gt; exporting attestation manifest sha256:8e68278b76c83a44ffb32f9767a171c13f372735194808e50b6b0f0b5e1e1e7  0.0s 
-</span></span><span style=display:flex><span> <span style=color:#f92672>=</span>&gt; <span style=color:#f92672>=</span>&gt; exporting manifest list sha256:ac57bc3478e4e657cc503194b187aefbb4699cc298c41e0ce846e6b227dd0776        0.0s
-</span></span><span style=display:flex><span> <span style=color:#f92672>=</span>&gt; <span style=color:#f92672>=</span>&gt; naming to docker.io/library/kali-pentest-toolbox:v1                                                    0.0s
-</span></span><span style=display:flex><span> <span style=color:#f92672>=</span>&gt; <span style=color:#f92672>=</span>&gt; unpacking to docker.io/library/kali-pentest-toolbox:v1 
-</span></span></code></pre></div><p><strong>To confirm the image was created sucessfully:</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>system@admin:~/homelab/pentest-toolbox$ docker images
-</span></span></code></pre></div><p><strong>Expected Output</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>                                                                                               i Info →   U  In Use
-</span></span><span style=display:flex><span>IMAGE                            ID             DISK USAGE   CONTENT SIZE   EXTRA
-</span></span><span style=display:flex><span>admin-toolbox:v1                 837ec9da992c        550MB          149MB    U   
-</span></span><span style=display:flex><span>docker.n8n.io/n8nio/n8n:latest   769d3a624534       2.48GB          386MB    U   
-</span></span><span style=display:flex><span>kali-pentest-toolbox:v1          ac57bc3478e4       2.65GB          729MB        
-</span></span><span style=display:flex><span>ollama/ollama:latest             4dea9fb51194       8.04GB         3.26GB    U   
-</span></span></code></pre></div><h3 id=step-4-run-the-container class="relative group">Step 4: Run the Container <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#step-4-run-the-container aria-label=Anchor>#</a></span></h3><p>Launch the new pentesting container using the following command:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>system@admin:~/homelab/pentest-toolbox$ docker run -it --rm --privileged --net<span style=color:#f92672>=</span>host -v ~/homelab/pentest-toolbox/workspace:/root/workspace kali-pentest-toolbox:v1
-</span></span><span style=display:flex><span>┌──<span style=color:#f92672>(</span>root㉿admin<span style=color:#f92672>)</span>-<span style=color:#f92672>[</span>~/tools<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>└─# 
-</span></span></code></pre></div><p><strong>What the flags mean:</strong></p><ul><li><code>-it</code> : Opens an interactive terminal session.</li><li><code>--rm</code> : Automatically deletes the container when you exit.</li><li><code>--privileged</code> : Gives full access rights to network network interces.</li><li><code>--net=host</code> : Uses your main computer&rsquo;s network directly (best for scanning - for educational purpose only).</li><li><code>-v</code> : Connects a folder on your computer to <code>/root/workspace</code> inside the container so scan results are saved permanently.</li></ul><h3 id=step-5-test-the-pentest-tools class="relative group">Step 5: Test The Pentest Tools <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#step-5-test-the-pentest-tools aria-label=Anchor>#</a></span></h3><p>Once inside the container, we can test various pentesting utilities:</p><p><strong>1. Network Scan (Nmap)</strong>
-Run a basic network scan against your local host.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>nmap -sC -sV -oA /root/workspace/scan_results 127.0.0.1
-</span></span></code></pre></div><p><strong>Expected Output</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>Starting Nmap 7.99 <span style=color:#f92672>(</span> https://nmap.org <span style=color:#f92672>)</span> at 2026-08-10 04:29 +0000
-</span></span><span style=display:flex><span>Nmap scan report <span style=color:#66d9ef>for</span> localhost <span style=color:#f92672>(</span>127.0.0.1<span style=color:#f92672>)</span>
-</span></span><span style=display:flex><span>Host is up <span style=color:#f92672>(</span>0.0000020s latency<span style=color:#f92672>)</span>.
-</span></span><span style=display:flex><span>Not shown: <span style=color:#ae81ff>998</span> closed tcp ports <span style=color:#f92672>(</span>reset<span style=color:#f92672>)</span>
-</span></span><span style=display:flex><span>PORT     STATE SERVICE VERSION
-</span></span><span style=display:flex><span>631/tcp  open  ipp     CUPS 2.4
-</span></span><span style=display:flex><span>| http-robots.txt: <span style=color:#ae81ff>1</span> disallowed entry 
-</span></span><span style=display:flex><span>|_/
-</span></span><span style=display:flex><span>|_http-title: Home - CUPS 2.4.7
-</span></span><span style=display:flex><span>|_http-server-header: CUPS/2.4 IPP/2.1
-</span></span><span style=display:flex><span>5678/tcp open  rrac?
-</span></span><span style=display:flex><span>| fingerprint-strings: 
-</span></span><span style=display:flex><span>|   GetRequest: 
-</span></span><span style=display:flex><span>|     HTTP/1.1 <span style=color:#ae81ff>200</span> OK
-</span></span><span style=display:flex><span>|     Accept-Ranges: bytes
-</span></span><span style=display:flex><span>|     Cache-Control: public, max-age<span style=color:#f92672>=</span><span style=color:#ae81ff>86400</span>
-</span></span><span style=display:flex><span>|     Last-Modified: Mon, <span style=color:#ae81ff>10</span> Aug <span style=color:#ae81ff>2026</span> 04:12:19 GMT
-</span></span><span style=display:flex><span>|     ETag: W/<span style=color:#e6db74>&#34;5e28-19fe9df184a&#34;</span>
-</span></span><span style=display:flex><span>|     Content-Type: text/html; charset<span style=color:#f92672>=</span>utf-8
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-</span></span><span style=display:flex><span>Nmap <span style=color:#66d9ef>done</span>: <span style=color:#ae81ff>1</span> IP address <span style=color:#f92672>(</span><span style=color:#ae81ff>1</span> host up<span style=color:#f92672>)</span> scanned in 11.49 seconds
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>┌──<span style=color:#f92672>(</span>root㉿admin<span style=color:#f92672>)</span>-<span style=color:#f92672>[</span>~/workspace<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>└─# ls
-</span></span><span style=display:flex><span>scan_results.gnmap  scan_results.nmap  scan_results.xml
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>┌──<span style=color:#f92672>(</span>root㉿admin<span style=color:#f92672>)</span>-<span style=color:#f92672>[</span>~/workspace<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>└─# cat scan_results.xml
-</span></span><span style=display:flex><span>&lt;?xml version<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;1.0&#34;</span> encoding<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;UTF-8&#34;</span>?&gt;
-</span></span><span style=display:flex><span>&lt;!DOCTYPE nmaprun&gt;
-</span></span><span style=display:flex><span>&lt;?xml-stylesheet href<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;file:///usr/share/nmap/nmap.xsl&#34;</span> type<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;text/xsl&#34;</span>?&gt;
-</span></span><span style=display:flex><span>&lt;!-- Nmap 7.99 scan initiated Mon Aug <span style=color:#ae81ff>10</span> 04:29:36 <span style=color:#ae81ff>2026</span> as: /usr/lib/nmap/nmap -sC -sV -oA /root/workspace/scan_results 127.0.0.1 --&gt;
-</span></span><span style=display:flex><span>&lt;nmaprun scanner<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;nmap&#34;</span> args<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;/usr/lib/nmap/nmap -sC -sV -oA /root/workspace/scan_results 127.0.0.1&#34;</span> start<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;1786336176&#34;</span> startstr<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Mon Aug 10 04:29:36 2026&#34;</span> version<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;7.99&#34;</span> xmloutputversion<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;1.05&#34;</span>&gt;
-</span></span><span style=display:flex><span>&lt;scaninfo type<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;syn&#34;</span> protocol<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;tcp&#34;</span> numservices<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;1000&#34;</span> services<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;1,3-4,6-7,9,13,17,19-26,30,32-33,37,42-43,49,53,70,79-85,88-90,99-100,106,109-111,113,119,125,135,139,143-144,146,161,163,179,199,211-212,222,254-256,259,264,280,301,306,311,340,366,389,406-407,416-417,425,427,443-445,458,464-465,481,497,500,512-515,524,541,543-545,548,554-555,563,587,593,616-617,625,631,636,646,648,666-668,683,687,691,700,705,711,714,720,722,726,749,765,777,783,787,800-801,808,843,873,880,888,898,900-903,911-912,981,987,990,992-993,995,999-1002,1007,
-</span></span></span></code></pre></div><p><strong>2. Subdomain Search (Subfinder)</strong></p><p>Search for active subdomains of a target domain:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>┌──<span style=color:#f92672>(</span>root㉿admin<span style=color:#f92672>)</span>-<span style=color:#f92672>[</span>~/tools<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>└─# subfinder -d google.com
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>               __    _____           __         
-</span></span><span style=display:flex><span>   _______  __/ /_  / __<span style=color:#f92672>(</span>_<span style=color:#f92672>)</span>___  ____/ /__  _____
-</span></span><span style=display:flex><span>  / ___/ / / / __ <span style=color:#ae81ff>\/</span> /_/ / __ <span style=color:#ae81ff>\/</span> __  / _ <span style=color:#ae81ff>\/</span> ___/
-</span></span><span style=display:flex><span> <span style=color:#f92672>(</span>__  <span style=color:#f92672>)</span> /_/ / /_/ / __/ / / / / /_/ /  __/ /    
-</span></span><span style=display:flex><span>/____/<span style=color:#ae81ff>\_</span>_,_/_.___/_/ /_/_/ /_/<span style=color:#ae81ff>\_</span>_,_/<span style=color:#ae81ff>\_</span>__/_/
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>		projectdiscovery.io
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INF<span style=color:#f92672>]</span> Current subfinder version v2.14.0 <span style=color:#f92672>(</span>outdated<span style=color:#f92672>)</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INF<span style=color:#f92672>]</span> Loading provider config from /root/.config/subfinder/provider-config.yaml
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INF<span style=color:#f92672>]</span> Enumerating subdomains <span style=color:#66d9ef>for</span> google.com
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>INF<span style=color:#f92672>]</span> Found <span style=color:#ae81ff>76627</span> subdomains <span style=color:#66d9ef>for</span> google.com in <span style=color:#ae81ff>1</span> minute <span style=color:#ae81ff>22</span> seconds
-</span></span></code></pre></div><p><strong>Web Directory Fuzzing (ffuf)</strong></p><p>Scan a target web server for hidden directories. In this lab I tested the real working website of mine, and I masquerade the real one.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>ffuf -w /usr/share/wordlists/dirb/common.txt -u http://target.local/FUZZ
-</span></span></code></pre></div><p>I got the following error message;</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>Encountered error<span style=color:#f92672>(</span>s<span style=color:#f92672>)</span>: <span style=color:#ae81ff>1</span> errors occurred.
-</span></span><span style=display:flex><span>	* stat /usr/share/wordlists/dirb/common.txt: no such file or directory
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>Fuzz Faster U Fool - v2.1.0-dev
-</span></span></code></pre></div><p>I installed the wordlists and seclists to my container.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>┌──<span style=color:#f92672>(</span>root㉿admin<span style=color:#f92672>)</span>-<span style=color:#f92672>[</span>~/tools<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>└─# apt-get update<span style=color:#f92672>&amp;&amp;</span> apt-get install -y wordlists seclists
-</span></span></code></pre></div><p><strong>Expected Output</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>Get:1 http://kali.download/kali kali-rolling InRelease <span style=color:#f92672>[</span>34.0 kB<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>Get:2 http://kali.download/kali kali-rolling/contrib amd64 Packages <span style=color:#f92672>[</span><span style=color:#ae81ff>103</span> kB<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>Get:3 http://kali.download/kali kali-rolling/non-free-firmware amd64 Packages <span style=color:#f92672>[</span>15.8 kB<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>Get:4 http://kali.download/kali kali-rolling/non-free amd64 Packages <span style=color:#f92672>[</span><span style=color:#ae81ff>168</span> kB<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>Get:5 http://kali.download/kali kali-rolling/main amd64 Packages <span style=color:#f92672>[</span>21.4 MB<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>Fetched 21.7 MB in 6s <span style=color:#f92672>(</span><span style=color:#ae81ff>3464</span> kB/s<span style=color:#f92672>)</span>                                                                                 
-</span></span><span style=display:flex><span>Reading package lists... Done
-</span></span><span style=display:flex><span>Reading package lists... Done
-</span></span><span style=display:flex><span>Building dependency tree... Done
-</span></span><span style=display:flex><span>Reading state information... Done
-</span></span><span style=display:flex><span>wordlists is already the newest version <span style=color:#f92672>(</span>2026.2.0<span style=color:#f92672>)</span>.
-</span></span><span style=display:flex><span>Solving dependencies... Done
-</span></span><span style=display:flex><span>The following NEW packages will be installed:
-</span></span><span style=display:flex><span>  seclists
-</span></span><span style=display:flex><span><span style=color:#ae81ff>0</span> upgraded, <span style=color:#ae81ff>1</span> newly installed, <span style=color:#ae81ff>0</span> to remove and <span style=color:#ae81ff>0</span> not upgraded.
-</span></span><span style=display:flex><span>Need to get <span style=color:#ae81ff>545</span> MB of archives.
-</span></span><span style=display:flex><span>After this operation, <span style=color:#ae81ff>1935</span> MB of additional disk space will be used.
-</span></span><span style=display:flex><span>Get:1 http://kali.download/kali kali-rolling/main amd64 seclists all 2025.3-0kali1 <span style=color:#f92672>[</span><span style=color:#ae81ff>545</span> MB<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>31% <span style=color:#f92672>[</span><span style=color:#ae81ff>1</span> seclists <span style=color:#ae81ff>210</span> MB/545 MB 38%<span style=color:#f92672>]</span>                                                                   <span style=color:#ae81ff>6818</span> kB/s 49s^Fetched <span style=color:#ae81ff>545</span> MB in 1min 23s <span style=color:#f92672>(</span><span style=color:#ae81ff>6553</span> kB/s<span style=color:#f92672>)</span>                                                                            
-</span></span><span style=display:flex><span>Selecting previously unselected package seclists.
-</span></span><span style=display:flex><span><span style=color:#f92672>(</span>Reading database ... <span style=color:#ae81ff>27480</span> files and directories currently installed.<span style=color:#f92672>)</span>
-</span></span><span style=display:flex><span>Preparing to unpack .../seclists_2025.3-0kali1_all.deb ...
-</span></span><span style=display:flex><span>Unpacking seclists <span style=color:#f92672>(</span>2025.3-0kali1<span style=color:#f92672>)</span> ...
-</span></span><span style=display:flex><span>Setting up seclists <span style=color:#f92672>(</span>2025.3-0kali1<span style=color:#f92672>)</span> ...
-</span></span><span style=display:flex><span>Processing triggers <span style=color:#66d9ef>for</span> wordlists <span style=color:#f92672>(</span>2026.2.0<span style=color:#f92672>)</span> ...
-</span></span><span style=display:flex><span>/var/lib/dpkg/info/wordlists.postinst: 37: unzip: not found
-</span></span></code></pre></div><p><strong>Extract Wordlists</strong></p><p>Default wordlists in Kali Linux (like rockyou.txt) are often zipped using .gz compression, so I need to extract them before use.
-To exract the <code>rockyou</code> wordlist</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>gunzip /usr/share/wordlists/rockyou.txt.gz 2&gt;/dev/null <span style=color:#f92672>||</span> true
-</span></span></code></pre></div><p>**Fixing the <code>File Not Found</code> Error</p><p>When running <code>ffuf</code> again, an error popped up:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>Encountered error<span style=color:#f92672>(</span>s<span style=color:#f92672>)</span>: <span style=color:#ae81ff>1</span> errors occurred.
-</span></span><span style=display:flex><span>	* stat /usr/share/wordlists/dirb/common.txt: no such file or directo
-</span></span></code></pre></div><p>Why this happened: The <code>dirb</code> wordlist is either missing or stored in a different location because Kali Linux did not include the <code>dirb</code> package by default.</p><p><strong>Step-by-Step Fix</strong>
-<strong>1. Check what wordlist are currently installed</strong></p><p>Run the following command to inspect the contents of the <code>/usr/share/wordlists</code> folder:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>└─# ls -la /usr/share/wordlists/
-</span></span></code></pre></div><p><strong>Output</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>total <span style=color:#ae81ff>136656</span>
-</span></span><span style=display:flex><span>drwxr-xr-x <span style=color:#ae81ff>1</span> root root      <span style=color:#ae81ff>4096</span> Aug <span style=color:#ae81ff>10</span> 04:47 .
-</span></span><span style=display:flex><span>drwxr-xr-x <span style=color:#ae81ff>1</span> root root      <span style=color:#ae81ff>4096</span> Aug <span style=color:#ae81ff>10</span> 04:45 ..
-</span></span><span style=display:flex><span>lrwxrwxrwx <span style=color:#ae81ff>1</span> root root        <span style=color:#ae81ff>28</span> Aug <span style=color:#ae81ff>10</span> 04:45 john.lst -&gt; /usr/share/john/password.lst
-</span></span><span style=display:flex><span>lrwxrwxrwx <span style=color:#ae81ff>1</span> root root        <span style=color:#ae81ff>41</span> Aug <span style=color:#ae81ff>10</span> 04:45 nmap.lst -&gt; /usr/share/nmap/nselib/data/passwords.lst
-</span></span><span style=display:flex><span>-rw-r--r-- <span style=color:#ae81ff>1</span> root root <span style=color:#ae81ff>139921507</span> May  <span style=color:#ae81ff>7</span> 10:16 rockyou.txt
-</span></span><span style=display:flex><span>lrwxrwxrwx <span style=color:#ae81ff>1</span> root root        <span style=color:#ae81ff>19</span> Aug <span style=color:#ae81ff>10</span> 04:45 seclists -&gt; /usr/share/seclists
-</span></span><span style=display:flex><span>lrwxrwxrwx <span style=color:#ae81ff>1</span> root root        <span style=color:#ae81ff>25</span> Aug <span style=color:#ae81ff>10</span> 04:45 wfuzz -&gt; /usr/share/wfuzz/wordlist
-</span></span></code></pre></div><p><strong>Result:</strong> The <code>dirb</code> folder is missing:</p><p><strong>2. Install DIRB</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-cmd data-lang=cmd><span style=display:flex><span># apt-get update &amp;&amp; apt-get install -y dirb
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>Hit:1 http://http.kali.org/kali kali-rolling InRelease
-</span></span><span style=display:flex><span>Reading package lists... Done
-</span></span><span style=display:flex><span>Reading package lists... Done
-</span></span><span style=display:flex><span>Building dependency tree... Done
-</span></span><span style=display:flex><span>Reading state information... Done
-</span></span><span style=display:flex><span>Solving dependencies... Done
-</span></span><span style=display:flex><span>The following NEW packages will be installed:
-</span></span><span style=display:flex><span>  dirb
-</span></span><span style=display:flex><span><span style=color:#ae81ff>0</span> upgraded, <span style=color:#ae81ff>1</span> newly installed, <span style=color:#ae81ff>0</span> to remove and <span style=color:#ae81ff>0</span> not upgraded.
-</span></span><span style=display:flex><span>Need to get <span style=color:#ae81ff>208</span> kB of archives.
-</span></span><span style=display:flex><span>After this operatgeion, <span style=color:#ae81ff>1511</span> kB of additional disk space will be used.
-</span></span><span style=display:flex><span>Get:1 http://http.kali.org/kali kali-rolling/main amd64 dirb amd64 2.22+dfsg-7 <span style=color:#f92672>[</span><span style=color:#ae81ff>208</span> kB<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>Fetched <span style=color:#ae81ff>208</span> kB in 2s <span style=color:#f92672>(</span>88.5 kB/s<span style=color:#f92672>)</span>
-</span></span><span style=display:flex><span>Selecting previously unselected package dirb.
-</span></span></code></pre></div><p><strong>3. Run <code>ffuf</code> again</strong></p><p>Now that <code>dirb</code> is installed. tried to run <code>ffuf</code> command again.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>ffuf -w /usr/share/wordlists/dirb/common.txt -u https://target.local/FUZZ
-</span></span><span style=display:flex><span><span style=color:#75715e># I run the real website of mine instead of target.local for the testing purpose.</span>
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>┌──<span style=color:#f92672>(</span>root㉿admin<span style=color:#f92672>)</span>-<span style=color:#f92672>[</span>~/tools<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>└─# ffuf -w /usr/share/wordlists/dirb/common.txt -u https://target.lcoal/FUZZ
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        /<span style=color:#e6db74>&#39;___\  /&#39;</span>___<span style=color:#ae81ff>\ </span>          /<span style=color:#960050;background-color:#1e0010>&#39;</span>___<span style=color:#ae81ff>\ </span>      
-</span></span><span style=display:flex><span>       /<span style=color:#ae81ff>\ \_</span>_/ /<span style=color:#ae81ff>\ \_</span>_/  __  __  /<span style=color:#ae81ff>\ \_</span>_/       
-</span></span><span style=display:flex><span>       <span style=color:#ae81ff>\ \ </span>,__<span style=color:#ae81ff>\\</span> <span style=color:#ae81ff>\ </span>,__<span style=color:#ae81ff>\/\ \/\ \ \ \ </span>,__<span style=color:#ae81ff>\ </span>     
-</span></span><span style=display:flex><span>        <span style=color:#ae81ff>\ \ \_</span>/ <span style=color:#ae81ff>\ \ \_</span>/<span style=color:#ae81ff>\ \ \_\ \ \ \ \_</span>/      
-</span></span><span style=display:flex><span>         <span style=color:#ae81ff>\ \_\ </span>  <span style=color:#ae81ff>\ \_\ </span> <span style=color:#ae81ff>\ \_</span>___/  <span style=color:#ae81ff>\ \_\ </span>      
-</span></span><span style=display:flex><span>          <span style=color:#ae81ff>\/</span>_/    <span style=color:#ae81ff>\/</span>_/   <span style=color:#ae81ff>\/</span>___/    <span style=color:#ae81ff>\/</span>_/       
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>       v2.1.0-dev
-</span></span><span style=display:flex><span>________________________________________________
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span> :: Method           : GET
-</span></span><span style=display:flex><span> :: URL              : https://target.local/FUZZ
-</span></span><span style=display:flex><span> :: Wordlist         : FUZZ: /usr/share/wordlists/dirb/common.txt
-</span></span><span style=display:flex><span> :: Follow redirects : false
-</span></span><span style=display:flex><span> :: Calibration      : false
-</span></span><span style=display:flex><span> :: Timeout          : <span style=color:#ae81ff>10</span>
-</span></span><span style=display:flex><span> :: Threads          : <span style=color:#ae81ff>40</span>
-</span></span><span style=display:flex><span> :: Matcher          : Response status: 200-299,301,302,307,401,403,405,500
-</span></span><span style=display:flex><span>________________________________________________
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>.svn/entries            <span style=color:#f92672>[</span>Status: 403, Size: 10410, Words: 2604, Lines: 213, Duration: 703ms<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>.git/HEAD               <span style=color:#f92672>[</span>Status: 403, Size: 10407, Words: 2604, Lines: 213, Duration: 702ms<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>.cvsignore              <span style=color:#f92672>[</span>Status: 403, Size: 10408, Words: 2604, Lines: 213, Duration: 706ms<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>_baks                   <span style=color:#f92672>[</span>Status: 403, Size: 10403, Words: 2604, Lines: 213, Duration: 705ms<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>.mysql_history          <span style=color:#f92672>[</span>Status: 403, Size: 10412, Words: 2604, Lines: 213, Duration: 707ms<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>_catalogs               <span style=color:#f92672>[</span>Status: 403, Size: 10407, Words: 2604, Lines: 213, Duration: 705ms<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>.subversion             <span style=color:#f92672>[</span>Status: 403, Size: 10409, Words: 2604, Lines: 213, Duration: 707ms<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>.profile                <span style=color:#f92672>[</span>Status: 403, Size: 10406, Words: 2604, Lines: 213, Duration: 709ms<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>.bashrc                 <span style=color:#f92672>[</span>Status: 403, Size: 10405, Words: 2604, Lines: 213, Duration: 708ms<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>:: Progress: <span style=color:#f92672>[</span>4614/4614<span style=color:#f92672>]</span> :: Job <span style=color:#f92672>[</span>1/1<span style=color:#f92672>]</span> :: <span style=color:#ae81ff>16</span> req/sec :: Duration: <span style=color:#f92672>[</span>0:00:44<span style=color:#f92672>]</span> :: Errors: <span style=color:#ae81ff>1</span> ::
-</span></span></code></pre></div><p><strong>Web Vulnerability Scan (SQLMap)</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>┌──<span style=color:#f92672>(</span>root㉿admin<span style=color:#f92672>)</span>-<span style=color:#f92672>[</span>~/tools<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>└─# sqlmap -u <span style=color:#e6db74>&#34;https://target.local/index.php?id=1&#34;</span> --batch
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>  ___
-</span></span><span style=display:flex><span>       __H__
-</span></span><span style=display:flex><span> ___ ___<span style=color:#f92672>[</span>.<span style=color:#f92672>]</span>_____ ___ ___  <span style=color:#f92672>{</span>1.10.6#stable<span style=color:#f92672>}</span>
-</span></span><span style=display:flex><span>|_ -| . <span style=color:#f92672>[</span>.<span style=color:#f92672>]</span>     | .<span style=color:#e6db74>&#39;| . |
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>|___|_  [&#34;]_|_|_|__,|  _|
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>      |_|V...       |_|   https://sqlmap.org
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user&#39;</span>s responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible <span style=color:#66d9ef>for</span> any misuse or damage caused by this program
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>*<span style=color:#f92672>]</span> starting @ 02:55:01 /2026-08-11/
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>02:55:01<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> testing connection to the target URL
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>02:55:03<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>WARNING<span style=color:#f92672>]</span> potential permission problems detected <span style=color:#f92672>(</span><span style=color:#e6db74>&#39;Access is forbidden&#39;</span><span style=color:#f92672>)</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>02:55:03<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>WARNING<span style=color:#f92672>]</span> the web server responded with an HTTP error code <span style=color:#f92672>(</span>403<span style=color:#f92672>)</span> which could interfere with the results of the tests
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>02:55:03<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> checking <span style=color:#66d9ef>if</span> the target is protected by some kind of WAF/IPS
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>02:55:04<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>WARNING<span style=color:#f92672>]</span> reflective value<span style=color:#f92672>(</span>s<span style=color:#f92672>)</span> found and filtering out
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>02:55:04<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> testing <span style=color:#66d9ef>if</span> the target URL content is stable
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>02:56:27<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>INFO<span style=color:#f92672>]</span> testing <span style=color:#e6db74>&#39;Generic UNION query (NULL) - 1 to 10 columns&#39;</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>02:56:38<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>WARNING<span style=color:#f92672>]</span> GET parameter <span style=color:#e6db74>&#39;id&#39;</span> does not seem to be injectable
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>02:56:38<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>CRITICAL<span style=color:#f92672>]</span> all tested parameters <span style=color:#66d9ef>do</span> not appear to be injectable. Try to increase values <span style=color:#66d9ef>for</span> <span style=color:#e6db74>&#39;--level&#39;</span>/<span style=color:#e6db74>&#39;--risk&#39;</span> options <span style=color:#66d9ef>if</span> you wish to perform more tests. Please retry with the switch <span style=color:#e6db74>&#39;--text-only&#39;</span> <span style=color:#f92672>(</span>along with --technique<span style=color:#f92672>=</span>BU<span style=color:#f92672>)</span> as this <span style=color:#66d9ef>case</span> looks like a perfect candidate <span style=color:#f92672>(</span>low textual content along with inability of comparison engine to detect at least one dynamic parameter<span style=color:#f92672>)</span>. If you suspect that there is some kind of protection mechanism involved <span style=color:#f92672>(</span>e.g. WAF<span style=color:#f92672>)</span> maybe you could try to use option <span style=color:#e6db74>&#39;--tamper&#39;</span> <span style=color:#f92672>(</span>e.g. <span style=color:#e6db74>&#39;--tamper=space2comment&#39;</span><span style=color:#f92672>)</span> and/or switch <span style=color:#e6db74>&#39;--random-agent&#39;</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>02:56:38<span style=color:#f92672>]</span> <span style=color:#f92672>[</span>WARNING<span style=color:#f92672>]</span> HTTP error codes detected during run:
-</span></span><span style=display:flex><span><span style=color:#ae81ff>403</span> <span style=color:#f92672>(</span>Forbidden<span style=color:#f92672>)</span> - <span style=color:#ae81ff>87</span> times
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>*<span style=color:#f92672>]</span> ending @ 02:56:38 /2026-08-11/
-</span></span></code></pre></div><h3 id=lessons-learned class="relative group">Lessons Learned <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#lessons-learned aria-label=Anchor>#</a></span></h3><ul><li><strong>Container Portability:</strong> Packaging security tools inside a Docker container makes them easy to run anywhere without losing settings or needing re-installation.</li><li><strong>Network Permissions:</strong> Running advanced tools like <code>nmap</code> inside Docker requires special flags (such as <code>--privileged</code> or <code>--net=host</code>) to access raw network sockets properly.</li><li><strong>Wordlist Management:</strong> Default Kali Linux images do not include all wordlists. Installing packages like <code>dirb</code> or <code>seclists</code> is necessary for web fuzzing tools like <code>ffuf</code>.</li><li><strong>Data Persistence:</strong> Using Docker volume mounting (<code>-v</code>) ensures that scan results and logs are saved permanently on the host machine even after the container is deleted.</li></ul><h2 id=-conclusion class="relative group"># Conclusion <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#-conclusion aria-label=Anchor>#</a></span></h2><p>Building a custom Kali Linux Pentester Toolbox container provides a fast, reliable, and standardized environment for security testing. By combining Docker with popular cybersecurity utilities, administrators and penetration testers can troubleshoot networks and perform security audits efficiently without the overhead of traditional virtual machines.</p></div></section><footer class="max-w-prose pt-8 print:hidden"><div class=pt-8><hr class="border-dotted border-neutral-300 dark:border-neutral-600"><div class="flex justify-between pt-3"><span><a class="group flex" href=https://ryanburmese-crypto.github.io/posts/lab11/><span class="me-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"><span class="ltr:inline rtl:hidden">&larr;</span><span class="ltr:hidden rtl:inline">&rarr;</span></span>
-<span class="flex flex-col"><span class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500">Lab 11: Building a Custom Linux System Administrator Toolbox Container</span>
-<span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400"><time datetime="2026-08-05 20:29:44 +1000 AEST">August 5, 2026</time>
-</span></span></a></span><span></span></div></div></footer></article></main><div class="pointer-events-none absolute bottom-0 end-0 top-[100vh] w-12" id=to-top hidden=true><a href=#the-top class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 backdrop-blur hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400" aria-label="Scroll to top" title="Scroll to top">&uarr;</a></div><footer class="py-10 print:hidden"><div class="flex items-center justify-between"><div><p class="text-sm text-neutral-500 dark:text-neutral-400">&copy;
-2026</p><p class="text-xs text-neutral-500 dark:text-neutral-400">Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href=https://gohugo.io/ target=_blank rel="noopener noreferrer">Hugo</a> & <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href=https://github.com/jpanther/congo target=_blank rel="noopener noreferrer">Congo</a></p></div><div class="flex flex-row items-center"></div></div></footer></div></body></html>
+    "
+  />
+  
+  
+  
+  
+    <link rel="canonical" href="http://localhost:1313/posts/lab12/" />
+  
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="http://localhost:1313/posts/lab12/">
+	<meta property="og:site_name" content="Ryan Burman | Tech Lab">
+	<meta property="og:title" content="Lab 12: Building a Custom Kali Linux Pentester Toolbox Container">
+	<meta property="og:description" content="Step-by-step guide to building a portable, lightweight Kali Linux Docker container equipped with real-world reconnaissance, web application security, credential testing, and post-exploitation tools.">
+	<meta property="og:locale" content="en">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-08-10T14:10:00+10:00">
+		<meta property="article:modified_time" content="2026-08-10T14:10:00+10:00">
+		<meta property="article:tag" content="Docker">
+		<meta property="article:tag" content="Kali Linux">
+		<meta property="article:tag" content="Cybersecurity">
+		<meta property="article:tag" content="Pentesting">
+		<meta property="article:tag" content="Red Team">
+		<meta property="article:tag" content="Nmap">
+
+  
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Lab 12: Building a Custom Kali Linux Pentester Toolbox Container">
+	<meta name="twitter:description" content="Step-by-step guide to building a portable, lightweight Kali Linux Docker container equipped with real-world reconnaissance, web application security, credential testing, and post-exploitation tools.">
+
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Featured Projects \u0026 Labs",
+    "name": "Lab 12: Building a Custom Kali Linux Pentester Toolbox Container",
+    "headline": "Lab 12: Building a Custom Kali Linux Pentester Toolbox Container",
+    "description": "Step-by-step guide to building a portable, lightweight Kali Linux Docker container equipped with real-world reconnaissance, web application security, credential testing, and post-exploitation tools.",
+    "abstract": "\u003cstyle\u003e\n  .max-w-prose, article, .prose { \n    max-width: 100% !important; \n    width: 100% !important; \n  }\n\u003c\/style\u003e\n\u003ch2 id=\u0022executive-summary\u0022 class=\u0022relative group\u0022\u003eExecutive Summary \u003cspan class=\u0022absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100\u0022\u003e\u003ca class=\u0022group-hover:text-primary-300 dark:group-hover:text-neutral-700\u0022 style=\u0022text-decoration-line: none !important;\u0022 href=\u0022#executive-summary\u0022 aria-label=\u0022Anchor\u0022\u003e#\u003c\/a\u003e\u003c\/span\u003e\u003c\/h2\u003e\u003cp\u003eThis lab demonstrates how to build a custom, lightweight, and portable Kali Linux Pentester Toolbox Container using Docker. Instead of deploying heavy Kali Linux virtual machines or installing security utilities directly on target hosts, penetration testers can quickly launch this container in any environment (Cloud, On-Premises, or Pivot Nodes) for reconnaissance, vulnerability analysis, web app assessment, and network security testing.\u003c\/p\u003e",
+    "inLanguage": "en",
+    "url" : "http:\/\/localhost:1313\/posts\/lab12\/",
+    "author" : {
+      "@type": "Person",
+      "name": ""
+    },
+    "copyrightYear": "2026",
+    "dateCreated": "2026-08-10T14:10:00\u002b10:00",
+    "datePublished": "2026-08-10T14:10:00\u002b10:00",
+    
+    "dateModified": "2026-08-10T14:10:00\u002b10:00",
+    
+    "keywords": ["Docker","Kali Linux","Cybersecurity","Pentesting","Red Team","Nmap","Metasploit","DevSecOps"],
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "2229"
+  }
+  </script>
+    
+    <script type="application/ld+json">
+    {
+   "@context": "https://schema.org",
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+     {
+       "@type": "ListItem",
+       "item": "http://localhost:1313/",
+       "name": "Welcome to My Tech Space",
+       "position": 1
+     },
+     {
+       "@type": "ListItem",
+       "item": "http://localhost:1313/posts/",
+       "name": "Featured Projects \u0026 Labs",
+       "position": 2
+     },
+     {
+       "@type": "ListItem",
+       "name": "Lab 12 Building a Custom Kali Linux Pentester Toolbox Container",
+       "position": 3
+     }
+   ]
+ }
+  </script>
+
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+  
+  
+
+  
+  
+</head>
+<body
+    class="m-auto flex h-screen max-w-7xl flex-col bg-neutral px-6 text-lg leading-7 text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32"
+  >
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="-translate-y-8 rounded-b-lg bg-primary-200 px-3 py-1 text-sm focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content"
+        ><span class="pe-2 font-bold text-primary-600 dark:text-primary-400">&darr;</span
+        >Skip to main content</a
+      >
+    </div>
+    
+    
+      <header class="py-6 font-semibold text-neutral-900 dark:text-neutral sm:py-10 print:hidden">
+  <nav class="flex items-start justify-between sm:items-center">
+    
+    <div class="flex flex-row items-center">
+      
+  <a
+    class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2"
+    rel="me"
+    href="/"
+    >Ryan Burman | Tech Lab</a
+  >
+
+    </div>
+    
+    
+      <ul class="flex list-none flex-col text-end sm:flex-row">
+        
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/"
+                  title=""
+                  
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Home</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/portfolio/"
+                  title=""
+                  
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Portfolio</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/posts/"
+                  title=""
+                  
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Projects</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/contact/"
+                  title=""
+                  
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Contact</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+          
+        
+      </ul>
+    
+  </nav>
+</header>
+
+    
+    <div class="relative flex grow flex-col">
+      <main id="main-content" class="grow">
+        
+  <article>
+    <header class="max-w-prose">
+      
+      <h1 class="mb-8 mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        Lab 12: Building a Custom Kali Linux Pentester Toolbox Container
+      </h1>
+      
+        <div class="mb-10 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+          
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+    
+  
+
+  
+
+  
+
+  
+    
+  
+
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <time datetime="2026-08-10 14:10:00 &#43;1000 AEST">August 10, 2026</time><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">11 mins</span>
+    
+
+    
+    
+  </div>
+
+  
+  
+
+
+        </div>
+      
+      
+    </header>
+    <section class="prose mt-0 flex max-w-full flex-col dark:prose-invert lg:flex-row">
+      
+      <div class="min-h-0 min-w-0 max-w-prose grow">
+        <style>
+  .max-w-prose, article, .prose { 
+    max-width: 100% !important; 
+    width: 100% !important; 
+  }
+</style>
+<h2 id="executive-summary" class="relative group">Executive Summary <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#executive-summary" aria-label="Anchor">#</a></span></h2><p>This lab demonstrates how to build a custom, lightweight, and portable Kali Linux Pentester Toolbox Container using Docker. Instead of deploying heavy Kali Linux virtual machines or installing security utilities directly on target hosts, penetration testers can quickly launch this container in any environment (Cloud, On-Premises, or Pivot Nodes) for reconnaissance, vulnerability analysis, web app assessment, and network security testing.</p>
+<h2 id="lab-objectives" class="relative group">Lab Objectives <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#lab-objectives" aria-label="Anchor">#</a></span></h2><p>By completing this lab, you will be able to:</p>
+<ul>
+<li>
+<p>Build a custom Kali Linux Docker image using a Dockerfile.</p>
+</li>
+<li>
+<p>Package popular penetration testing and cybersecurity tools into a single container.</p>
+</li>
+<li>
+<p>Configure Docker network settings and privileges for advanced scanning tools (like <code>nmap</code>).</p>
+</li>
+<li>
+<p>Manage wordlists and path dependencies for web testing utilities (like <code>ffuf</code>).</p>
+</li>
+<li>
+<p>Mount local host directories to save scan results permanently.</p>
+</li>
+<li>
+<p>Run a lightweight, portable security testing environment anywhere without using heavy virtual machines.</p>
+</li>
+</ul>
+<h2 id="architecture--tool-categories" class="relative group">Architecture &amp; Tool Categories <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#architecture--tool-categories" aria-label="Anchor">#</a></span></h2><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>                     Security Tester / Red Teamer
+</span></span><span style="display:flex;"><span>                                    │
+</span></span><span style="display:flex;"><span>                                    ▼
+</span></span><span style="display:flex;"><span>                    Kali Pentester Toolbox Container
+</span></span><span style="display:flex;"><span>                                    │
+</span></span><span style="display:flex;"><span>    ┌──────────────────┬────────────┴──────────┬──────────────────┐
+</span></span><span style="display:flex;"><span>    ▼                  ▼                       ▼                  ▼
+</span></span><span style="display:flex;"><span>Recon &amp; OSINT    Network &amp; Scanners      Web Security      Post-Exploit/Cracking
+</span></span><span style="display:flex;"><span>  • amass          • nmap                  • burpsuite       • john
+</span></span><span style="display:flex;"><span>  • subfinder      • masscan               • sqlmap          • hashcat
+</span></span><span style="display:flex;"><span>  • httpx          • netcat                • ffuf / wfuzz    • hydra
+</span></span><span style="display:flex;"><span>  • dnsrecon       • wireshark/tshark      • nikto           • impacket
+</span></span></code></pre></div><h3 id="step-1-create-a-project-directory" class="relative group">Step 1: Create a Project Directory <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#step-1-create-a-project-directory" aria-label="Anchor">#</a></span></h3><p>First, open the terminal and create a folder to hold the project files.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>system@admin:~$ sudo mkdir -p ~/homelab/pentest-toolbox
+</span></span><span style="display:flex;"><span>system@admin:~$ cd ~/homelab/pentest-toolbox/
+</span></span><span style="display:flex;"><span>system@admin:~/homelab/pentest-toolbox$ 
+</span></span></code></pre></div><h3 id="step-2-create-the-dockerfile" class="relative group">Step 2: Create the Dockerfile <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#step-2-create-the-dockerfile" aria-label="Anchor">#</a></span></h3><p>A <code>Dockerfile</code> tells Docker how to build the custom image.</p>
+<ol>
+<li>Open a new file name <code>Dockerfile</code> using nano:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>system@admin:~/homelab/pentest-toolbox$ sudo nano Dockerfile
+</span></span></code></pre></div><ol start="2">
+<li>Paste the following configuration into the file.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#ae81ff">FROM kalilinux/kali-rolling:latest</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Environment Variable to prevent interactive prompts during package installation</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">ENV DEBIAN_FRONTEND=noninteractive</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Update system repositories and install real-world Pentesting tools</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">RUN apt-get update &amp;&amp; apt-get install -y --no-install-recommends \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Core Utilities &amp; Networking</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">curl \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">wget \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">git \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">vim \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">tmux \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">iputils-ping \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">net-tools \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">iproute2 \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">dnsutils \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">jq \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">python3 \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">python3-pip \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">python3-venv \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">ca-certificates \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Network Discovery &amp; Port Scanning</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">nmap \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">masscan \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">netcat-openbsd \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">tshark \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">tcpdump \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">traceroute \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Reconnaissance &amp; OSINT</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">amass \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">subfinder \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">httpx-toolkit \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">dnsrecon \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">whois \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Web Application Security &amp; Fuzzing</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">sqlmap \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">ffuf \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">wfuzz \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">nikto \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">gobuster \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Password Cracking &amp; Credential Attacks</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">john \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">hashcat \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">hydra \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">wordlists \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Active Directory &amp; Post-Exploitation / Pivoting</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">python3-impacket \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">smbclient \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">chisel \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&amp;&amp;</span> <span style="color:#ae81ff">apt-get clean \</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&amp;&amp;</span> <span style="color:#ae81ff">rm -rf /var/lib/apt/lists/*</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Set SecLists directory path or alias for convenience</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">WORKDIR /root/tools</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Set default command to interactive shell</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">CMD [&#34;/bin/bash&#34;]</span>
+</span></span></code></pre></div><h3 id="step-3-build-the-docker-image" class="relative group">Step 3: Build the Docker Image <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#step-3-build-the-docker-image" aria-label="Anchor">#</a></span></h3><p>Run the following command to build the container image:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>system@admin:~/homelab/pentest-toolbox$ sudo docker build -t kali-pentest-toolbox:v1 .
+</span></span></code></pre></div><p>Note: The first build may take a few minutes depending on your internet connection speed.</p>
+<p><strong>Expected Output</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Building 277.7s <span style="color:#f92672">(</span>7/7<span style="color:#f92672">)</span> FINISHED                                                                  docker:default
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">[</span>internal<span style="color:#f92672">]</span> load build definition from Dockerfile                                                          0.0s
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">=</span>&gt; transferring dockerfile: 1.33kB                                                                        0.0s
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">[</span>internal<span style="color:#f92672">]</span> load metadata <span style="color:#66d9ef">for</span> docker.io/kalilinux/kali-rolling:latest                                      4.2s
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">[</span>internal<span style="color:#f92672">]</span> load .dockerignore                                                                             0.0s
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">=</span>&gt; transferring context: 2B                                                                               0.0s
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">[</span>1/3<span style="color:#f92672">]</span> FROM docker.io/kalilinux/kali-rolling:latest@sha256:f49124869e4eee549315879c3bd7ef92f23b8753fec75  12.5s
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">=</span>&gt; resolve docker.io/kalilinux/kali-rolling:latest@sha256:f49124869e4eee549315879c3bd7ef92f23b8753fec754  0.0s
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">=</span>&gt; sha256:8ada140629654c49961d11c5878c1e052f2707a5a0c60f510cd778455881087d 52.22MB / 52.22MB             11.8s
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">=</span>&gt; extracting sha256:8ada140629654c49961d11c5878c1e052f2707a5a0c60f510cd778455881087d                     0.7s
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">[</span>2/3<span style="color:#f92672">]</span> RUN apt-get update <span style="color:#f92672">&amp;&amp;</span> apt-get install -y --no-install-recommends     curl     wget     git     v  213.8s
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">[</span>3/3<span style="color:#f92672">]</span> WORKDIR /root/tools   
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">=</span>&gt; exporting to image                                                                                       47.0s 
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">=</span>&gt; exporting layers                                                                                      38.0s 
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">=</span>&gt; exporting manifest sha256:38ce164a2b39ebd9a6c25931411bebecfa33f681a9c3453f3e934523c291231a             0.0s 
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">=</span>&gt; exporting config sha256:14e6cb759c5c4f334f664a718d2a7f56f88f2c6274f6aec8f84c7e263978f63f               0.0s 
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">=</span>&gt; exporting attestation manifest sha256:8e68278b76c83a44ffb32f9767a171c13f372735194808e50b6b0f0b5e1e1e7  0.0s 
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">=</span>&gt; exporting manifest list sha256:ac57bc3478e4e657cc503194b187aefbb4699cc298c41e0ce846e6b227dd0776        0.0s
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">=</span>&gt; naming to docker.io/library/kali-pentest-toolbox:v1                                                    0.0s
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">=</span>&gt; unpacking to docker.io/library/kali-pentest-toolbox:v1 
+</span></span></code></pre></div><p><strong>To confirm the image was created sucessfully:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>system@admin:~/homelab/pentest-toolbox$ docker images
+</span></span></code></pre></div><p><strong>Expected Output</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>                                                                                               i Info →   U  In Use
+</span></span><span style="display:flex;"><span>IMAGE                            ID             DISK USAGE   CONTENT SIZE   EXTRA
+</span></span><span style="display:flex;"><span>admin-toolbox:v1                 837ec9da992c        550MB          149MB    U   
+</span></span><span style="display:flex;"><span>docker.n8n.io/n8nio/n8n:latest   769d3a624534       2.48GB          386MB    U   
+</span></span><span style="display:flex;"><span>kali-pentest-toolbox:v1          ac57bc3478e4       2.65GB          729MB        
+</span></span><span style="display:flex;"><span>ollama/ollama:latest             4dea9fb51194       8.04GB         3.26GB    U   
+</span></span></code></pre></div><h3 id="step-4-run-the-container" class="relative group">Step 4: Run the Container <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#step-4-run-the-container" aria-label="Anchor">#</a></span></h3><p>Launch the new pentesting container using the following command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>system@admin:~/homelab/pentest-toolbox$ docker run -it --rm --privileged --net<span style="color:#f92672">=</span>host -v ~/homelab/pentest-toolbox/workspace:/root/workspace kali-pentest-toolbox:v1
+</span></span><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>root㉿admin<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/tools<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─# 
+</span></span></code></pre></div><p><strong>What the flags mean:</strong></p>
+<ul>
+<li><code>-it</code> : Opens an interactive terminal session.</li>
+<li><code>--rm</code> : Automatically deletes the container when you exit.</li>
+<li><code>--privileged</code> : Gives full access rights to network network interces.</li>
+<li><code>--net=host</code> : Uses your main computer&rsquo;s network directly (best for scanning - for educational purpose only).</li>
+<li><code>-v</code> : Connects a folder on your computer to <code>/root/workspace</code> inside the container so scan results are saved permanently.</li>
+</ul>
+<h3 id="step-5-test-the-pentest-tools" class="relative group">Step 5: Test The Pentest Tools <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#step-5-test-the-pentest-tools" aria-label="Anchor">#</a></span></h3><p>Once inside the container, we can test various pentesting utilities:</p>
+<p><strong>1. Network Scan (Nmap)</strong>
+Run a basic network scan against your local host.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -sC -sV -oA /root/workspace/scan_results 127.0.0.1
+</span></span></code></pre></div><p><strong>Expected Output</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Starting Nmap 7.99 <span style="color:#f92672">(</span> https://nmap.org <span style="color:#f92672">)</span> at 2026-08-10 04:29 +0000
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#66d9ef">for</span> localhost <span style="color:#f92672">(</span>127.0.0.1<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#f92672">(</span>0.0000020s latency<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#ae81ff">998</span> closed tcp ports <span style="color:#f92672">(</span>reset<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>PORT     STATE SERVICE VERSION
+</span></span><span style="display:flex;"><span>631/tcp  open  ipp     CUPS 2.4
+</span></span><span style="display:flex;"><span>| http-robots.txt: <span style="color:#ae81ff">1</span> disallowed entry 
+</span></span><span style="display:flex;"><span>|_/
+</span></span><span style="display:flex;"><span>|_http-title: Home - CUPS 2.4.7
+</span></span><span style="display:flex;"><span>|_http-server-header: CUPS/2.4 IPP/2.1
+</span></span><span style="display:flex;"><span>5678/tcp open  rrac?
+</span></span><span style="display:flex;"><span>| fingerprint-strings: 
+</span></span><span style="display:flex;"><span>|   GetRequest: 
+</span></span><span style="display:flex;"><span>|     HTTP/1.1 <span style="color:#ae81ff">200</span> OK
+</span></span><span style="display:flex;"><span>|     Accept-Ranges: bytes
+</span></span><span style="display:flex;"><span>|     Cache-Control: public, max-age<span style="color:#f92672">=</span><span style="color:#ae81ff">86400</span>
+</span></span><span style="display:flex;"><span>|     Last-Modified: Mon, <span style="color:#ae81ff">10</span> Aug <span style="color:#ae81ff">2026</span> 04:12:19 GMT
+</span></span><span style="display:flex;"><span>|     ETag: W/<span style="color:#e6db74">&#34;5e28-19fe9df184a&#34;</span>
+</span></span><span style="display:flex;"><span>|     Content-Type: text/html; charset<span style="color:#f92672">=</span>utf-8
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#66d9ef">done</span>: <span style="color:#ae81ff">1</span> IP address <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> host up<span style="color:#f92672">)</span> scanned in 11.49 seconds
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>root㉿admin<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/workspace<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─# ls
+</span></span><span style="display:flex;"><span>scan_results.gnmap  scan_results.nmap  scan_results.xml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>root㉿admin<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/workspace<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─# cat scan_results.xml
+</span></span><span style="display:flex;"><span>&lt;?xml version<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1.0&#34;</span> encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;UTF-8&#34;</span>?&gt;
+</span></span><span style="display:flex;"><span>&lt;!DOCTYPE nmaprun&gt;
+</span></span><span style="display:flex;"><span>&lt;?xml-stylesheet href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;file:///usr/share/nmap/nmap.xsl&#34;</span> type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/xsl&#34;</span>?&gt;
+</span></span><span style="display:flex;"><span>&lt;!-- Nmap 7.99 scan initiated Mon Aug <span style="color:#ae81ff">10</span> 04:29:36 <span style="color:#ae81ff">2026</span> as: /usr/lib/nmap/nmap -sC -sV -oA /root/workspace/scan_results 127.0.0.1 --&gt;
+</span></span><span style="display:flex;"><span>&lt;nmaprun scanner<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;nmap&#34;</span> args<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/usr/lib/nmap/nmap -sC -sV -oA /root/workspace/scan_results 127.0.0.1&#34;</span> start<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1786336176&#34;</span> startstr<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Mon Aug 10 04:29:36 2026&#34;</span> version<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;7.99&#34;</span> xmloutputversion<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1.05&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;scaninfo type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;syn&#34;</span> protocol<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tcp&#34;</span> numservices<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1000&#34;</span> services<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1,3-4,6-7,9,13,17,19-26,30,32-33,37,42-43,49,53,70,79-85,88-90,99-100,106,109-111,113,119,125,135,139,143-144,146,161,163,179,199,211-212,222,254-256,259,264,280,301,306,311,340,366,389,406-407,416-417,425,427,443-445,458,464-465,481,497,500,512-515,524,541,543-545,548,554-555,563,587,593,616-617,625,631,636,646,648,666-668,683,687,691,700,705,711,714,720,722,726,749,765,777,783,787,800-801,808,843,873,880,888,898,900-903,911-912,981,987,990,992-993,995,999-1002,1007,
+</span></span></span></code></pre></div><p><strong>2. Subdomain Search (Subfinder)</strong></p>
+<p>Search for active subdomains of a target domain:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>root㉿admin<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/tools<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─# subfinder -d google.com
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>               __    _____           __         
+</span></span><span style="display:flex;"><span>   _______  __/ /_  / __<span style="color:#f92672">(</span>_<span style="color:#f92672">)</span>___  ____/ /__  _____
+</span></span><span style="display:flex;"><span>  / ___/ / / / __ <span style="color:#ae81ff">\/</span> /_/ / __ <span style="color:#ae81ff">\/</span> __  / _ <span style="color:#ae81ff">\/</span> ___/
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">(</span>__  <span style="color:#f92672">)</span> /_/ / /_/ / __/ / / / / /_/ /  __/ /    
+</span></span><span style="display:flex;"><span>/____/<span style="color:#ae81ff">\_</span>_,_/_.___/_/ /_/_/ /_/<span style="color:#ae81ff">\_</span>_,_/<span style="color:#ae81ff">\_</span>__/_/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		projectdiscovery.io
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INF<span style="color:#f92672">]</span> Current subfinder version v2.14.0 <span style="color:#f92672">(</span>outdated<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INF<span style="color:#f92672">]</span> Loading provider config from /root/.config/subfinder/provider-config.yaml
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INF<span style="color:#f92672">]</span> Enumerating subdomains <span style="color:#66d9ef">for</span> google.com
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INF<span style="color:#f92672">]</span> Found <span style="color:#ae81ff">76627</span> subdomains <span style="color:#66d9ef">for</span> google.com in <span style="color:#ae81ff">1</span> minute <span style="color:#ae81ff">22</span> seconds
+</span></span></code></pre></div><p><strong>Web Directory Fuzzing (ffuf)</strong></p>
+<p>Scan a target web server for hidden directories. In this lab I tested the real working website of mine, and I masquerade the real one.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -w /usr/share/wordlists/dirb/common.txt -u http://target.local/FUZZ
+</span></span></code></pre></div><p>I got the following error message;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Encountered error<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>: <span style="color:#ae81ff">1</span> errors occurred.
+</span></span><span style="display:flex;"><span>	* stat /usr/share/wordlists/dirb/common.txt: no such file or directory
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Fuzz Faster U Fool - v2.1.0-dev
+</span></span></code></pre></div><p>I installed the wordlists and seclists to my container.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>root㉿admin<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/tools<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─# apt-get update<span style="color:#f92672">&amp;&amp;</span> apt-get install -y wordlists seclists
+</span></span></code></pre></div><p><strong>Expected Output</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Get:1 http://kali.download/kali kali-rolling InRelease <span style="color:#f92672">[</span>34.0 kB<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Get:2 http://kali.download/kali kali-rolling/contrib amd64 Packages <span style="color:#f92672">[</span><span style="color:#ae81ff">103</span> kB<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Get:3 http://kali.download/kali kali-rolling/non-free-firmware amd64 Packages <span style="color:#f92672">[</span>15.8 kB<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Get:4 http://kali.download/kali kali-rolling/non-free amd64 Packages <span style="color:#f92672">[</span><span style="color:#ae81ff">168</span> kB<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Get:5 http://kali.download/kali kali-rolling/main amd64 Packages <span style="color:#f92672">[</span>21.4 MB<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Fetched 21.7 MB in 6s <span style="color:#f92672">(</span><span style="color:#ae81ff">3464</span> kB/s<span style="color:#f92672">)</span>                                                                                 
+</span></span><span style="display:flex;"><span>Reading package lists... Done
+</span></span><span style="display:flex;"><span>Reading package lists... Done
+</span></span><span style="display:flex;"><span>Building dependency tree... Done
+</span></span><span style="display:flex;"><span>Reading state information... Done
+</span></span><span style="display:flex;"><span>wordlists is already the newest version <span style="color:#f92672">(</span>2026.2.0<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span>Solving dependencies... Done
+</span></span><span style="display:flex;"><span>The following NEW packages will be installed:
+</span></span><span style="display:flex;"><span>  seclists
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0</span> upgraded, <span style="color:#ae81ff">1</span> newly installed, <span style="color:#ae81ff">0</span> to remove and <span style="color:#ae81ff">0</span> not upgraded.
+</span></span><span style="display:flex;"><span>Need to get <span style="color:#ae81ff">545</span> MB of archives.
+</span></span><span style="display:flex;"><span>After this operation, <span style="color:#ae81ff">1935</span> MB of additional disk space will be used.
+</span></span><span style="display:flex;"><span>Get:1 http://kali.download/kali kali-rolling/main amd64 seclists all 2025.3-0kali1 <span style="color:#f92672">[</span><span style="color:#ae81ff">545</span> MB<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>31% <span style="color:#f92672">[</span><span style="color:#ae81ff">1</span> seclists <span style="color:#ae81ff">210</span> MB/545 MB 38%<span style="color:#f92672">]</span>                                                                   <span style="color:#ae81ff">6818</span> kB/s 49s^Fetched <span style="color:#ae81ff">545</span> MB in 1min 23s <span style="color:#f92672">(</span><span style="color:#ae81ff">6553</span> kB/s<span style="color:#f92672">)</span>                                                                            
+</span></span><span style="display:flex;"><span>Selecting previously unselected package seclists.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>Reading database ... <span style="color:#ae81ff">27480</span> files and directories currently installed.<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Preparing to unpack .../seclists_2025.3-0kali1_all.deb ...
+</span></span><span style="display:flex;"><span>Unpacking seclists <span style="color:#f92672">(</span>2025.3-0kali1<span style="color:#f92672">)</span> ...
+</span></span><span style="display:flex;"><span>Setting up seclists <span style="color:#f92672">(</span>2025.3-0kali1<span style="color:#f92672">)</span> ...
+</span></span><span style="display:flex;"><span>Processing triggers <span style="color:#66d9ef">for</span> wordlists <span style="color:#f92672">(</span>2026.2.0<span style="color:#f92672">)</span> ...
+</span></span><span style="display:flex;"><span>/var/lib/dpkg/info/wordlists.postinst: 37: unzip: not found
+</span></span></code></pre></div><p><strong>Extract Wordlists</strong></p>
+<p>Default wordlists in Kali Linux (like rockyou.txt) are often zipped using .gz compression, so I need to extract them before use.
+To exract the <code>rockyou</code> wordlist</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gunzip /usr/share/wordlists/rockyou.txt.gz 2&gt;/dev/null <span style="color:#f92672">||</span> true
+</span></span></code></pre></div><p>**Fixing the <code>File Not Found</code> Error</p>
+<p>When running <code>ffuf</code> again, an error popped up:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Encountered error<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>: <span style="color:#ae81ff">1</span> errors occurred.
+</span></span><span style="display:flex;"><span>	* stat /usr/share/wordlists/dirb/common.txt: no such file or directo
+</span></span></code></pre></div><p>Why this happened: The <code>dirb</code> wordlist is either missing or stored in a different location because Kali Linux did not include the <code>dirb</code> package by default.</p>
+<p><strong>Step-by-Step Fix</strong>
+<strong>1. Check what wordlist are currently installed</strong></p>
+<p>Run the following command to inspect the contents of the <code>/usr/share/wordlists</code> folder:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>└─# ls -la /usr/share/wordlists/
+</span></span></code></pre></div><p><strong>Output</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>total <span style="color:#ae81ff">136656</span>
+</span></span><span style="display:flex;"><span>drwxr-xr-x <span style="color:#ae81ff">1</span> root root      <span style="color:#ae81ff">4096</span> Aug <span style="color:#ae81ff">10</span> 04:47 .
+</span></span><span style="display:flex;"><span>drwxr-xr-x <span style="color:#ae81ff">1</span> root root      <span style="color:#ae81ff">4096</span> Aug <span style="color:#ae81ff">10</span> 04:45 ..
+</span></span><span style="display:flex;"><span>lrwxrwxrwx <span style="color:#ae81ff">1</span> root root        <span style="color:#ae81ff">28</span> Aug <span style="color:#ae81ff">10</span> 04:45 john.lst -&gt; /usr/share/john/password.lst
+</span></span><span style="display:flex;"><span>lrwxrwxrwx <span style="color:#ae81ff">1</span> root root        <span style="color:#ae81ff">41</span> Aug <span style="color:#ae81ff">10</span> 04:45 nmap.lst -&gt; /usr/share/nmap/nselib/data/passwords.lst
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">139921507</span> May  <span style="color:#ae81ff">7</span> 10:16 rockyou.txt
+</span></span><span style="display:flex;"><span>lrwxrwxrwx <span style="color:#ae81ff">1</span> root root        <span style="color:#ae81ff">19</span> Aug <span style="color:#ae81ff">10</span> 04:45 seclists -&gt; /usr/share/seclists
+</span></span><span style="display:flex;"><span>lrwxrwxrwx <span style="color:#ae81ff">1</span> root root        <span style="color:#ae81ff">25</span> Aug <span style="color:#ae81ff">10</span> 04:45 wfuzz -&gt; /usr/share/wfuzz/wordlist
+</span></span></code></pre></div><p><strong>Result:</strong> The <code>dirb</code> folder is missing:</p>
+<p><strong>2. Install DIRB</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-cmd" data-lang="cmd"><span style="display:flex;"><span># apt-get update &amp;&amp; apt-get install -y dirb
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Hit:1 http://http.kali.org/kali kali-rolling InRelease
+</span></span><span style="display:flex;"><span>Reading package lists... Done
+</span></span><span style="display:flex;"><span>Reading package lists... Done
+</span></span><span style="display:flex;"><span>Building dependency tree... Done
+</span></span><span style="display:flex;"><span>Reading state information... Done
+</span></span><span style="display:flex;"><span>Solving dependencies... Done
+</span></span><span style="display:flex;"><span>The following NEW packages will be installed:
+</span></span><span style="display:flex;"><span>  dirb
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0</span> upgraded, <span style="color:#ae81ff">1</span> newly installed, <span style="color:#ae81ff">0</span> to remove and <span style="color:#ae81ff">0</span> not upgraded.
+</span></span><span style="display:flex;"><span>Need to get <span style="color:#ae81ff">208</span> kB of archives.
+</span></span><span style="display:flex;"><span>After this operatgeion, <span style="color:#ae81ff">1511</span> kB of additional disk space will be used.
+</span></span><span style="display:flex;"><span>Get:1 http://http.kali.org/kali kali-rolling/main amd64 dirb amd64 2.22+dfsg-7 <span style="color:#f92672">[</span><span style="color:#ae81ff">208</span> kB<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Fetched <span style="color:#ae81ff">208</span> kB in 2s <span style="color:#f92672">(</span>88.5 kB/s<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Selecting previously unselected package dirb.
+</span></span></code></pre></div><p><strong>3. Run <code>ffuf</code> again</strong></p>
+<p>Now that <code>dirb</code> is installed. tried to run <code>ffuf</code> command again.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -w /usr/share/wordlists/dirb/common.txt -u https://target.local/FUZZ
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># I run the real website of mine instead of target.local for the testing purpose.</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>root㉿admin<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/tools<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─# ffuf -w /usr/share/wordlists/dirb/common.txt -u https://target.lcoal/FUZZ
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        /<span style="color:#e6db74">&#39;___\  /&#39;</span>___<span style="color:#ae81ff">\ </span>          /<span style="color:#960050;background-color:#1e0010">&#39;</span>___<span style="color:#ae81ff">\ </span>      
+</span></span><span style="display:flex;"><span>       /<span style="color:#ae81ff">\ \_</span>_/ /<span style="color:#ae81ff">\ \_</span>_/  __  __  /<span style="color:#ae81ff">\ \_</span>_/       
+</span></span><span style="display:flex;"><span>       <span style="color:#ae81ff">\ \ </span>,__<span style="color:#ae81ff">\\</span> <span style="color:#ae81ff">\ </span>,__<span style="color:#ae81ff">\/\ \/\ \ \ \ </span>,__<span style="color:#ae81ff">\ </span>     
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">\ \ \_</span>/ <span style="color:#ae81ff">\ \ \_</span>/<span style="color:#ae81ff">\ \ \_\ \ \ \ \_</span>/      
+</span></span><span style="display:flex;"><span>         <span style="color:#ae81ff">\ \_\ </span>  <span style="color:#ae81ff">\ \_\ </span> <span style="color:#ae81ff">\ \_</span>___/  <span style="color:#ae81ff">\ \_\ </span>      
+</span></span><span style="display:flex;"><span>          <span style="color:#ae81ff">\/</span>_/    <span style="color:#ae81ff">\/</span>_/   <span style="color:#ae81ff">\/</span>___/    <span style="color:#ae81ff">\/</span>_/       
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>       v2.1.0-dev
+</span></span><span style="display:flex;"><span>________________________________________________
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> :: Method           : GET
+</span></span><span style="display:flex;"><span> :: URL              : https://target.local/FUZZ
+</span></span><span style="display:flex;"><span> :: Wordlist         : FUZZ: /usr/share/wordlists/dirb/common.txt
+</span></span><span style="display:flex;"><span> :: Follow redirects : false
+</span></span><span style="display:flex;"><span> :: Calibration      : false
+</span></span><span style="display:flex;"><span> :: Timeout          : <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span> :: Threads          : <span style="color:#ae81ff">40</span>
+</span></span><span style="display:flex;"><span> :: Matcher          : Response status: 200-299,301,302,307,401,403,405,500
+</span></span><span style="display:flex;"><span>________________________________________________
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>.svn/entries            <span style="color:#f92672">[</span>Status: 403, Size: 10410, Words: 2604, Lines: 213, Duration: 703ms<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>.git/HEAD               <span style="color:#f92672">[</span>Status: 403, Size: 10407, Words: 2604, Lines: 213, Duration: 702ms<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>.cvsignore              <span style="color:#f92672">[</span>Status: 403, Size: 10408, Words: 2604, Lines: 213, Duration: 706ms<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>_baks                   <span style="color:#f92672">[</span>Status: 403, Size: 10403, Words: 2604, Lines: 213, Duration: 705ms<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>.mysql_history          <span style="color:#f92672">[</span>Status: 403, Size: 10412, Words: 2604, Lines: 213, Duration: 707ms<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>_catalogs               <span style="color:#f92672">[</span>Status: 403, Size: 10407, Words: 2604, Lines: 213, Duration: 705ms<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>.subversion             <span style="color:#f92672">[</span>Status: 403, Size: 10409, Words: 2604, Lines: 213, Duration: 707ms<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>.profile                <span style="color:#f92672">[</span>Status: 403, Size: 10406, Words: 2604, Lines: 213, Duration: 709ms<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>.bashrc                 <span style="color:#f92672">[</span>Status: 403, Size: 10405, Words: 2604, Lines: 213, Duration: 708ms<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>:: Progress: <span style="color:#f92672">[</span>4614/4614<span style="color:#f92672">]</span> :: Job <span style="color:#f92672">[</span>1/1<span style="color:#f92672">]</span> :: <span style="color:#ae81ff">16</span> req/sec :: Duration: <span style="color:#f92672">[</span>0:00:44<span style="color:#f92672">]</span> :: Errors: <span style="color:#ae81ff">1</span> ::
+</span></span></code></pre></div><p><strong>Web Vulnerability Scan (SQLMap)</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>root㉿admin<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/tools<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─# sqlmap -u <span style="color:#e6db74">&#34;https://target.local/index.php?id=1&#34;</span> --batch
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ___
+</span></span><span style="display:flex;"><span>       __H__
+</span></span><span style="display:flex;"><span> ___ ___<span style="color:#f92672">[</span>.<span style="color:#f92672">]</span>_____ ___ ___  <span style="color:#f92672">{</span>1.10.6#stable<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>|_ -| . <span style="color:#f92672">[</span>.<span style="color:#f92672">]</span>     | .<span style="color:#e6db74">&#39;| . |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">|___|_  [&#34;]_|_|_|__,|  _|
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      |_|V...       |_|   https://sqlmap.org
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user&#39;</span>s responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible <span style="color:#66d9ef">for</span> any misuse or damage caused by this program
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> starting @ 02:55:01 /2026-08-11/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>02:55:01<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span> testing connection to the target URL
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>02:55:03<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>WARNING<span style="color:#f92672">]</span> potential permission problems detected <span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Access is forbidden&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>02:55:03<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>WARNING<span style="color:#f92672">]</span> the web server responded with an HTTP error code <span style="color:#f92672">(</span>403<span style="color:#f92672">)</span> which could interfere with the results of the tests
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>02:55:03<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span> checking <span style="color:#66d9ef">if</span> the target is protected by some kind of WAF/IPS
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>02:55:04<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>WARNING<span style="color:#f92672">]</span> reflective value<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> found and filtering out
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>02:55:04<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span> testing <span style="color:#66d9ef">if</span> the target URL content is stable
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>02:56:27<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span> testing <span style="color:#e6db74">&#39;Generic UNION query (NULL) - 1 to 10 columns&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>02:56:38<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>WARNING<span style="color:#f92672">]</span> GET parameter <span style="color:#e6db74">&#39;id&#39;</span> does not seem to be injectable
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>02:56:38<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>CRITICAL<span style="color:#f92672">]</span> all tested parameters <span style="color:#66d9ef">do</span> not appear to be injectable. Try to increase values <span style="color:#66d9ef">for</span> <span style="color:#e6db74">&#39;--level&#39;</span>/<span style="color:#e6db74">&#39;--risk&#39;</span> options <span style="color:#66d9ef">if</span> you wish to perform more tests. Please retry with the switch <span style="color:#e6db74">&#39;--text-only&#39;</span> <span style="color:#f92672">(</span>along with --technique<span style="color:#f92672">=</span>BU<span style="color:#f92672">)</span> as this <span style="color:#66d9ef">case</span> looks like a perfect candidate <span style="color:#f92672">(</span>low textual content along with inability of comparison engine to detect at least one dynamic parameter<span style="color:#f92672">)</span>. If you suspect that there is some kind of protection mechanism involved <span style="color:#f92672">(</span>e.g. WAF<span style="color:#f92672">)</span> maybe you could try to use option <span style="color:#e6db74">&#39;--tamper&#39;</span> <span style="color:#f92672">(</span>e.g. <span style="color:#e6db74">&#39;--tamper=space2comment&#39;</span><span style="color:#f92672">)</span> and/or switch <span style="color:#e6db74">&#39;--random-agent&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>02:56:38<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>WARNING<span style="color:#f92672">]</span> HTTP error codes detected during run:
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">403</span> <span style="color:#f92672">(</span>Forbidden<span style="color:#f92672">)</span> - <span style="color:#ae81ff">87</span> times
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> ending @ 02:56:38 /2026-08-11/
+</span></span></code></pre></div><h3 id="lessons-learned" class="relative group">Lessons Learned <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#lessons-learned" aria-label="Anchor">#</a></span></h3><ul>
+<li><strong>Container Portability:</strong> Packaging security tools inside a Docker container makes them easy to run anywhere without losing settings or needing re-installation.</li>
+<li><strong>Network Permissions:</strong> Running advanced tools like <code>nmap</code> inside Docker requires special flags (such as <code>--privileged</code> or <code>--net=host</code>) to access raw network sockets properly.</li>
+<li><strong>Wordlist Management:</strong> Default Kali Linux images do not include all wordlists. Installing packages like <code>dirb</code> or <code>seclists</code> is necessary for web fuzzing tools like <code>ffuf</code>.</li>
+<li><strong>Data Persistence:</strong> Using Docker volume mounting (<code>-v</code>) ensures that scan results and logs are saved permanently on the host machine even after the container is deleted.</li>
+</ul>
+<h2 id="-conclusion" class="relative group"># Conclusion <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#-conclusion" aria-label="Anchor">#</a></span></h2><p>Building a custom Kali Linux Pentester Toolbox container provides a fast, reliable, and standardized environment for security testing. By combining Docker with popular cybersecurity utilities, administrators and penetration testers can troubleshoot networks and perform security audits efficiently without the overhead of traditional virtual machines.</p>
+
+      </div>
+    </section>
+    <footer class="max-w-prose pt-8 print:hidden">
+      
+
+      
+
+      
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="group flex" href="http://localhost:1313/posts/lab11/">
+              <span
+                class="me-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&larr;</span
+                ><span class="ltr:hidden rtl:inline">&rarr;</span></span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >Lab 11: Building a Custom Linux System Administrator Toolbox Container</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2026-08-05 20:29:44 &#43;1000 AEST">August 5, 2026</time>
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+            <a class="group flex text-right" href="http://localhost:1313/posts/lab13/">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >Lab 13: Core Enterprise Branch Network Architecture with SVI, EtherChannel & HSRP Redundancy</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2026-08-11 14:01:16 &#43;1000 AEST">August 11, 2026</time>
+                  
+                </span>
+              </span>
+              <span
+                class="ms-2 text-neutral-700 transition-transform group-hover:-translate-x-[-2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&rarr;</span
+                ><span class="ltr:hidden rtl:inline">&larr;</span></span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+      
+    </footer>
+  </article>
+
+      </main>
+      
+        <div
+          class="pointer-events-none absolute bottom-0 end-0 top-[100vh] w-12"
+          id="to-top"
+          hidden="true"
+        >
+          <a
+            href="#the-top"
+            class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 backdrop-blur hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+            aria-label="Scroll to top"
+            title="Scroll to top"
+          >
+            &uarr;
+          </a>
+        </div>
+      <footer class="py-10 print:hidden">
+  
+  
+  <div class="flex items-center justify-between">
+    <div>
+      
+      
+        <p class="text-sm text-neutral-500 dark:text-neutral-400">
+            &copy;
+            2026
+            
+        </p>
+      
+      
+      
+        <p class="text-xs text-neutral-500 dark:text-neutral-400">
+          
+          
+          Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+            href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href="https://github.com/jpanther/congo" target="_blank" rel="noopener noreferrer">Congo</a>
+        </p>
+      
+    </div>
+    <div class="flex flex-row items-center">
+      
+      
+      
+      
+    </div>
+  </div>
+  
+  
+</footer>
+
+    </div>
+  </body>
+</html>

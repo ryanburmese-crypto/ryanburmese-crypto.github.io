@@ -1,142 +1,735 @@
-<!doctype html><html lang=en dir=ltr class=scroll-smooth data-default-appearance=light data-auto-appearance=true><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=theme-color content="#FFFFFF"><title>Lab 9: Building a Local AI News Automation Agent with Docker, Ollama, n8n & Telegram &#183; Ryan Burman | Tech Lab</title><meta name=title content="Lab 9: Building a Local AI News Automation Agent with Docker, Ollama, n8n & Telegram &#183; Ryan Burman | Tech Lab"><script type=text/javascript src=https://ryanburmese-crypto.github.io/js/appearance.min.8a082f81b27f3cb2ee528df0b0bdc39787034cf2cc34d4669fbc9977c929023c.js integrity="sha256-iggvgbJ/PLLuUo3wsL3Dl4cDTPLMNNRmn7yZd8kpAjw="></script><link type=text/css rel=stylesheet href=https://ryanburmese-crypto.github.io/css/main.bundle.min.8a4c8f35e41ce0a9eaaf9d6a8077492d4c94f3598bdca18bdf28bf5cf2394803.css integrity="sha256-ikyPNeQc4Knqr51qgHdJLUyU81mL3KGL3yi/XPI5SAM="><meta name=description content="
+
+
+
+
+
+
+<!doctype html>
+<html
+  lang="en"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="light"
+  data-auto-appearance="true"
+><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FFFFFF" />
+  
+  <title>Lab 9: Building a Local AI News Automation Agent with Docker, Ollama, n8n & Telegram &middot; Ryan Burman | Tech Lab</title>
+    <meta name="title" content="Lab 9: Building a Local AI News Automation Agent with Docker, Ollama, n8n & Telegram &middot; Ryan Burman | Tech Lab" />
+  
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="http://localhost:1313/js/appearance.min.8a082f81b27f3cb2ee528df0b0bdc39787034cf2cc34d4669fbc9977c929023c.js"
+    integrity="sha256-iggvgbJ/PLLuUo3wsL3Dl4cDTPLMNNRmn7yZd8kpAjw="
+  ></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="http://localhost:1313/css/main.bundle.min.6ea8f8acfb220e5e88a5d29901a4eb7a5ec0b150e00e596c00634cdcd1daf9b3.css"
+    integrity="sha256-bqj4rPsiDl6IpdKZAaTrel7AsVDgDllsAGNM3NHa&#43;bM="
+  />
+  
+  
+  
+  
+  
+  
+  
+  <meta
+    name="description"
+    content="
       Step-by-step guide to building a privacy-focused local AI news digestion pipeline using Docker, Ollama (Llama 3), n8n workflow automation, and Telegram bot integration.
-    "><link rel=canonical href=https://ryanburmese-crypto.github.io/posts/lab9/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><meta property="og:url" content="https://ryanburmese-crypto.github.io/posts/lab9/"><meta property="og:site_name" content="Ryan Burman | Tech Lab"><meta property="og:title" content="Lab 9: Building a Local AI News Automation Agent with Docker, Ollama, n8n & Telegram"><meta property="og:description" content="Step-by-step guide to building a privacy-focused local AI news digestion pipeline using Docker, Ollama (Llama 3), n8n workflow automation, and Telegram bot integration."><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-07-28T14:25:50+10:00"><meta property="article:modified_time" content="2026-07-28T14:25:50+10:00"><meta property="article:tag" content="Docker"><meta property="article:tag" content="Ollama"><meta property="article:tag" content="N8n"><meta property="article:tag" content="Telegram"><meta property="article:tag" content="AI Agent"><meta property="article:tag" content="Ubuntu"><meta name=twitter:card content="summary"><meta name=twitter:title content="Lab 9: Building a Local AI News Automation Agent with Docker, Ollama, n8n & Telegram"><meta name=twitter:description content="Step-by-step guide to building a privacy-focused local AI news digestion pipeline using Docker, Ollama (Llama 3), n8n workflow automation, and Telegram bot integration."><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","articleSection":"Featured Projects \u0026 Labs","name":"Lab 9: Building a Local AI News Automation Agent with Docker, Ollama, n8n \u0026 Telegram","headline":"Lab 9: Building a Local AI News Automation Agent with Docker, Ollama, n8n \u0026 Telegram","description":"Step-by-step guide to building a privacy-focused local AI news digestion pipeline using Docker, Ollama (Llama 3), n8n workflow automation, and Telegram bot integration.","abstract":"\u003cstyle\u003e\n  .max-w-prose, article, .prose { \n    max-width: 100% !important; \n    width: 100% !important; \n  }\n\u003c\/style\u003e\n\u003ch2 id=\u0022executive-summary\u0022 class=\u0022relative group\u0022\u003eExecutive Summary \u003cspan class=\u0022absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100\u0022\u003e\u003ca class=\u0022group-hover:text-primary-300 dark:group-hover:text-neutral-700\u0022 style=\u0022text-decoration-line: none !important;\u0022 href=\u0022#executive-summary\u0022 aria-label=\u0022Anchor\u0022\u003e#\u003c\/a\u003e\u003c\/span\u003e\u003c\/h2\u003e\u003cp\u003eThis lab demonstrates how to build an automated, self-hosted AI news digestion pipeline using Docker, Ollama, n8n, and Telegram on Ubuntu 22.04 LTS. The primary objective is to replace manual website searching with an intelligent agent that fetches cybersecurity and IT news from RSS feeds, summarizes the key details locally using an open-source Large Language Model (Llama 3), and automatically delivers structured daily updates to a personal Telegram chat. By hosting all AI processes locally via Ollama, this solution ensures data privacy, reduces operational API costs, and optimizes daily security monitoring workflows.\u003c\/p\u003e","inLanguage":"en","url":"https:\/\/ryanburmese-crypto.github.io\/posts\/lab9\/","author":{"@type":"Person","name":""},"copyrightYear":"2026","dateCreated":"2026-07-28T14:25:50\u002b10:00","datePublished":"2026-07-28T14:25:50\u002b10:00","dateModified":"2026-07-28T14:25:50\u002b10:00","keywords":["Docker","Ollama","n8n","Telegram","AI Agent","Ubuntu","Automation","Cybersecurity"],"mainEntityOfPage":"true","wordCount":"914"}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://ryanburmese-crypto.github.io/","name":"Welcome to My Tech Space","position":1},{"@type":"ListItem","item":"https://ryanburmese-crypto.github.io/posts/","name":"Featured Projects \u0026 Labs","position":2},{"@type":"ListItem","name":"Lab 9 Building a Local Ai News Automation Agent With Docker, Ollama, N8n \u0026 Telegram","position":3}]}</script></head><body class="m-auto flex h-screen max-w-7xl flex-col bg-neutral px-6 text-lg leading-7 text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32"><div id=the-top class="absolute flex self-center"><a class="-translate-y-8 rounded-b-lg bg-primary-200 px-3 py-1 text-sm focus:translate-y-0 dark:bg-neutral-600" href=#main-content><span class="pe-2 font-bold text-primary-600 dark:text-primary-400">&darr;</span>Skip to main content</a></div><header class="py-6 font-semibold text-neutral-900 dark:text-neutral sm:py-10 print:hidden"><nav class="flex items-start justify-between sm:items-center"><div class="flex flex-row items-center"><a class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2" rel=me href=/>Ryan Burman | Tech Lab</a></div><ul class="flex list-none flex-col text-end sm:flex-row"><li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5"><a href=/ title><span class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2">Home</span></a></li><li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5"><a href=/portfolio/ title><span class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2">Portfolio</span></a></li><li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5"><a href=/posts/ title><span class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2">Projects</span></a></li><li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5"><a href=/contact/ title><span class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2">Contact</span></a></li></ul></nav></header><div class="relative flex grow flex-col"><main id=main-content class=grow><article><header class=max-w-prose><h1 class="mb-8 mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">Lab 9: Building a Local AI News Automation Agent with Docker, Ollama, n8n & Telegram</h1><div class="mb-10 text-base text-neutral-500 dark:text-neutral-400 print:hidden"><div class="flex flex-row flex-wrap items-center"><time datetime="2026-07-28 14:25:50 +1000 AEST">July 28, 2026</time><span class="px-2 text-primary-500">&#183;</span><span title="Reading time">5 mins</span></div></div></header><section class="prose mt-0 flex max-w-full flex-col dark:prose-invert lg:flex-row"><div class="min-h-0 min-w-0 max-w-prose grow"><style>.max-w-prose,article,.prose{max-width:100%!important;width:100%!important}</style><h2 id=executive-summary class="relative group">Executive Summary <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#executive-summary aria-label=Anchor>#</a></span></h2><p>This lab demonstrates how to build an automated, self-hosted AI news digestion pipeline using Docker, Ollama, n8n, and Telegram on Ubuntu 22.04 LTS. The primary objective is to replace manual website searching with an intelligent agent that fetches cybersecurity and IT news from RSS feeds, summarizes the key details locally using an open-source Large Language Model (Llama 3), and automatically delivers structured daily updates to a personal Telegram chat. By hosting all AI processes locally via Ollama, this solution ensures data privacy, reduces operational API costs, and optimizes daily security monitoring workflows.</p><p>Technical Overview & Architecture</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#f92672>[</span>RSS Feed Source<span style=color:#f92672>]</span> 
-</span></span><span style=display:flex><span>       │
-</span></span><span style=display:flex><span>       ▼
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>n8n Automation Node<span style=color:#f92672>]</span> ──<span style=color:#f92672>(</span>Schedule Trigger<span style=color:#f92672>)</span>──► <span style=color:#f92672>[</span>Ollama Local LLM <span style=color:#f92672>(</span>Llama 3<span style=color:#f92672>)]</span>
-</span></span><span style=display:flex><span>       │                                                   │
-</span></span><span style=display:flex><span>       ▼                                                   ▼
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>Format Payload<span style=color:#f92672>]</span> ◄───────────────────────────── <span style=color:#f92672>[</span>Structured Summary<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>       │
-</span></span><span style=display:flex><span>       ▼
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>Telegram Bot Node<span style=color:#f92672>]</span> ──► <span style=color:#f92672>[</span>Telegram Mobile/Desktop Client<span style=color:#f92672>]</span>
-</span></span></code></pre></div><p><strong>Prerequisites and Environment</strong></p><ul><li>Operating System: Ubuntu 22.04 LTS Desktop</li><li>Core TEchnologies: Docker Engine, Docker Compose Plugin, Ollama, n8n Automation Engine.</li><li>Third-Party Services: Telegram API (BotFather & Chat ID Verification).</li></ul><h1 id=step-by-step-implementation class="relative group">Step-by-Step Implementation <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#step-by-step-implementation aria-label=Anchor>#</a></span></h1><h2 id=step-1-install-docker--docker-compose class="relative group">Step 1: Install Docker & Docker Compose <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#step-1-install-docker--docker-compose aria-label=Anchor>#</a></span></h2><h2 id=update-system-package class="relative group">Update System Package <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#update-system-package aria-label=Anchor>#</a></span></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>ryan@burman:~$ sudo apt update <span style=color:#f92672>&amp;&amp;</span> sudo apt upgrade -y
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>sudo<span style=color:#f92672>]</span> password <span style=color:#66d9ef>for</span> ryan: 
-</span></span><span style=display:flex><span>Hit:1 http://au.archive.ubuntu.com/ubuntu jammy InRelease
-</span></span><span style=display:flex><span>Hit:2 http://au.archive.ubuntu.com/ubuntu jammy-updates InRelease              
-</span></span><span style=display:flex><span>Hit:3 http://au.archive.ubuntu.com/ubuntu jammy-backports InRelease 
-</span></span></code></pre></div><p><strong>Add the official Docker GPG key and APT repository</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>ryan@burman:~$ sudo apt install -y ca-certificates curl gnupg
-</span></span><span style=display:flex><span>Reading package lists... Done
-</span></span><span style=display:flex><span>Building dependency tree... Done
-</span></span><span style=display:flex><span>Reading state information... Done
-</span></span><span style=display:flex><span>ca-certificates is already the newest version <span style=color:#f92672>(</span>20260601~22.04.1<span style=color:#f92672>)</span>.
-</span></span><span style=display:flex><span>ca-certificates set to manually installed.
-</span></span><span style=display:flex><span>curl is already the newest version <span style=color:#f92672>(</span>7.81.0-1ubuntu1.25<span style=color:#f92672>)</span>.
-</span></span><span style=display:flex><span>gnupg is already the newest version <span style=color:#f92672>(</span>2.2.27-3ubuntu2.5<span style=color:#f92672>)</span>.
-</span></span><span style=display:flex><span>gnupg set to manually installed.
-</span></span><span style=display:flex><span><span style=color:#ae81ff>0</span> to upgrade, <span style=color:#ae81ff>0</span> to newly install, <span style=color:#ae81ff>0</span> to remove and <span style=color:#ae81ff>0</span> not to upgrade.
-</span></span></code></pre></div><h2 id=add-the-official-docker-gpg-key-and-apt-repository class="relative group">Add the official Docker GPG key and APT repository <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#add-the-official-docker-gpg-key-and-apt-repository aria-label=Anchor>#</a></span></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>ryan@burman:~$ sudo install -m <span style=color:#ae81ff>0755</span> -d /etc/apt/keyrings
-</span></span><span style=display:flex><span>curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-</span></span><span style=display:flex><span>sudo chmod a+r /etc/apt/keyrings/docker.gpg
-</span></span></code></pre></div><h2 id=adding-docker-repository-to-apt-sources class="relative group">Adding Docker Repository to APT Sources <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#adding-docker-repository-to-apt-sources aria-label=Anchor>#</a></span></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>echo <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;deb [arch=</span><span style=color:#66d9ef>$(</span>dpkg --print-architecture<span style=color:#66d9ef>)</span><span style=color:#e6db74> signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>  </span><span style=color:#66d9ef>$(</span>. /etc/os-release <span style=color:#f92672>&amp;&amp;</span> echo <span style=color:#e6db74>&#34;</span>$VERSION_CODENAME<span style=color:#e6db74>&#34;</span><span style=color:#66d9ef>)</span><span style=color:#e6db74> stable&#34;</span> | <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
-</span></span><span style=display:flex><span>  
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span> ryan@burman:~$ sudo apt update
-</span></span><span style=display:flex><span>Get:1 https://download.docker.com/linux/ubuntu jammy InRelease <span style=color:#f92672>[</span>48.5 kB<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>Hit:2 http://au.archive.ubuntu.com/ubuntu jammy InRelease                      
-</span></span><span style=display:flex><span>Hit:3 http://au.archive.ubuntu.com/ubuntu jammy-updates InRelease              
-</span></span><span style=display:flex><span>Hit:4 http://au.archive.ubuntu.com/ubuntu jammy-backports InRelease            
-</span></span><span style=display:flex><span>Get:5 https://download.docker.com/linux/ubuntu jammy/stable amd64 Packages <span style=color:#f92672>[</span>83.5 kB<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>Hit:6 https://downloads.claude.ai/claude-desktop/apt/stable stable InRelease   
-</span></span><span style=display:flex><span>Hit:7 https://dl.google.com/linux/chrome-stable/deb stable InRelease           
-</span></span><span style=display:flex><span>Hit:8 http://security.ubuntu.com/ubuntu jammy-security InRelease
-</span></span><span style=display:flex><span>Fetched <span style=color:#ae81ff>132</span> kB in 1s <span style=color:#f92672>(</span><span style=color:#ae81ff>106</span> kB/s<span style=color:#f92672>)</span>                        
-</span></span><span style=display:flex><span>Reading package lists... Done
-</span></span><span style=display:flex><span>Building dependency tree... Done
-</span></span><span style=display:flex><span>Reading state information... Done
-</span></span><span style=display:flex><span>All packages are up to date.
-</span></span></code></pre></div><h2 id=updating-repository-and-installing-docker--compose-plugin class="relative group">Updating Repository and Installing Docker & Compose Plugin <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#updating-repository-and-installing-docker--compose-plugin aria-label=Anchor>#</a></span></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>
-</span></span><span style=display:flex><span>ryan@burman:~$ sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-</span></span><span style=display:flex><span>Reading package lists... Done
-</span></span><span style=display:flex><span>Building dependency tree... Done
-</span></span><span style=display:flex><span>Reading state information... Done
-</span></span><span style=display:flex><span>The following additional packages will be installed:
-</span></span><span style=display:flex><span>  docker-ce-rootless-extras pigz
-</span></span></code></pre></div><h2 id=verify-active-installation-versions class="relative group">Verify active installation versions <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#verify-active-installation-versions aria-label=Anchor>#</a></span></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>ryan@burman:~$ docker --version
-</span></span><span style=display:flex><span>Docker version 29.6.2, build dfc4efb
-</span></span><span style=display:flex><span>ryan@burman:~$ docker compose version
-</span></span><span style=display:flex><span>Docker Compose version v5.3.1
-</span></span></code></pre></div><h1 id=step-2-create-docker-compose-for-n8n--ollama class="relative group">Step 2: Create Docker Compose for n8n & Ollama <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#step-2-create-docker-compose-for-n8n--ollama aria-label=Anchor>#</a></span></h1><h2 id=creating-lab-directory class="relative group">Creating Lab Directory <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#creating-lab-directory aria-label=Anchor>#</a></span></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>
-</span></span><span style=display:flex><span>ryan@burman:~$ mkdir -p ~/homelab/n8n-ai-agent
-</span></span><span style=display:flex><span>ryan@burman:~$ cd ~/homelab/n8n-ai-agent/
-</span></span><span style=display:flex><span>ryan@burman:~/homelab/n8n-ai-agent$
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Creating docker-compose.yml</span>
-</span></span><span style=display:flex><span>ryan@burman:~/homelab/n8n-ai-agent$ nano docker-compose.yml
-</span></span></code></pre></div><h2 id=code-for-docker-composeyml class="relative group">Code for docker-compose.yml <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#code-for-docker-composeyml aria-label=Anchor>#</a></span></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#a6e22e>version</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;3.8&#39;</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>services</span><span style=color:#f92672>:</span>
-</span></span><span style=display:flex><span>  <span style=color:#a6e22e>ollama</span><span style=color:#f92672>:</span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>image</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>ollama</span><span style=color:#f92672>/</span><span style=color:#a6e22e>ollama</span><span style=color:#f92672>:</span><span style=color:#a6e22e>latest</span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>container_name</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>ollama_ai</span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>restart</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>always</span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>ports</span><span style=color:#f92672>:</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>-</span> <span style=color:#e6db74>&#34;11434:11434&#34;</span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>volumes</span><span style=color:#f92672>:</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>-</span> <span style=color:#a6e22e>ollama_storage</span><span style=color:#f92672>:</span><span style=color:#e6db74>/root/</span>.<span style=color:#a6e22e>ollama</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  <span style=color:#a6e22e>n8n</span><span style=color:#f92672>:</span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>image</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>docker</span>.<span style=color:#a6e22e>n8n</span>.<span style=color:#a6e22e>io</span><span style=color:#f92672>/</span><span style=color:#a6e22e>n8nio</span><span style=color:#f92672>/</span><span style=color:#a6e22e>n8n</span><span style=color:#f92672>:</span><span style=color:#a6e22e>latest</span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>container_name</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>n8n_automation</span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>restart</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>always</span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>ports</span><span style=color:#f92672>:</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>-</span> <span style=color:#e6db74>&#34;5678:5678&#34;</span>
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>environment</span><span style=color:#f92672>:</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>-</span> <span style=color:#a6e22e>N8N_HOST</span><span style=color:#f92672>=</span><span style=color:#a6e22e>localhost</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>-</span> <span style=color:#a6e22e>N8N_PORT</span><span style=color:#f92672>=</span><span style=color:#ae81ff>5678</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>-</span> <span style=color:#a6e22e>N8N_PROTOCOL</span><span style=color:#f92672>=</span><span style=color:#a6e22e>http</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>-</span> <span style=color:#a6e22e>NODE_ENV</span><span style=color:#f92672>=</span><span style=color:#a6e22e>production</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>-</span> <span style=color:#a6e22e>WEBHOOK_URL</span><span style=color:#f92672>=</span><span style=color:#a6e22e>http</span><span style=color:#f92672>:</span><span style=color:#75715e>//localhost:5678/
-</span></span></span><span style=display:flex><span>    <span style=color:#a6e22e>volumes</span><span style=color:#f92672>:</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>-</span> <span style=color:#a6e22e>n8n_data</span><span style=color:#f92672>:</span><span style=color:#960050;background-color:#1e0010>/home/node/.n8n</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>volumes</span><span style=color:#f92672>:</span>
-</span></span><span style=display:flex><span>  <span style=color:#a6e22e>ollama_storage</span><span style=color:#f92672>:</span>
-</span></span><span style=display:flex><span>  <span style=color:#a6e22e>n8n_data</span><span style=color:#f92672>:</span>
-</span></span></code></pre></div><h2 id=screenshot class="relative group">Screenshot <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#screenshot aria-label=Anchor>#</a></span></h2><h2 id=docker-composeyml class="relative group"><figure><img src=/images/lab9/image.png alt=docker-compose.yml class="mx-auto my-0 rounded-md"></figure><span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#docker-composeyml aria-label=Anchor>#</a></span></h2><h2 id=docker-composeyml-1 class="relative group"><figure><img src=/images/lab9/image1.png alt=docker-compose.yml class="mx-auto my-0 rounded-md"></figure><span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#docker-composeyml-1 aria-label=Anchor>#</a></span></h2><h2 id=starting-docker class="relative group">Starting Docker <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#starting-docker aria-label=Anchor>#</a></span></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>ryan@burman:~/homelab/n8n-ai-agent$ sudo docker compose up -d
-</span></span><span style=display:flex><span>WARN<span style=color:#f92672>[</span>0000<span style=color:#f92672>]</span> /home/ryan/homelab/n8n-ai-agent/docker-compose.yml: the attribute <span style=color:#e6db74>`</span>version<span style=color:#e6db74>`</span> is obsolete, it will be ignored, please remove it to avoid potential confusion 
-</span></span><span style=display:flex><span><span style=color:#f92672>[</span>+<span style=color:#f92672>]</span> up 23/23
-</span></span><span style=display:flex><span> ✔ Image docker.n8n.io/n8nio/n8n:latest Pulled                                                    179.6s
-</span></span><span style=display:flex><span> ✔ Image ollama/ollama:latest           Pulled                                                    564.9s
-</span></span><span style=display:flex><span> ✔ Network n8n-ai-agent_default         Created                                                     0.1s
-</span></span><span style=display:flex><span> ✔ Volume n8n-ai-agent_ollama_storage   Created                                                     0.0s
-</span></span><span style=display:flex><span> ✔ Volume n8n-ai-agent_n8n_data         Created                                                     0.0s
-</span></span><span style=display:flex><span> ✔ Container ollama_ai                  Started                                                     1.2s
-</span></span><span style=display:flex><span> ✔ Container n8n_automation             Started                                                     1.3s
-</span></span><span style=display:flex><span>ryan@burman:~/homelab/n8n-ai-agent$ 
-</span></span></code></pre></div><h1 id=step-3-download-local-ai-model-into-ollama class="relative group">Step 3: Download Local AI Model into Ollama <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#step-3-download-local-ai-model-into-ollama aria-label=Anchor>#</a></span></h1><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>
-</span></span><span style=display:flex><span>ryan@burman:~/homelab/n8n-ai-agent$ sudo docker exec -it ollama_ai ollama run llama3
-</span></span><span style=display:flex><span>pulling manifest 
-</span></span><span style=display:flex><span>pulling 6a0746a1ec1a: 100% ▕██████████████████████████████████████████▏ 4.7 GB                         
-</span></span><span style=display:flex><span>pulling 4fa551d4f938: 100% ▕██████████████████████████████████████████▏  <span style=color:#ae81ff>12</span> KB                         
-</span></span><span style=display:flex><span>pulling 8ab4849b038c: 100% ▕██████████████████████████████████████████▏  <span style=color:#ae81ff>254</span> B                         
-</span></span><span style=display:flex><span>pulling 577073ffcc6c: 100% ▕██████████████████████████████████████████▏  <span style=color:#ae81ff>110</span> B                         
-</span></span><span style=display:flex><span>pulling 3f8eb4da87fa: 100% ▕██████████████████████████████████████████▏  <span style=color:#ae81ff>485</span> B                         
-</span></span><span style=display:flex><span>verifying sha256 digest 
-</span></span><span style=display:flex><span>writing manifest 
-</span></span><span style=display:flex><span>success 
-</span></span></code></pre></div><h1 id=step-4-create-telegram-bot class="relative group">Step 4: Create Telegram Bot <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#step-4-create-telegram-bot aria-label=Anchor>#</a></span></h1><ul><li>Find @BotFather in your Telegram Desktop.</li><li>./newbot and hit <code>Enter</code></li><li>Keep the HTTP API Token from BotFather</li><li>send /start</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>Done! Congratulations on your new bot. You will find it at t.me/ryanburmese_ai_bot. You can now add a description, about section and profile picture <span style=color:#66d9ef>for</span> your bot, see /help <span style=color:#66d9ef>for</span> a list of commands. By the way, when you<span style=color:#960050;background-color:#1e0010>&#39;</span>ve finished creating your cool bot, ping our Bot Support <span style=color:#66d9ef>if</span> you want a better username <span style=color:#66d9ef>for</span> it. Just make sure the bot is fully operational before you <span style=color:#66d9ef>do</span> this.
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>Use this token to access the HTTP API:
-</span></span><span style=display:flex><span>7872134958:AACIUcNPF_eWv7#####################
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>Keep your token secure and store it safely, it can be used by anyone to control your bot.
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>For a description of the Bot API, see this page: https://core.telegram.org/bots/api
-</span></span></code></pre></div><h2 id=screenshot-of-creating-bot-via-telegram class="relative group">Screenshot of creating Bot via Telegram <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#screenshot-of-creating-bot-via-telegram aria-label=Anchor>#</a></span></h2><p><figure><img src=/images/lab9/image2.png alt=BotFather class="mx-auto my-0 rounded-md"></figure></p><p><strong>Find @userinfobot and send a message to get the <code>Chat ID</code> and keep your ID</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>Hi Welcome To @userInfo3Bot 🖐
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>📚 Help : /help
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>🔔 Bot News : @PyteTeam
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>👤 Your ID : 65xxxxxxx
-</span></span></code></pre></div><h2 id=ollama-setup class="relative group"><strong>Ollama</strong><figure><img src=/images/lab9/image3.png alt="Ollama Setup" class="mx-auto my-0 rounded-md"></figure><span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#ollama-setup aria-label=Anchor>#</a></span></h2><h2 id=ollama-setup-1 class="relative group"><figure><img src=/images/lab9/image4.png alt="Ollama Setup" class="mx-auto my-0 rounded-md"></figure><span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#ollama-setup-1 aria-label=Anchor>#</a></span></h2><h2 id=ollama-setup-2 class="relative group"><figure><img src=/images/lab9/image5.png alt="Ollama Setup" class="mx-auto my-0 rounded-md"></figure><span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#ollama-setup-2 aria-label=Anchor>#</a></span></h2><h2 id=ollama-setup-3 class="relative group"><figure><img src=/images/lab9/image6.png alt="Ollama Setup" class="mx-auto my-0 rounded-md"></figure><span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#ollama-setup-3 aria-label=Anchor>#</a></span></h2><h2 id=ollama-setup-4 class="relative group"><figure><img src=/images/lab9/image7.png alt="Ollama Setup" class="mx-auto my-0 rounded-md"></figure><span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#ollama-setup-4 aria-label=Anchor>#</a></span></h2><h2 id=ollama-setup-5 class="relative group"><figure><img src=/images/lab9/image8.png alt="Ollama Setup" class="mx-auto my-0 rounded-md"></figure><span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#ollama-setup-5 aria-label=Anchor>#</a></span></h2><p><figure><img src=/images/lab9/image9.png alt="Ollama Setup" class="mx-auto my-0 rounded-md"></figure></p><h2 id=conclusion class="relative group">Conclusion <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style=text-decoration-line:none!important href=#conclusion aria-label=Anchor>#</a></span></h2><p>This lab successfully built a working prototype for a privacy-focused local AI news agent. Key accomplishments include:</p><ul><li><strong>Complete Infrastructure Decoupling:</strong> By hosting Ollama and n8n inside Docker containers, all data processing occurs within local system boundaries, removing reliance on costly external API services like OpenAI.</li><li><strong>Automated Threat Intelligence:</strong> Automated fetch-summarize-dispatch routines significantly reduce manual research overhead for cybersecurity and system engineering professionals.</li><li><strong>Real-time Endpoint Delivery:</strong> Telegram integration ensures critical zero-day notifications and system security news are delivered straight to mobile or desktop devices immediately.</li></ul></div></section><footer class="max-w-prose pt-8 print:hidden"><div class=pt-8><hr class="border-dotted border-neutral-300 dark:border-neutral-600"><div class="flex justify-between pt-3"><span><a class="group flex" href=https://ryanburmese-crypto.github.io/posts/lab8-2/><span class="me-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"><span class="ltr:inline rtl:hidden">&larr;</span><span class="ltr:hidden rtl:inline">&rarr;</span></span>
-<span class="flex flex-col"><span class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500">Lab 8: Enterprise Group Policy Management & Troubleshooting | Part 2</span>
-<span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400"><time datetime="2026-07-23 00:00:00 +0000 UTC">July 23, 2026</time>
-</span></span></a></span><span><a class="group flex text-right" href=https://ryanburmese-crypto.github.io/posts/lab10/><span class="flex flex-col"><span class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500">Lab 10: Self-Hosted Automated AI Resume Tailoring Pipeline</span>
-<span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400"><time datetime="2026-08-05 18:10:00 +1000 AEST">August 5, 2026</time>
-</span></span><span class="ms-2 text-neutral-700 transition-transform group-hover:-translate-x-[-2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"><span class="ltr:inline rtl:hidden">&rarr;</span><span class="ltr:hidden rtl:inline">&larr;</span></span></a></span></div></div></footer></article></main><div class="pointer-events-none absolute bottom-0 end-0 top-[100vh] w-12" id=to-top hidden=true><a href=#the-top class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 backdrop-blur hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400" aria-label="Scroll to top" title="Scroll to top">&uarr;</a></div><footer class="py-10 print:hidden"><div class="flex items-center justify-between"><div><p class="text-sm text-neutral-500 dark:text-neutral-400">&copy;
-2026</p><p class="text-xs text-neutral-500 dark:text-neutral-400">Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href=https://gohugo.io/ target=_blank rel="noopener noreferrer">Hugo</a> & <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href=https://github.com/jpanther/congo target=_blank rel="noopener noreferrer">Congo</a></p></div><div class="flex flex-row items-center"></div></div></footer></div></body></html>
+    "
+  />
+  
+  
+  
+  
+    <link rel="canonical" href="http://localhost:1313/posts/lab9/" />
+  
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="http://localhost:1313/posts/lab9/">
+	<meta property="og:site_name" content="Ryan Burman | Tech Lab">
+	<meta property="og:title" content="Lab 9: Building a Local AI News Automation Agent with Docker, Ollama, n8n & Telegram">
+	<meta property="og:description" content="Step-by-step guide to building a privacy-focused local AI news digestion pipeline using Docker, Ollama (Llama 3), n8n workflow automation, and Telegram bot integration.">
+	<meta property="og:locale" content="en">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-07-28T14:25:50+10:00">
+		<meta property="article:modified_time" content="2026-07-28T14:25:50+10:00">
+		<meta property="article:tag" content="Docker">
+		<meta property="article:tag" content="Ollama">
+		<meta property="article:tag" content="N8n">
+		<meta property="article:tag" content="Telegram">
+		<meta property="article:tag" content="AI Agent">
+		<meta property="article:tag" content="Ubuntu">
+
+  
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Lab 9: Building a Local AI News Automation Agent with Docker, Ollama, n8n & Telegram">
+	<meta name="twitter:description" content="Step-by-step guide to building a privacy-focused local AI news digestion pipeline using Docker, Ollama (Llama 3), n8n workflow automation, and Telegram bot integration.">
+
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Featured Projects \u0026 Labs",
+    "name": "Lab 9: Building a Local AI News Automation Agent with Docker, Ollama, n8n \u0026 Telegram",
+    "headline": "Lab 9: Building a Local AI News Automation Agent with Docker, Ollama, n8n \u0026 Telegram",
+    "description": "Step-by-step guide to building a privacy-focused local AI news digestion pipeline using Docker, Ollama (Llama 3), n8n workflow automation, and Telegram bot integration.",
+    "abstract": "\u003cstyle\u003e\n  .max-w-prose, article, .prose { \n    max-width: 100% !important; \n    width: 100% !important; \n  }\n\u003c\/style\u003e\n\u003ch2 id=\u0022executive-summary\u0022 class=\u0022relative group\u0022\u003eExecutive Summary \u003cspan class=\u0022absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100\u0022\u003e\u003ca class=\u0022group-hover:text-primary-300 dark:group-hover:text-neutral-700\u0022 style=\u0022text-decoration-line: none !important;\u0022 href=\u0022#executive-summary\u0022 aria-label=\u0022Anchor\u0022\u003e#\u003c\/a\u003e\u003c\/span\u003e\u003c\/h2\u003e\u003cp\u003eThis lab demonstrates how to build an automated, self-hosted AI news digestion pipeline using Docker, Ollama, n8n, and Telegram on Ubuntu 22.04 LTS. The primary objective is to replace manual website searching with an intelligent agent that fetches cybersecurity and IT news from RSS feeds, summarizes the key details locally using an open-source Large Language Model (Llama 3), and automatically delivers structured daily updates to a personal Telegram chat. By hosting all AI processes locally via Ollama, this solution ensures data privacy, reduces operational API costs, and optimizes daily security monitoring workflows.\u003c\/p\u003e",
+    "inLanguage": "en",
+    "url" : "http:\/\/localhost:1313\/posts\/lab9\/",
+    "author" : {
+      "@type": "Person",
+      "name": ""
+    },
+    "copyrightYear": "2026",
+    "dateCreated": "2026-07-28T14:25:50\u002b10:00",
+    "datePublished": "2026-07-28T14:25:50\u002b10:00",
+    
+    "dateModified": "2026-07-28T14:25:50\u002b10:00",
+    
+    "keywords": ["Docker","Ollama","n8n","Telegram","AI Agent","Ubuntu","Automation","Cybersecurity"],
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "914"
+  }
+  </script>
+    
+    <script type="application/ld+json">
+    {
+   "@context": "https://schema.org",
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+     {
+       "@type": "ListItem",
+       "item": "http://localhost:1313/",
+       "name": "Welcome to My Tech Space",
+       "position": 1
+     },
+     {
+       "@type": "ListItem",
+       "item": "http://localhost:1313/posts/",
+       "name": "Featured Projects \u0026 Labs",
+       "position": 2
+     },
+     {
+       "@type": "ListItem",
+       "name": "Lab 9 Building a Local Ai News Automation Agent With Docker, Ollama, N8n \u0026 Telegram",
+       "position": 3
+     }
+   ]
+ }
+  </script>
+
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+  
+  
+
+  
+  
+</head>
+<body
+    class="m-auto flex h-screen max-w-7xl flex-col bg-neutral px-6 text-lg leading-7 text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32"
+  >
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="-translate-y-8 rounded-b-lg bg-primary-200 px-3 py-1 text-sm focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content"
+        ><span class="pe-2 font-bold text-primary-600 dark:text-primary-400">&darr;</span
+        >Skip to main content</a
+      >
+    </div>
+    
+    
+      <header class="py-6 font-semibold text-neutral-900 dark:text-neutral sm:py-10 print:hidden">
+  <nav class="flex items-start justify-between sm:items-center">
+    
+    <div class="flex flex-row items-center">
+      
+  <a
+    class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2"
+    rel="me"
+    href="/"
+    >Ryan Burman | Tech Lab</a
+  >
+
+    </div>
+    
+    
+      <ul class="flex list-none flex-col text-end sm:flex-row">
+        
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/"
+                  title=""
+                  
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Home</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/portfolio/"
+                  title=""
+                  
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Portfolio</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/posts/"
+                  title=""
+                  
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Projects</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+            
+            <li class="group mb-1 sm:mb-0 sm:me-7 sm:last:me-0.5">
+              
+                <a
+                  href="/contact/"
+                  title=""
+                  
+                  
+                  ><span
+                      class="decoration-primary-500 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-2"
+                      >Contact</span
+                    >
+                  </a
+                >
+              
+            </li>
+          
+          
+        
+      </ul>
+    
+  </nav>
+</header>
+
+    
+    <div class="relative flex grow flex-col">
+      <main id="main-content" class="grow">
+        
+  <article>
+    <header class="max-w-prose">
+      
+      <h1 class="mb-8 mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        Lab 9: Building a Local AI News Automation Agent with Docker, Ollama, n8n & Telegram
+      </h1>
+      
+        <div class="mb-10 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+          
+
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+  
+    
+  
+
+  
+
+  
+
+  
+    
+  
+
+  
+
+
+  <div class="flex flex-row flex-wrap items-center">
+    
+    
+      <time datetime="2026-07-28 14:25:50 &#43;1000 AEST">July 28, 2026</time><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">5 mins</span>
+    
+
+    
+    
+  </div>
+
+  
+  
+
+
+        </div>
+      
+      
+    </header>
+    <section class="prose mt-0 flex max-w-full flex-col dark:prose-invert lg:flex-row">
+      
+      <div class="min-h-0 min-w-0 max-w-prose grow">
+        <style>
+  .max-w-prose, article, .prose { 
+    max-width: 100% !important; 
+    width: 100% !important; 
+  }
+</style>
+<h2 id="executive-summary" class="relative group">Executive Summary <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#executive-summary" aria-label="Anchor">#</a></span></h2><p>This lab demonstrates how to build an automated, self-hosted AI news digestion pipeline using Docker, Ollama, n8n, and Telegram on Ubuntu 22.04 LTS. The primary objective is to replace manual website searching with an intelligent agent that fetches cybersecurity and IT news from RSS feeds, summarizes the key details locally using an open-source Large Language Model (Llama 3), and automatically delivers structured daily updates to a personal Telegram chat. By hosting all AI processes locally via Ollama, this solution ensures data privacy, reduces operational API costs, and optimizes daily security monitoring workflows.</p>
+<p>Technical Overview &amp; Architecture</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>RSS Feed Source<span style="color:#f92672">]</span> 
+</span></span><span style="display:flex;"><span>       │
+</span></span><span style="display:flex;"><span>       ▼
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>n8n Automation Node<span style="color:#f92672">]</span> ──<span style="color:#f92672">(</span>Schedule Trigger<span style="color:#f92672">)</span>──► <span style="color:#f92672">[</span>Ollama Local LLM <span style="color:#f92672">(</span>Llama 3<span style="color:#f92672">)]</span>
+</span></span><span style="display:flex;"><span>       │                                                   │
+</span></span><span style="display:flex;"><span>       ▼                                                   ▼
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Format Payload<span style="color:#f92672">]</span> ◄───────────────────────────── <span style="color:#f92672">[</span>Structured Summary<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>       │
+</span></span><span style="display:flex;"><span>       ▼
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Telegram Bot Node<span style="color:#f92672">]</span> ──► <span style="color:#f92672">[</span>Telegram Mobile/Desktop Client<span style="color:#f92672">]</span>
+</span></span></code></pre></div><p><strong>Prerequisites and Environment</strong></p>
+<ul>
+<li>Operating System: Ubuntu 22.04 LTS Desktop</li>
+<li>Core TEchnologies: Docker Engine, Docker Compose Plugin, Ollama, n8n Automation Engine.</li>
+<li>Third-Party Services: Telegram API (BotFather &amp; Chat ID Verification).</li>
+</ul>
+<h1 id="step-by-step-implementation" class="relative group">Step-by-Step Implementation <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#step-by-step-implementation" aria-label="Anchor">#</a></span></h1><h2 id="step-1-install-docker--docker-compose" class="relative group">Step 1: Install Docker &amp; Docker Compose <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#step-1-install-docker--docker-compose" aria-label="Anchor">#</a></span></h2><h2 id="update-system-package" class="relative group">Update System Package <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#update-system-package" aria-label="Anchor">#</a></span></h2><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ryan@burman:~$ sudo apt update <span style="color:#f92672">&amp;&amp;</span> sudo apt upgrade -y
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>sudo<span style="color:#f92672">]</span> password <span style="color:#66d9ef">for</span> ryan: 
+</span></span><span style="display:flex;"><span>Hit:1 http://au.archive.ubuntu.com/ubuntu jammy InRelease
+</span></span><span style="display:flex;"><span>Hit:2 http://au.archive.ubuntu.com/ubuntu jammy-updates InRelease              
+</span></span><span style="display:flex;"><span>Hit:3 http://au.archive.ubuntu.com/ubuntu jammy-backports InRelease 
+</span></span></code></pre></div><p><strong>Add the official Docker GPG key and APT repository</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ryan@burman:~$ sudo apt install -y ca-certificates curl gnupg
+</span></span><span style="display:flex;"><span>Reading package lists... Done
+</span></span><span style="display:flex;"><span>Building dependency tree... Done
+</span></span><span style="display:flex;"><span>Reading state information... Done
+</span></span><span style="display:flex;"><span>ca-certificates is already the newest version <span style="color:#f92672">(</span>20260601~22.04.1<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span>ca-certificates set to manually installed.
+</span></span><span style="display:flex;"><span>curl is already the newest version <span style="color:#f92672">(</span>7.81.0-1ubuntu1.25<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span>gnupg is already the newest version <span style="color:#f92672">(</span>2.2.27-3ubuntu2.5<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span>gnupg set to manually installed.
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0</span> to upgrade, <span style="color:#ae81ff">0</span> to newly install, <span style="color:#ae81ff">0</span> to remove and <span style="color:#ae81ff">0</span> not to upgrade.
+</span></span></code></pre></div><h2 id="add-the-official-docker-gpg-key-and-apt-repository" class="relative group">Add the official Docker GPG key and APT repository <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#add-the-official-docker-gpg-key-and-apt-repository" aria-label="Anchor">#</a></span></h2><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ryan@burman:~$ sudo install -m <span style="color:#ae81ff">0755</span> -d /etc/apt/keyrings
+</span></span><span style="display:flex;"><span>curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+</span></span><span style="display:flex;"><span>sudo chmod a+r /etc/apt/keyrings/docker.gpg
+</span></span></code></pre></div><h2 id="adding-docker-repository-to-apt-sources" class="relative group">Adding Docker Repository to APT Sources <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#adding-docker-repository-to-apt-sources" aria-label="Anchor">#</a></span></h2><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;deb [arch=</span><span style="color:#66d9ef">$(</span>dpkg --print-architecture<span style="color:#66d9ef">)</span><span style="color:#e6db74"> signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  </span><span style="color:#66d9ef">$(</span>. /etc/os-release <span style="color:#f92672">&amp;&amp;</span> echo <span style="color:#e6db74">&#34;</span>$VERSION_CODENAME<span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74"> stable&#34;</span> | <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> ryan@burman:~$ sudo apt update
+</span></span><span style="display:flex;"><span>Get:1 https://download.docker.com/linux/ubuntu jammy InRelease <span style="color:#f92672">[</span>48.5 kB<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Hit:2 http://au.archive.ubuntu.com/ubuntu jammy InRelease                      
+</span></span><span style="display:flex;"><span>Hit:3 http://au.archive.ubuntu.com/ubuntu jammy-updates InRelease              
+</span></span><span style="display:flex;"><span>Hit:4 http://au.archive.ubuntu.com/ubuntu jammy-backports InRelease            
+</span></span><span style="display:flex;"><span>Get:5 https://download.docker.com/linux/ubuntu jammy/stable amd64 Packages <span style="color:#f92672">[</span>83.5 kB<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Hit:6 https://downloads.claude.ai/claude-desktop/apt/stable stable InRelease   
+</span></span><span style="display:flex;"><span>Hit:7 https://dl.google.com/linux/chrome-stable/deb stable InRelease           
+</span></span><span style="display:flex;"><span>Hit:8 http://security.ubuntu.com/ubuntu jammy-security InRelease
+</span></span><span style="display:flex;"><span>Fetched <span style="color:#ae81ff">132</span> kB in 1s <span style="color:#f92672">(</span><span style="color:#ae81ff">106</span> kB/s<span style="color:#f92672">)</span>                        
+</span></span><span style="display:flex;"><span>Reading package lists... Done
+</span></span><span style="display:flex;"><span>Building dependency tree... Done
+</span></span><span style="display:flex;"><span>Reading state information... Done
+</span></span><span style="display:flex;"><span>All packages are up to date.
+</span></span></code></pre></div><h2 id="updating-repository-and-installing-docker--compose-plugin" class="relative group">Updating Repository and Installing Docker &amp; Compose Plugin <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#updating-repository-and-installing-docker--compose-plugin" aria-label="Anchor">#</a></span></h2><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ryan@burman:~$ sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+</span></span><span style="display:flex;"><span>Reading package lists... Done
+</span></span><span style="display:flex;"><span>Building dependency tree... Done
+</span></span><span style="display:flex;"><span>Reading state information... Done
+</span></span><span style="display:flex;"><span>The following additional packages will be installed:
+</span></span><span style="display:flex;"><span>  docker-ce-rootless-extras pigz
+</span></span></code></pre></div><h2 id="verify-active-installation-versions" class="relative group">Verify active installation versions <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#verify-active-installation-versions" aria-label="Anchor">#</a></span></h2><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ryan@burman:~$ docker --version
+</span></span><span style="display:flex;"><span>Docker version 29.6.2, build dfc4efb
+</span></span><span style="display:flex;"><span>ryan@burman:~$ docker compose version
+</span></span><span style="display:flex;"><span>Docker Compose version v5.3.1
+</span></span></code></pre></div><h1 id="step-2-create-docker-compose-for-n8n--ollama" class="relative group">Step 2: Create Docker Compose for n8n &amp; Ollama <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#step-2-create-docker-compose-for-n8n--ollama" aria-label="Anchor">#</a></span></h1><h2 id="creating-lab-directory" class="relative group">Creating Lab Directory <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#creating-lab-directory" aria-label="Anchor">#</a></span></h2><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ryan@burman:~$ mkdir -p ~/homelab/n8n-ai-agent
+</span></span><span style="display:flex;"><span>ryan@burman:~$ cd ~/homelab/n8n-ai-agent/
+</span></span><span style="display:flex;"><span>ryan@burman:~/homelab/n8n-ai-agent$
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Creating docker-compose.yml</span>
+</span></span><span style="display:flex;"><span>ryan@burman:~/homelab/n8n-ai-agent$ nano docker-compose.yml
+</span></span></code></pre></div><h2 id="code-for-docker-composeyml" class="relative group">Code for docker-compose.yml <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#code-for-docker-composeyml" aria-label="Anchor">#</a></span></h2><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">version</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;3.8&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">services</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ollama</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">image</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">ollama</span><span style="color:#f92672">/</span><span style="color:#a6e22e">ollama</span><span style="color:#f92672">:</span><span style="color:#a6e22e">latest</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">container_name</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">ollama_ai</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">restart</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">always</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ports</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">-</span> <span style="color:#e6db74">&#34;11434:11434&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">volumes</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">-</span> <span style="color:#a6e22e">ollama_storage</span><span style="color:#f92672">:</span><span style="color:#e6db74">/root/</span>.<span style="color:#a6e22e">ollama</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">n8n</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">image</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">docker</span>.<span style="color:#a6e22e">n8n</span>.<span style="color:#a6e22e">io</span><span style="color:#f92672">/</span><span style="color:#a6e22e">n8nio</span><span style="color:#f92672">/</span><span style="color:#a6e22e">n8n</span><span style="color:#f92672">:</span><span style="color:#a6e22e">latest</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">container_name</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">n8n_automation</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">restart</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">always</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ports</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">-</span> <span style="color:#e6db74">&#34;5678:5678&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">environment</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">-</span> <span style="color:#a6e22e">N8N_HOST</span><span style="color:#f92672">=</span><span style="color:#a6e22e">localhost</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">-</span> <span style="color:#a6e22e">N8N_PORT</span><span style="color:#f92672">=</span><span style="color:#ae81ff">5678</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">-</span> <span style="color:#a6e22e">N8N_PROTOCOL</span><span style="color:#f92672">=</span><span style="color:#a6e22e">http</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">-</span> <span style="color:#a6e22e">NODE_ENV</span><span style="color:#f92672">=</span><span style="color:#a6e22e">production</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">-</span> <span style="color:#a6e22e">WEBHOOK_URL</span><span style="color:#f92672">=</span><span style="color:#a6e22e">http</span><span style="color:#f92672">:</span><span style="color:#75715e">//localhost:5678/
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">volumes</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">-</span> <span style="color:#a6e22e">n8n_data</span><span style="color:#f92672">:</span><span style="color:#960050;background-color:#1e0010">/home/node/.n8n</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">volumes</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ollama_storage</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">n8n_data</span><span style="color:#f92672">:</span>
+</span></span></code></pre></div><h2 id="screenshot" class="relative group">Screenshot <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#screenshot" aria-label="Anchor">#</a></span></h2><h2 id="docker-composeyml" class="relative group">
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/lab9/image.png" alt="docker-compose.yml" class="mx-auto my-0 rounded-md" />
+</figure>
+ <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#docker-composeyml" aria-label="Anchor">#</a></span></h2><h2 id="docker-composeyml-1" class="relative group">
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/lab9/image1.png" alt="docker-compose.yml" class="mx-auto my-0 rounded-md" />
+</figure>
+ <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#docker-composeyml-1" aria-label="Anchor">#</a></span></h2><h2 id="starting-docker" class="relative group">Starting Docker <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#starting-docker" aria-label="Anchor">#</a></span></h2><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ryan@burman:~/homelab/n8n-ai-agent$ sudo docker compose up -d
+</span></span><span style="display:flex;"><span>WARN<span style="color:#f92672">[</span>0000<span style="color:#f92672">]</span> /home/ryan/homelab/n8n-ai-agent/docker-compose.yml: the attribute <span style="color:#e6db74">`</span>version<span style="color:#e6db74">`</span> is obsolete, it will be ignored, please remove it to avoid potential confusion 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> up 23/23
+</span></span><span style="display:flex;"><span> ✔ Image docker.n8n.io/n8nio/n8n:latest Pulled                                                    179.6s
+</span></span><span style="display:flex;"><span> ✔ Image ollama/ollama:latest           Pulled                                                    564.9s
+</span></span><span style="display:flex;"><span> ✔ Network n8n-ai-agent_default         Created                                                     0.1s
+</span></span><span style="display:flex;"><span> ✔ Volume n8n-ai-agent_ollama_storage   Created                                                     0.0s
+</span></span><span style="display:flex;"><span> ✔ Volume n8n-ai-agent_n8n_data         Created                                                     0.0s
+</span></span><span style="display:flex;"><span> ✔ Container ollama_ai                  Started                                                     1.2s
+</span></span><span style="display:flex;"><span> ✔ Container n8n_automation             Started                                                     1.3s
+</span></span><span style="display:flex;"><span>ryan@burman:~/homelab/n8n-ai-agent$ 
+</span></span></code></pre></div><h1 id="step-3-download-local-ai-model-into-ollama" class="relative group">Step 3: Download Local AI Model into Ollama <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#step-3-download-local-ai-model-into-ollama" aria-label="Anchor">#</a></span></h1><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ryan@burman:~/homelab/n8n-ai-agent$ sudo docker exec -it ollama_ai ollama run llama3
+</span></span><span style="display:flex;"><span>pulling manifest 
+</span></span><span style="display:flex;"><span>pulling 6a0746a1ec1a: 100% ▕██████████████████████████████████████████▏ 4.7 GB                         
+</span></span><span style="display:flex;"><span>pulling 4fa551d4f938: 100% ▕██████████████████████████████████████████▏  <span style="color:#ae81ff">12</span> KB                         
+</span></span><span style="display:flex;"><span>pulling 8ab4849b038c: 100% ▕██████████████████████████████████████████▏  <span style="color:#ae81ff">254</span> B                         
+</span></span><span style="display:flex;"><span>pulling 577073ffcc6c: 100% ▕██████████████████████████████████████████▏  <span style="color:#ae81ff">110</span> B                         
+</span></span><span style="display:flex;"><span>pulling 3f8eb4da87fa: 100% ▕██████████████████████████████████████████▏  <span style="color:#ae81ff">485</span> B                         
+</span></span><span style="display:flex;"><span>verifying sha256 digest 
+</span></span><span style="display:flex;"><span>writing manifest 
+</span></span><span style="display:flex;"><span>success 
+</span></span></code></pre></div><h1 id="step-4-create-telegram-bot" class="relative group">Step 4: Create Telegram Bot <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#step-4-create-telegram-bot" aria-label="Anchor">#</a></span></h1><ul>
+<li>Find @BotFather in your Telegram Desktop.</li>
+<li>./newbot and hit <code>Enter</code></li>
+<li>Keep the HTTP API Token from BotFather</li>
+<li>send /start</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Done! Congratulations on your new bot. You will find it at t.me/ryanburmese_ai_bot. You can now add a description, about section and profile picture <span style="color:#66d9ef">for</span> your bot, see /help <span style="color:#66d9ef">for</span> a list of commands. By the way, when you<span style="color:#960050;background-color:#1e0010">&#39;</span>ve finished creating your cool bot, ping our Bot Support <span style="color:#66d9ef">if</span> you want a better username <span style="color:#66d9ef">for</span> it. Just make sure the bot is fully operational before you <span style="color:#66d9ef">do</span> this.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Use this token to access the HTTP API:
+</span></span><span style="display:flex;"><span>7872134958:AACIUcNPF_eWv7#####################
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Keep your token secure and store it safely, it can be used by anyone to control your bot.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>For a description of the Bot API, see this page: https://core.telegram.org/bots/api
+</span></span></code></pre></div><h2 id="screenshot-of-creating-bot-via-telegram" class="relative group">Screenshot of creating Bot via Telegram <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#screenshot-of-creating-bot-via-telegram" aria-label="Anchor">#</a></span></h2><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/lab9/image2.png" alt="BotFather" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<p><strong>Find @userinfobot and send a message to get the <code>Chat ID</code>  and keep your ID</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Hi Welcome To @userInfo3Bot 🖐
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>📚 Help : /help
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>🔔 Bot News : @PyteTeam
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>👤 Your ID : 65xxxxxxx
+</span></span></code></pre></div><h2 id="ollama-setup" class="relative group"><strong>Ollama</strong>
+
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/lab9/image3.png" alt="Ollama Setup" class="mx-auto my-0 rounded-md" />
+</figure>
+ <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#ollama-setup" aria-label="Anchor">#</a></span></h2><h2 id="ollama-setup-1" class="relative group">
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/lab9/image4.png" alt="Ollama Setup" class="mx-auto my-0 rounded-md" />
+</figure>
+ <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#ollama-setup-1" aria-label="Anchor">#</a></span></h2><h2 id="ollama-setup-2" class="relative group">
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/lab9/image5.png" alt="Ollama Setup" class="mx-auto my-0 rounded-md" />
+</figure>
+ <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#ollama-setup-2" aria-label="Anchor">#</a></span></h2><h2 id="ollama-setup-3" class="relative group">
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/lab9/image6.png" alt="Ollama Setup" class="mx-auto my-0 rounded-md" />
+</figure>
+ <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#ollama-setup-3" aria-label="Anchor">#</a></span></h2><h2 id="ollama-setup-4" class="relative group">
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/lab9/image7.png" alt="Ollama Setup" class="mx-auto my-0 rounded-md" />
+</figure>
+ <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#ollama-setup-4" aria-label="Anchor">#</a></span></h2><h2 id="ollama-setup-5" class="relative group">
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/lab9/image8.png" alt="Ollama Setup" class="mx-auto my-0 rounded-md" />
+</figure>
+ <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#ollama-setup-5" aria-label="Anchor">#</a></span></h2><p>
+
+
+
+
+
+
+  
+  
+<figure><img src="/images/lab9/image9.png" alt="Ollama Setup" class="mx-auto my-0 rounded-md" />
+</figure>
+</p>
+<h2 id="conclusion" class="relative group">Conclusion <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#conclusion" aria-label="Anchor">#</a></span></h2><p>This lab successfully built a working prototype for a privacy-focused local AI news agent. Key accomplishments include:</p>
+<ul>
+<li><strong>Complete Infrastructure Decoupling:</strong> By hosting Ollama and n8n inside Docker containers, all data processing occurs within local system boundaries, removing reliance on costly external API services like OpenAI.</li>
+<li><strong>Automated Threat Intelligence:</strong> Automated fetch-summarize-dispatch routines significantly reduce manual research overhead for cybersecurity and system engineering professionals.</li>
+<li><strong>Real-time Endpoint Delivery:</strong> Telegram integration ensures critical zero-day notifications and system security news are delivered straight to mobile or desktop devices immediately.</li>
+</ul>
+
+      </div>
+    </section>
+    <footer class="max-w-prose pt-8 print:hidden">
+      
+
+      
+
+      
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="group flex" href="http://localhost:1313/posts/lab8-2/">
+              <span
+                class="me-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&larr;</span
+                ><span class="ltr:hidden rtl:inline">&rarr;</span></span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >Lab 8: Enterprise Group Policy Management & Troubleshooting | Part 2</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2026-07-23 00:00:00 &#43;0000 UTC">July 23, 2026</time>
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+            <a class="group flex text-right" href="http://localhost:1313/posts/lab10/">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >Lab 10: Self-Hosted Automated AI Resume Tailoring Pipeline</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2026-08-05 18:10:00 &#43;1000 AEST">August 5, 2026</time>
+                  
+                </span>
+              </span>
+              <span
+                class="ms-2 text-neutral-700 transition-transform group-hover:-translate-x-[-2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
+                ><span class="ltr:inline rtl:hidden">&rarr;</span
+                ><span class="ltr:hidden rtl:inline">&larr;</span></span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+      
+    </footer>
+  </article>
+
+      </main>
+      
+        <div
+          class="pointer-events-none absolute bottom-0 end-0 top-[100vh] w-12"
+          id="to-top"
+          hidden="true"
+        >
+          <a
+            href="#the-top"
+            class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 backdrop-blur hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+            aria-label="Scroll to top"
+            title="Scroll to top"
+          >
+            &uarr;
+          </a>
+        </div>
+      <footer class="py-10 print:hidden">
+  
+  
+  <div class="flex items-center justify-between">
+    <div>
+      
+      
+        <p class="text-sm text-neutral-500 dark:text-neutral-400">
+            &copy;
+            2026
+            
+        </p>
+      
+      
+      
+        <p class="text-xs text-neutral-500 dark:text-neutral-400">
+          
+          
+          Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+            href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href="https://github.com/jpanther/congo" target="_blank" rel="noopener noreferrer">Congo</a>
+        </p>
+      
+    </div>
+    <div class="flex flex-row items-center">
+      
+      
+      
+      
+    </div>
+  </div>
+  
+  
+</footer>
+
+    </div>
+  </body>
+</html>

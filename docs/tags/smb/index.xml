@@ -1,1 +1,24 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SMB on Ryan Burman | Tech Lab</title><link>https://ryanburmese-crypto.github.io/tags/smb/</link><description>Recent content in SMB on Ryan Burman | Tech Lab</description><generator>Hugo</generator><language>en</language><lastBuildDate>Sun, 12 Jul 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://ryanburmese-crypto.github.io/tags/smb/index.xml" rel="self" type="application/rss+xml"/><item><title>Lab 3: Cross-Platform SMB Integration &amp; NTFS Hardening</title><link>https://ryanburmese-crypto.github.io/posts/smb-cross-platform-integration/</link><pubDate>Sun, 12 Jul 2026 00:00:00 +0000</pubDate><guid>https://ryanburmese-crypto.github.io/posts/smb-cross-platform-integration/</guid><description>Securing an enterprise share with advanced NTFS permissions and mounting it from an authenticated Ubuntu Linux Desktop.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>SMB on Ryan Burman | Tech Lab</title>
+		<link>http://localhost:1313/tags/smb/</link>
+		<description>Recent content in SMB on Ryan Burman | Tech Lab</description>
+		<generator>Hugo</generator>
+		<language>en</language>
+		
+		
+		
+		
+			<lastBuildDate>Sun, 12 Jul 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="http://localhost:1313/tags/smb/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Lab 3: Cross-Platform SMB Integration &amp; NTFS Hardening</title>
+				<link>http://localhost:1313/posts/smb-cross-platform-integration/</link>
+				<pubDate>Sun, 12 Jul 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/posts/smb-cross-platform-integration/</guid>
+				<description>Securing an enterprise share with advanced NTFS permissions and mounting it from an authenticated Ubuntu Linux Desktop.</description>
+			</item>
+	</channel>
+</rss>
