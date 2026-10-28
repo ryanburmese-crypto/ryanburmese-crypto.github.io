@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
 		<title>Cisco on Ryan Burman | Tech Lab</title>
-		<link>http://localhost:1313/tags/cisco/</link>
+		<link>https://ryanburmese-crypto.github.io/tags/cisco/</link>
 		<description>Recent content in Cisco on Ryan Burman | Tech Lab</description>
 		<generator>Hugo</generator>
 		<language>en</language>
@@ -12,12 +12,12 @@
 		
 			<lastBuildDate>Tue, 11 Aug 2026 14:01:16 +1000</lastBuildDate>
 		
-			<atom:link href="http://localhost:1313/tags/cisco/index.xml" rel="self" type="application/rss+xml" />
+			<atom:link href="https://ryanburmese-crypto.github.io/tags/cisco/index.xml" rel="self" type="application/rss+xml" />
 			<item>
 				<title>Lab 13: Core Enterprise Branch Network Architecture with SVI, EtherChannel &amp; HSRP Redundancy</title>
-				<link>http://localhost:1313/posts/lab13/</link>
+				<link>https://ryanburmese-crypto.github.io/posts/lab13/</link>
 				<pubDate>Tue, 11 Aug 2026 14:01:16 +1000</pubDate>
-				<guid>http://localhost:1313/posts/lab13/</guid>
+				<guid>https://ryanburmese-crypto.github.io/posts/lab13/</guid>
 				<description>&lt;style&gt;&#xA;  .max-w-prose, article, .prose { &#xA;    max-width: 100% !important; &#xA;    width: 100% !important; &#xA;  }&#xA;&lt;/style&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;executive-summary&#34; class=&#34;relative group&#34;&gt;Executive Summary &lt;span class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100&#34;&gt;&lt;a class=&#34;group-hover:text-primary-300 dark:group-hover:text-neutral-700&#34; style=&#34;text-decoration-line: none !important;&#34; href=&#34;#executive-summary&#34; aria-label=&#34;Anchor&#34;&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h2&gt;&lt;p&gt;This lab demonstrates how to design, build, and verify a highly available Core Enterprise Branch Network using Cisco routers and L2/L3 switches inside EVE-NG. Modern enterprise networks require continuous uptime, optimized bandwidth, and immediate failover capabilities. By implementing LACP EtherChannel, Switch Virtual Interfaces (SVIs) for Inter-VLAN routing, HSRP (Hot Standby Router Protocol) for default gateway redundancy, and Rapid-PVST+ for loop prevention, this lab creates a resilient two-tier network architecture capable of handling hardware and link failures without service disruption.&lt;/p&gt;</description>
 			</item>
 	</channel>

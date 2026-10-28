@@ -11,7 +11,7 @@
   class="scroll-smooth"
   data-default-appearance="light"
   data-auto-appearance="true"
-><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+><head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#FFFFFF" />
@@ -25,7 +25,7 @@
   
   <script
     type="text/javascript"
-    src="http://localhost:1313/js/appearance.min.8a082f81b27f3cb2ee528df0b0bdc39787034cf2cc34d4669fbc9977c929023c.js"
+    src="https://ryanburmese-crypto.github.io/js/appearance.min.8a082f81b27f3cb2ee528df0b0bdc39787034cf2cc34d4669fbc9977c929023c.js"
     integrity="sha256-iggvgbJ/PLLuUo3wsL3Dl4cDTPLMNNRmn7yZd8kpAjw="
   ></script>
   
@@ -39,7 +39,7 @@
   <link
     type="text/css"
     rel="stylesheet"
-    href="http://localhost:1313/css/main.bundle.min.6ea8f8acfb220e5e88a5d29901a4eb7a5ec0b150e00e596c00634cdcd1daf9b3.css"
+    href="https://ryanburmese-crypto.github.io/css/main.bundle.min.6ea8f8acfb220e5e88a5d29901a4eb7a5ec0b150e00e596c00634cdcd1daf9b3.css"
     integrity="sha256-bqj4rPsiDl6IpdKZAaTrel7AsVDgDllsAGNM3NHa&#43;bM="
   />
   
@@ -59,7 +59,7 @@
   
   
   
-    <link rel="canonical" href="http://localhost:1313/posts/lab7soc/" />
+    <link rel="canonical" href="https://ryanburmese-crypto.github.io/posts/lab7soc/" />
   
   
   
@@ -75,7 +75,7 @@
   
   
   
-  <meta property="og:url" content="http://localhost:1313/posts/lab7soc/">
+  <meta property="og:url" content="https://ryanburmese-crypto.github.io/posts/lab7soc/">
 	<meta property="og:site_name" content="Ryan Burman | Tech Lab">
 	<meta property="og:title" content="Lab 7: Building an Enterprise SOC Architecture with Palo Alto Firewall & Wazuh SIEM">
 	<meta property="og:description" content="Deploying a multi-zone Palo Alto network topology, configuring Wazuh SIEM monitoring, and executing SSH Brute-Force simulation with Kali Linux.">
@@ -107,7 +107,7 @@
     "description": "Deploying a multi-zone Palo Alto network topology, configuring Wazuh SIEM monitoring, and executing SSH Brute-Force simulation with Kali Linux.",
     "abstract": "\u003cstyle\u003e\n  .max-w-prose, article, .prose { \n    max-width: 100% !important; \n    width: 100% !important; \n  }\n\u003c\/style\u003e\n\u003ch2 id=\u0022-executive-summary\u0022 class=\u0022relative group\u0022\u003e🎯 Executive Summary \u003cspan class=\u0022absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100\u0022\u003e\u003ca class=\u0022group-hover:text-primary-300 dark:group-hover:text-neutral-700\u0022 style=\u0022text-decoration-line: none !important;\u0022 href=\u0022#-executive-summary\u0022 aria-label=\u0022Anchor\u0022\u003e#\u003c\/a\u003e\u003c\/span\u003e\u003c\/h2\u003e\u003cp\u003eThe purpose of this lab is to design, deploy, and test a mini-enterprise security infrastructure. This project simulates real-world security engineering tasks by connecting a network security control platform with a centralized detection mechanism.\u003c\/p\u003e\n\u003ch3 id=\u0022key-milestones-achieved\u0022 class=\u0022relative group\u0022\u003eKey Milestones Achieved: \u003cspan class=\u0022absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100\u0022\u003e\u003ca class=\u0022group-hover:text-primary-300 dark:group-hover:text-neutral-700\u0022 style=\u0022text-decoration-line: none !important;\u0022 href=\u0022#key-milestones-achieved\u0022 aria-label=\u0022Anchor\u0022\u003e#\u003c\/a\u003e\u003c\/span\u003e\u003c\/h3\u003e\u003cul\u003e\n\u003cli\u003e\u003cstrong\u003eNetwork Segmentation:\u003c\/strong\u003e Built three distinct security zones (Inside, DMZ, Outside) using a Palo Alto Next-Generation Firewall to control traffic flow.\u003c\/li\u003e\n\u003cli\u003e\u003cstrong\u003eCentralized Monitoring:\u003c\/strong\u003e Deployed a Wazuh SIEM Server inside the DMZ zone and successfully configured log forwarding from internal endpoints.\u003c\/li\u003e\n\u003cli\u003e\u003cstrong\u003eThreat Simulation:\u003c\/strong\u003e Executed an active SSH Brute-Force attack using Kali Linux and verified that security alerts were properly detected and visible on the Wazuh Dashboard in real-time.\u003c\/li\u003e\n\u003c\/ul\u003e\n\u003chr\u003e\n\u003cp\u003e\n\n\n\n\n\n\n  \n  \n\u003cfigure\u003e\u003cimg src=\u0022\/images\/lab7\/image1.png\u0022 alt=\u0022Lab Topology\u0022 class=\u0022mx-auto my-0 rounded-md\u0022 \/\u003e\n\u003c\/figure\u003e\n\u003c\/p\u003e",
     "inLanguage": "en",
-    "url" : "http:\/\/localhost:1313\/posts\/lab7soc\/",
+    "url" : "https:\/\/ryanburmese-crypto.github.io\/posts\/lab7soc\/",
     "author" : {
       "@type": "Person",
       "name": ""
@@ -132,13 +132,13 @@
    "itemListElement": [
      {
        "@type": "ListItem",
-       "item": "http://localhost:1313/",
+       "item": "https://ryanburmese-crypto.github.io/",
        "name": "Welcome to My Tech Space",
        "position": 1
      },
      {
        "@type": "ListItem",
-       "item": "http://localhost:1313/posts/",
+       "item": "https://ryanburmese-crypto.github.io/posts/",
        "name": "Featured Projects \u0026 Labs",
        "position": 2
      },
@@ -165,6 +165,11 @@
 
   
   
+  
+  
+  
+  
+
 
   
   
@@ -974,7 +979,7 @@ add <code>nameserver 8.8.8.8</code> and <code>nameserver 1.1.1.1</code>. Save th
       <div class="flex justify-between pt-3">
         <span>
           
-            <a class="group flex" href="http://localhost:1313/posts/activeresponse/">
+            <a class="group flex" href="https://ryanburmese-crypto.github.io/posts/activeresponse/">
               <span
                 class="me-2 text-neutral-700 transition-transform group-hover:-translate-x-[2px] group-hover:text-primary-600 dark:text-neutral dark:group-hover:text-primary-400"
                 ><span class="ltr:inline rtl:hidden">&larr;</span
@@ -996,7 +1001,7 @@ add <code>nameserver 8.8.8.8</code> and <code>nameserver 1.1.1.1</code>. Save th
         </span>
         <span>
           
-            <a class="group flex text-right" href="http://localhost:1313/posts/lab8/">
+            <a class="group flex text-right" href="https://ryanburmese-crypto.github.io/posts/lab8/">
               <span class="flex flex-col">
                 <span
                   class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"

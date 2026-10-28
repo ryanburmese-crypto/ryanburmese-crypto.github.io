@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
 		<title>Automation on Ryan Burman | Tech Lab</title>
-		<link>http://localhost:1313/tags/automation/</link>
+		<link>https://ryanburmese-crypto.github.io/tags/automation/</link>
 		<description>Recent content in Automation on Ryan Burman | Tech Lab</description>
 		<generator>Hugo</generator>
 		<language>en</language>
@@ -12,19 +12,19 @@
 		
 			<lastBuildDate>Wed, 05 Aug 2026 18:10:00 +1000</lastBuildDate>
 		
-			<atom:link href="http://localhost:1313/tags/automation/index.xml" rel="self" type="application/rss+xml" />
+			<atom:link href="https://ryanburmese-crypto.github.io/tags/automation/index.xml" rel="self" type="application/rss+xml" />
 			<item>
 				<title>Lab 10: Self-Hosted Automated AI Resume Tailoring Pipeline</title>
-				<link>http://localhost:1313/posts/lab10/</link>
+				<link>https://ryanburmese-crypto.github.io/posts/lab10/</link>
 				<pubDate>Wed, 05 Aug 2026 18:10:00 +1000</pubDate>
-				<guid>http://localhost:1313/posts/lab10/</guid>
+				<guid>https://ryanburmese-crypto.github.io/posts/lab10/</guid>
 				<description>&lt;style&gt;&#xA;  .max-w-prose, article, .prose { &#xA;    max-width: 100% !important; &#xA;    width: 100% !important; &#xA;  }&#xA;&lt;/style&gt;&#xA;&lt;h2 id=&#34;executive-summary&#34; class=&#34;relative group&#34;&gt;Executive Summary &lt;span class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100&#34;&gt;&lt;a class=&#34;group-hover:text-primary-300 dark:group-hover:text-neutral-700&#34; style=&#34;text-decoration-line: none !important;&#34; href=&#34;#executive-summary&#34; aria-label=&#34;Anchor&#34;&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h2&gt;&lt;p&gt;This project demonstrates a self-hosted, privacy-focused automation pipeline built using Docker, n8n, Ollama (Llama 3), and CloudConvert. The solution automates the process of tailoring a candidate&amp;rsquo;s master resume and generating a matching cover letter specific to any target job description.&lt;/p&gt;&#xA;&lt;p&gt;By running Large Language Models (LLMs) locally via Ollama, sensitive personal data never leaves the host infrastructure during the generation process. The final output is automatically compiled into a clean, employer-ready Microsoft Word document (.docx) and saved to a local workspace.&lt;/p&gt;</description>
 			</item>
 			<item>
 				<title>Lab 9: Building a Local AI News Automation Agent with Docker, Ollama, n8n &amp; Telegram</title>
-				<link>http://localhost:1313/posts/lab9/</link>
+				<link>https://ryanburmese-crypto.github.io/posts/lab9/</link>
 				<pubDate>Tue, 28 Jul 2026 14:25:50 +1000</pubDate>
-				<guid>http://localhost:1313/posts/lab9/</guid>
+				<guid>https://ryanburmese-crypto.github.io/posts/lab9/</guid>
 				<description>&lt;style&gt;&#xA;  .max-w-prose, article, .prose { &#xA;    max-width: 100% !important; &#xA;    width: 100% !important; &#xA;  }&#xA;&lt;/style&gt;&#xA;&lt;h2 id=&#34;executive-summary&#34; class=&#34;relative group&#34;&gt;Executive Summary &lt;span class=&#34;absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100&#34;&gt;&lt;a class=&#34;group-hover:text-primary-300 dark:group-hover:text-neutral-700&#34; style=&#34;text-decoration-line: none !important;&#34; href=&#34;#executive-summary&#34; aria-label=&#34;Anchor&#34;&gt;#&lt;/a&gt;&lt;/span&gt;&lt;/h2&gt;&lt;p&gt;This lab demonstrates how to build an automated, self-hosted AI news digestion pipeline using Docker, Ollama, n8n, and Telegram on Ubuntu 22.04 LTS. The primary objective is to replace manual website searching with an intelligent agent that fetches cybersecurity and IT news from RSS feeds, summarizes the key details locally using an open-source Large Language Model (Llama 3), and automatically delivers structured daily updates to a personal Telegram chat. By hosting all AI processes locally via Ollama, this solution ensures data privacy, reduces operational API costs, and optimizes daily security monitoring workflows.&lt;/p&gt;</description>
 			</item>
 	</channel>
